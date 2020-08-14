@@ -1,0 +1,217 @@
+﻿@model subzicart.Models.tblCategory
+
+
+
+@{
+    ViewBag.Title = "Category Master";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+
+
+
+@if (ViewBag.message == "" || ViewBag.message == null)
+{
+}
+else
+{
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+
+        @ViewBag.message
+    </div>
+}
+@using (Html.BeginForm("Insert_Category",
+                                      "admin",
+                                      FormMethod.Post,
+                                      new { enctype = "multipart/form-data", @data_ajax = "false" }))
+{
+    @Html.AntiForgeryToken()
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+    <div class="card card-default">
+        <div class="card-header">
+            <h3 class="card-title">Category Master</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div class="row">
+
+
+                <br />
+                <div class="form-group" style="display:none">
+                    @Html.LabelFor(model => model.catId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.catId, new { htmlAttributes = new { @class = "form-control" } })
+                      
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Category Title</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.catName, new { htmlAttributes = new { @class = "form-control", @maxlength = "20" } })
+                            @Html.ValidationMessageFor(model => model.catName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Status</label>   <div class="col-md-10">
+
+                            <select name="isactive" id="select_product" class="form-control">
+                                @if (ViewBag.isActive == 1)
+                                {
+                                    <option value="1">Active</option>
+                                    <option value="0">Deactive</option>
+                                }
+                                else
+                                {
+
+                                    <option value="0">Deactive</option>
+                                    <option value="1">Active</option>
+                                }
+
+
+
+                            </select>
+                            @Html.ValidationMessageFor(model => model.isActive, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <!-- /.form-group -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.description, 2, 60, new { htmlAttributes = new { @class = "form-control", @maxlength = "60" } })
+                            @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            @if (ViewBag.update == "0")
+                            {
+                                <input type="submit" name="command" value="Save" class="btn btn-default" />
+                                <input type="submit" name="command" value="Cancel" class="btn btn-default" />
+                            }
+                            else
+                            {
+                                <input type="submit" name="command" value="Update" class="btn btn-default" />
+                                <input type="submit" name="command" value="Cancel" class="btn btn-default" />
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+
+        </div>
+
+    </div>
+
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">View All Category</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+               <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Category Title
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Status
+                    </th>
+
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.category.Rows)
+                {
+                    <tr>
+                        <td>
+                            @item["catid"]
+                        </td>
+
+                        <td>
+                            @item["catname"]
+                        </td>
+                        <td>
+                            @item["description"]
+                        </td>
+                        <td>
+
+                            @if (item["isactive"] == 1)
+                            {
+                                <span>Active</span>
+                            }
+                            else
+                            {
+                                <span>Not Active</span>
+                            }
+                        </td>
+
+
+                        <td>
+                            @Html.ActionLink("Update", "Insert_Category", new { mid = item["catid"] }, new { @class = "edit" })
+
+                            @Html.ActionLink("Delete", "DeleteCategory", new { mid = item["catid"] }, new { onclick = "return confirm('Do you really want to delete ?')", @class = "delete" })
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+
+
+
+
+    </div>
+    <!-- /.card-body -->
+</div>
+
+
+
+
+<script type="text/javascript">
+    function Submit() {
+        if (confirm("Are you sure you want to submit ?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+

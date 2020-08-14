@@ -1,0 +1,210 @@
+﻿@model subzicart.Models.productMaster
+
+@{
+    ViewBag.Title = "productEdit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        $("#ddlCategory").change(function () {
+
+            var sID = $(this).val();
+
+            $.ajax
+                ({
+                    url: '/Admin/LoadSubcategorybyCategory',
+                    type: 'POST',
+                    datatype: 'application/json',
+                    contentType: 'application/json',
+
+
+                    data: JSON.stringify({
+                        sID: sID
+                    }),
+                    success: function (result) {
+
+                        var select = $("#ddlSubCategory");
+                        select.empty();
+                        select.append($('<option/>', {
+                            value: 0,
+                            text: "Select"
+                        }));
+                        $.each(result, function (index, itemData) {
+                            select.append($('<option/>', {
+                                value: itemData.Value,
+                                text: itemData.Text
+                            }));
+                        });
+
+                    },
+                    error: function () {
+                        alert("Something went wrong..")
+                    },
+                });
+        });
+
+
+
+    });
+
+</script>
+
+
+<h2>Product Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.Label("Category", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select name="ddlCategory" id="ddlCategory" class="form-control">
+                    <option value="">
+                        --Select--
+                    </option>
+                    @foreach (var item1 in ViewBag.category)
+                    {
+                        if (Model != null && Convert.ToString(item1.catId) == Model.catId)
+                        {
+                            <option value="@item1.catId" data-id="@item1.catName" selected="selected">
+                                @item1.catName
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@item1.catId" data-id="@item1.catName">
+                                @item1.catName
+                            </option>
+                        }
+                    }
+                </select>
+            </div>
+            @Html.Label("Sub Category", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            
+            <select name="ddlSubCategory" id="ddlSubCategory" class="form-control">
+                <option value="">
+                    --Select--
+                </option>
+                @foreach (var item1 in ViewBag.Subcategory)
+                {
+                    if (Model != null && Convert.ToString(item1.subCatId) == Model.subCatId)
+                    {
+                        <option value="@item1.subCatId" data-id="@item1.subCatName" selected="selected">
+                            @item1.subCatName
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@item1.subCatId" data-id="@item1.subCatName">
+                            @item1.subCatName
+                        </option>
+                    }
+                }
+            </select>
+        </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Brand", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                
+                <select name="ddlBrand" id="ddlBrand" class="form-control">
+                    <option value="">
+                        --Select--
+                    </option>
+                    @foreach (var item1 in ViewBag.Brand)
+                    {
+                        if (Model != null && Convert.ToString(item1.brand_id) == Model.brandId)
+                        {
+                            <option value="@item1.brand_id" data-id="@item1.brand_name" selected="selected">
+                                @item1.brand_name
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@item1.brand_id" data-id="@item1.brand_name">
+                                @item1.brand_name
+                            </option>
+                        }
+                    }
+                </select>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.productName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.productName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.productName, "", new { @class = "text-danger" })
+            </div>
+            @Html.LabelFor(model => model.SKU, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.SKU, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SKU, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.aboutProduct, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.aboutProduct, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.aboutProduct, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
+            </div>
+            @Html.LabelFor(model => model.costPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.costPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.costPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.retailPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.retailPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.retailPrice, "", new { @class = "text-danger" })
+            </div>
+            @Html.LabelFor(model => model.salePrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.salePrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.salePrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update & Save" class="btn btn-default" />
+                &nbsp; &nbsp;
+                @Html.ActionLink("Cancel", "productlist", new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
+
+

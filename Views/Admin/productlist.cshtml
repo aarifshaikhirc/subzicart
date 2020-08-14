@@ -1,0 +1,138 @@
+﻿@model IEnumerable<subzicart.Models.productMaster>
+
+@{
+    ViewBag.Title = "productlist";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<script src="../../plugins/datatables/jquery.dataTables.js"></script>
+<script src="../plugins/datatables/jquery.dataTables.js"></script>
+<script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+<script>
+
+    $(function () {
+        $("#example1").DataTable();
+        //$('#example2').DataTable({
+        //    "paging": true,
+        //    "lengthChange": false,
+        //    "searching": false,
+        //    "ordering": true,
+        //    "info": true,
+        //    "autoWidth": false,
+        //});
+    });
+</script>
+
+@*<div class="form-group">
+
+        <div class="col-md-4">
+            <h2>Product List</h2>
+        </div>
+        <div class="col-md-4">
+            @Html.ActionLink("Create New", "addproduct")
+        </div>
+    </div>*@
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Product List</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+
+                    <li class="breadcrumb-item">@Html.ActionLink("Add New Product", "addproduct", new { @class = "btn btn-default" })</li>
+                    <li class="breadcrumb-item active">Product List</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+
+    <table id="example1" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.productName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.categoryName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.subCategoryName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.brandName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SKU)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.costPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.retailPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.salePrice)
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.productName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.categoryName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.subCatName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.brandName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SKU)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.costPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.retailPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.salePrice)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "productEdit", new { id = item.productId }, new { @class = "edit" })
+                        @Html.ActionLink("Details", "Details", new { id = item.productId }, new { @class = "view" })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.productId }, new { @class = "delete" })
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+

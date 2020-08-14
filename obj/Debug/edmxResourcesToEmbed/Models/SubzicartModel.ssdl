@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="subzicartModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblBrandPrefixes">
+    <Key>
+      <PropertyRef Name="brand_id" />
+    </Key>
+    <Property Name="brand_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="brand_name" Type="nvarchar" MaxLength="100" />
+    <Property Name="brand_prefix" Type="nvarchar" MaxLength="10" />
+    <Property Name="sku_start_range" Type="nvarchar" MaxLength="10" />
+    <Property Name="sku_end_range" Type="nvarchar" MaxLength="10" />
+    <Property Name="insdt" Type="datetime" />
+    <Property Name="active" Type="int" />
+    <Property Name="updDt" Type="datetime" />
+    <Property Name="userId" Type="int" />
+  </EntityType>
+  <EntityType Name="tblCategory">
+    <Key>
+      <PropertyRef Name="catId" />
+    </Key>
+    <Property Name="catId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="catName" Type="nvarchar" MaxLength="80" />
+    <Property Name="description" Type="nvarchar" MaxLength="600" />
+    <Property Name="isActive" Type="int" />
+    <Property Name="userId" Type="int" />
+    <Property Name="insDt" Type="datetime" />
+    <Property Name="updDt" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tblCompetitorMaster">
+    <Key>
+      <PropertyRef Name="cmid" />
+    </Key>
+    <Property Name="cmid" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="company_name" Type="nvarchar" MaxLength="50" />
+    <Property Name="logo_url" Type="nvarchar" MaxLength="255" />
+    <Property Name="website_url" Type="nvarchar" MaxLength="50" />
+    <Property Name="product_id" Type="int" />
+    <Property Name="price" Type="float" />
+    <Property Name="price_currency" Type="nvarchar" MaxLength="5" />
+    <Property Name="insDt" Type="datetime" />
+    <Property Name="active" Type="int" />
+    <Property Name="updDt" Type="datetime" />
+    <Property Name="userId" Type="int" />
+  </EntityType>
+  <EntityType Name="tblCurrencyMaster">
+    <Key>
+      <PropertyRef Name="cid" />
+    </Key>
+    <Property Name="cid" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="currency" Type="nvarchar" MaxLength="10" />
+    <Property Name="value" Type="float" />
+    <Property Name="rateInUSD" Type="float" />
+    <Property Name="insDt" Type="datetime" />
+    <Property Name="updDt" Type="datetime" />
+    <Property Name="active" Type="int" />
+    <Property Name="userId" Type="int" />
+  </EntityType>
+  <EntityType Name="tblFullfillmentDetail">
+    <Key>
+      <PropertyRef Name="fid" />
+    </Key>
+    <Property Name="fid" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" />
+    <Property Name="location" Type="nvarchar" MaxLength="50" />
+    <Property Name="product_id" Type="int" />
+    <Property Name="product_wt" Type="float" />
+    <Property Name="product_wt_unit" Type="nvarchar" MaxLength="5" />
+    <Property Name="product_price" Type="float" />
+    <Property Name="product_price_cr" Type="nvarchar" MaxLength="5" />
+    <Property Name="sku_number" Type="nvarchar" MaxLength="10" />
+    <Property Name="vendor_id" Type="int" />
+    <Property Name="vendor_product_code" Type="nvarchar" MaxLength="50" />
+    <Property Name="insDt" Type="datetime" />
+    <Property Name="active" Type="int" />
+    <Property Name="updDt" Type="datetime" />
+    <Property Name="userId" Type="int" />
+  </EntityType>
+  <EntityType Name="tblImageLog">
+    <Key>
+      <PropertyRef Name="image_id" />
+    </Key>
+    <Property Name="image_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="product_id" Type="int" />
+    <Property Name="image_name" Type="nvarchar" MaxLength="30" />
+    <Property Name="image_desc" Type="nvarchar" MaxLength="50" />
+    <Property Name="image_url" Type="nvarchar" MaxLength="100" />
+    <Property Name="image_binary" Type="varbinary(max)" />
+    <Property Name="isthumb" Type="nvarchar" MaxLength="1" />
+    <Property Name="sort_id" Type="int" />
+    <Property Name="insdt" Type="datetime" />
+    <Property Name="active" Type="int" />
+    <Property Name="updDt" Type="datetime" />
+    <Property Name="userId" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'subzicart.dbo.tblLogin' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tblLogin">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="uname" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="uname" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="pswd" Type="nvarchar" MaxLength="50" />
+    <Property Name="company_id" Type="int" />
+    <Property Name="userType" Type="varchar" MaxLength="20" />
+    <Property Name="empId" Type="int" />
+    <Property Name="lastlogin" Type="datetime" />
+    <Property Name="ispwdchanged" Type="bit" />
+    <Property Name="ispwdchanged_dt" Type="datetime" />
+    <Property Name="pageAccessRight" Type="nvarchar" MaxLength="100" />
+    <Property Name="subMenuAccessRight" Type="nvarchar" MaxLength="200" />
+    <Property Name="actionRight" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="tblMeasurementMaster">
+    <Key>
+      <PropertyRef Name="m_id" />
+    </Key>
+    <Property Name="m_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="unit_type" Type="nvarchar" MaxLength="10" />
+    <Property Name="unit_value" Type="float" />
+    <Property Name="eq_unit_type" Type="nvarchar" MaxLength="10" />
+    <Property Name="eq_unit_value" Type="float" />
+    <Property Name="insDt" Type="datetime" />
+    <Property Name="active" Type="int" />
+    <Property Name="updDt" Type="datetime" />
+    <Property Name="userId" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'subzicart.dbo.tblPageMenu' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tblPageMenu">
+    <Key>
+      <PropertyRef Name="menu_id" />
+    </Key>
+    <Property Name="menu_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="page_url" Type="varchar" MaxLength="100" />
+    <Property Name="description" Type="varchar" MaxLength="100" />
+    <Property Name="rank" Type="int" />
+    <Property Name="pageheading" Type="varchar" MaxLength="50" />
+    <Property Name="action" Type="varchar" MaxLength="3" />
+    <Property Name="active" Type="varchar" MaxLength="3" />
+    <Property Name="pmenu" Type="varchar" MaxLength="50" />
+    <Property Name="type" Type="int" />
+    <Property Name="fa_icon" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'subzicart.dbo.tblPageSubMenu' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tblPageSubMenu">
+    <Key>
+      <PropertyRef Name="submenu_id" />
+      <PropertyRef Name="menu_id" />
+    </Key>
+    <Property Name="submenu_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="page_url" Type="varchar" MaxLength="100" />
+    <Property Name="description" Type="varchar" MaxLength="100" />
+    <Property Name="submenurank" Type="int" />
+    <Property Name="submenuheading" Type="varchar" MaxLength="50" />
+    <Property Name="active" Type="varchar" MaxLength="3" />
+    <Property Name="pmenu" Type="varchar" MaxLength="50" />
+    <Property Name="type" Type="int" />
+    <Property Name="menu_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblProductAvail">
+    <Key>
+      <PropertyRef Name="pa_id" />
+    </Key>
+    <Property Name="pa_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="product_id" Type="int" />
+    <Property Name="allow_purchase" Type="varchar" MaxLength="1" />
+    <Property Name="is_visible" Type="varchar" MaxLength="1" />
+    <Property Name="is_available" Type="varchar" MaxLength="1" />
+    <Property Name="track_inventory" Type="varchar" MaxLength="4" />
+    <Property Name="current_stock_level" Type="int" />
+    <Property Name="low_stock_level" Type="int" />
+    <Property Name="insdt" Type="datetime" />
+    <Property Name="active" Type="int" />
+    <Property Name="updDt" Type="datetime" />
+    <Property Name="userId" Type="int" />
+  </EntityType>
+  <EntityType Name="tblProductGPS">
+    <Key>
+      <PropertyRef Name="gps_id" />
+    </Key>
+    <Property Name="gps_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="product_id" Type="int" />
+    <Property Name="product_url" Type="nvarchar" MaxLength="100" />
+    <Property Name="redirect_old_url" Type="nvarchar" MaxLength="100" />
+    <Property Name="global_trade_item" Type="nvarchar" MaxLength="50" />
+    <Property Name="manufacture_part_no" Type="nvarchar" MaxLength="50" />
+    <Property Name="gps_gender" Type="nvarchar" MaxLength="50" />
+    <Property Name="gps_age_group" Type="nvarchar" MaxLength="30" />
+    <Property Name="gps_color" Type="nvarchar" MaxLength="50" />
+    <Property Name="gps_size" Type="nvarchar" MaxLength="50" />
+    <Property Name="gps_material" Type="nvarchar" MaxLength="50" />
+    <Property Name="gps_pattern" Type="nvarchar" MaxLength="50" />
+    <Property Name="gps_item_group_id" Type="int" />
+    <Property Name="gps_category" Type="nvarchar" MaxLength="50" />
+    <Property Name="isActive" Type="int" />
+    <Property Name="userId" Type="int" />
+    <Property Name="insDt" Type="datetime" />
+    <Property Name="updDt" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tblProductMaster">
+    <Key>
+      <PropertyRef Name="productId" />
+    </Key>
+    <Property Name="productId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="catId" Type="int" />
+    <Property Name="subCatId" Type="int" />
+    <Property Name="brandId" Type="int" />
+    <Property Name="productName" Type="nvarchar" MaxLength="80" />
+    <Property Name="SKU" Type="nvarchar" MaxLength="50" />
+    <Property Name="aboutProduct" Type="nvarchar" MaxLength="600" />
+    <Property Name="description" Type="nvarchar" MaxLength="600" />
+    <Property Name="price" Type="int" />
+    <Property Name="costPrice" Type="int" />
+    <Property Name="retailPrice" Type="int" />
+    <Property Name="salePrice" Type="int" />
+    <Property Name="fixedShippingCost" Type="nvarchar" MaxLength="10" />
+    <Property Name="freeShipping" Type="nvarchar" MaxLength="10" />
+    <Property Name="pWeight" Type="nvarchar" MaxLength="10" />
+    <Property Name="pWidth" Type="nvarchar" MaxLength="10" />
+    <Property Name="pHeight" Type="nvarchar" MaxLength="10" />
+    <Property Name="pDepth" Type="nvarchar" MaxLength="10" />
+    <Property Name="searchKeywords" Type="nvarchar" MaxLength="600" />
+    <Property Name="pageTitle" Type="nvarchar" MaxLength="100" />
+    <Property Name="metaKeyword" Type="nvarchar" MaxLength="200" />
+    <Property Name="metaDescription" Type="nvarchar(max)" />
+    <Property Name="sortOrder" Type="int" />
+    <Property Name="isActive" Type="int" />
+    <Property Name="userId" Type="int" />
+    <Property Name="insDt" Type="datetime" />
+    <Property Name="updDt" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tblSubCategory">
+    <Key>
+      <PropertyRef Name="subCatId" />
+    </Key>
+    <Property Name="subCatId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="catId" Type="int" Nullable="false" />
+    <Property Name="subCatName" Type="nvarchar" MaxLength="80" />
+    <Property Name="description" Type="nvarchar" MaxLength="600" />
+    <Property Name="isActive" Type="int" />
+    <Property Name="userId" Type="int" />
+    <Property Name="insDt" Type="datetime" />
+    <Property Name="updDt" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'subzicart.dbo.tblTransactionLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tblTransactionLog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="log_type_id" Type="int" />
+    <Property Name="log_type" Type="nvarchar" MaxLength="50" />
+    <Property Name="previous_value" Type="xml" />
+    <Property Name="updated_value" Type="xml" />
+    <Property Name="userId" Type="int" />
+    <Property Name="insDt" Type="datetime" />
+    <Property Name="updDt" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'subzicart.dbo.tblVendorMaster' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="tblVendorMaster">
+          <Property Name="vendor_id" Type="int" />
+          <Property Name="vendor_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="vendor_mobile" Type="nvarchar" MaxLength="14" />
+          <Property Name="isActive" Type="int" />
+          <Property Name="userId" Type="int" />
+          <Property Name="insDt" Type="datetime" />
+          <Property Name="updDt" Type="datetime" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'subzicart.dbo.tblWebpage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tblWebpage">
+    <Key>
+      <PropertyRef Name="page_id" />
+    </Key>
+    <Property Name="page_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="page_url" Type="nvarchar" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" MaxLength="200" />
+    <Property Name="rank" Type="int" />
+    <Property Name="pageheading" Type="varchar" MaxLength="50" />
+    <Property Name="action" Type="varchar" MaxLength="5" />
+    <Property Name="active" Type="varchar" MaxLength="5" />
+    <Property Name="pmenu" Type="varchar" MaxLength="50" />
+    <Property Name="actionNm" Type="varchar" MaxLength="20" />
+    <Property Name="ParentNm" Type="nvarchar" MaxLength="50" />
+    <Property Name="created" Type="datetime" />
+    <Property Name="modified" Type="datetime" />
+    <Property Name="userId" Type="int" />
+  </EntityType>
+  <Function Name="sp_login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="username" Type="nvarchar" Mode="In" />
+    <Parameter Name="pswd" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_tblBrandPrefixes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="brand_id" Type="bigint" Mode="In" />
+    <Parameter Name="brand_name" Type="nvarchar" Mode="In" />
+    <Parameter Name="brand_prefix" Type="nvarchar" Mode="In" />
+    <Parameter Name="sku_start_range" Type="nvarchar" Mode="In" />
+    <Parameter Name="sku_end_range" Type="nvarchar" Mode="In" />
+    <Parameter Name="active" Type="int" Mode="In" />
+    <Parameter Name="updDt" Type="datetime" Mode="In" />
+    <Parameter Name="action" Type="int" Mode="In" />
+    <Parameter Name="userID" Type="int" Mode="In" />
+    <Parameter Name="remark" Type="varchar" Mode="InOut" />
+  </Function>
+  <Function Name="sp_tblCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="catId" Type="int" Mode="In" />
+    <Parameter Name="catName" Type="nvarchar" Mode="In" />
+    <Parameter Name="description" Type="nvarchar" Mode="In" />
+    <Parameter Name="isActive" Type="int" Mode="In" />
+    <Parameter Name="userId" Type="int" Mode="In" />
+    <Parameter Name="insDt" Type="datetime" Mode="In" />
+    <Parameter Name="updDt" Type="datetime" Mode="In" />
+    <Parameter Name="action" Type="int" Mode="In" />
+    <Parameter Name="remark" Type="varchar" Mode="InOut" />
+  </Function>
+  <Function Name="sp_tblCurrencymaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="cid" Type="bigint" Mode="In" />
+    <Parameter Name="currency" Type="nvarchar" Mode="In" />
+    <Parameter Name="value" Type="float" Mode="In" />
+    <Parameter Name="rateInUSD" Type="float" Mode="In" />
+    <Parameter Name="insDt" Type="datetime" Mode="In" />
+    <Parameter Name="updDt" Type="datetime" Mode="In" />
+    <Parameter Name="active" Type="int" Mode="In" />
+    <Parameter Name="userId" Type="int" Mode="In" />
+    <Parameter Name="action" Type="int" Mode="In" />
+    <Parameter Name="remark" Type="varchar" Mode="InOut" />
+  </Function>
+  <Function Name="sp_tblMeasurementMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="m_id" Type="int" Mode="In" />
+    <Parameter Name="unit_type" Type="nvarchar" Mode="In" />
+    <Parameter Name="unit_value" Type="float" Mode="In" />
+    <Parameter Name="eq_unit_type" Type="nvarchar" Mode="In" />
+    <Parameter Name="eq_unit_value" Type="float" Mode="In" />
+    <Parameter Name="active" Type="int" Mode="In" />
+    <Parameter Name="updDt" Type="datetime" Mode="In" />
+    <Parameter Name="action" Type="int" Mode="In" />
+    <Parameter Name="userID" Type="int" Mode="In" />
+    <Parameter Name="remark" Type="varchar" Mode="InOut" />
+  </Function>
+  <Function Name="sp_tblProductMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="productId" Type="int" Mode="In" />
+    <Parameter Name="catId" Type="int" Mode="In" />
+    <Parameter Name="subCatId" Type="int" Mode="In" />
+    <Parameter Name="brandId" Type="int" Mode="In" />
+    <Parameter Name="productName" Type="nvarchar" Mode="In" />
+    <Parameter Name="SKU" Type="nvarchar" Mode="In" />
+    <Parameter Name="aboutProduct" Type="nvarchar" Mode="In" />
+    <Parameter Name="description" Type="nvarchar" Mode="In" />
+    <Parameter Name="price" Type="int" Mode="In" />
+    <Parameter Name="costPrice" Type="int" Mode="In" />
+    <Parameter Name="retailPrice" Type="int" Mode="In" />
+    <Parameter Name="salePrice" Type="int" Mode="In" />
+    <Parameter Name="action" Type="int" Mode="In" />
+    <Parameter Name="userId" Type="int" Mode="In" />
+    <Parameter Name="remark" Type="varchar" Mode="InOut" />
+  </Function>
+  <Function Name="sp_tblSubCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="subCatId" Type="int" Mode="In" />
+    <Parameter Name="CatId" Type="int" Mode="In" />
+    <Parameter Name="subcatName" Type="nvarchar" Mode="In" />
+    <Parameter Name="description" Type="nvarchar" Mode="In" />
+    <Parameter Name="isActive" Type="int" Mode="In" />
+    <Parameter Name="userId" Type="int" Mode="In" />
+    <Parameter Name="insDt" Type="datetime" Mode="In" />
+    <Parameter Name="updDt" Type="datetime" Mode="In" />
+    <Parameter Name="action" Type="int" Mode="In" />
+    <Parameter Name="remark" Type="varchar" Mode="InOut" />
+  </Function>
+  <EntityContainer Name="subzicartModelStoreContainer">
+    <EntitySet Name="tblBrandPrefixes" EntityType="Self.tblBrandPrefixes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblCategory" EntityType="Self.tblCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblCompetitorMaster" EntityType="Self.tblCompetitorMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblCurrencyMaster" EntityType="Self.tblCurrencyMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblFullfillmentDetail" EntityType="Self.tblFullfillmentDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblImageLog" EntityType="Self.tblImageLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblMeasurementMaster" EntityType="Self.tblMeasurementMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblProductAvail" EntityType="Self.tblProductAvail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblProductGPS" EntityType="Self.tblProductGPS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblProductMaster" EntityType="Self.tblProductMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblSubCategory" EntityType="Self.tblSubCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblLogin" EntityType="Self.tblLogin" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tblLogin].[id] AS [id], 
+    [tblLogin].[uname] AS [uname], 
+    [tblLogin].[pswd] AS [pswd], 
+    [tblLogin].[company_id] AS [company_id], 
+    [tblLogin].[userType] AS [userType], 
+    [tblLogin].[empId] AS [empId], 
+    [tblLogin].[lastlogin] AS [lastlogin], 
+    [tblLogin].[ispwdchanged] AS [ispwdchanged], 
+    [tblLogin].[ispwdchanged_dt] AS [ispwdchanged_dt], 
+    [tblLogin].[pageAccessRight] AS [pageAccessRight], 
+    [tblLogin].[subMenuAccessRight] AS [subMenuAccessRight], 
+    [tblLogin].[actionRight] AS [actionRight]
+    FROM [dbo].[tblLogin] AS [tblLogin]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tblPageMenu" EntityType="Self.tblPageMenu" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tblPageMenu].[menu_id] AS [menu_id], 
+    [tblPageMenu].[page_url] AS [page_url], 
+    [tblPageMenu].[description] AS [description], 
+    [tblPageMenu].[rank] AS [rank], 
+    [tblPageMenu].[pageheading] AS [pageheading], 
+    [tblPageMenu].[action] AS [action], 
+    [tblPageMenu].[active] AS [active], 
+    [tblPageMenu].[pmenu] AS [pmenu], 
+    [tblPageMenu].[type] AS [type], 
+    [tblPageMenu].[fa_icon] AS [fa_icon]
+    FROM [dbo].[tblPageMenu] AS [tblPageMenu]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tblPageSubMenu" EntityType="Self.tblPageSubMenu" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tblPageSubMenu].[submenu_id] AS [submenu_id], 
+    [tblPageSubMenu].[page_url] AS [page_url], 
+    [tblPageSubMenu].[description] AS [description], 
+    [tblPageSubMenu].[submenurank] AS [submenurank], 
+    [tblPageSubMenu].[submenuheading] AS [submenuheading], 
+    [tblPageSubMenu].[active] AS [active], 
+    [tblPageSubMenu].[pmenu] AS [pmenu], 
+    [tblPageSubMenu].[type] AS [type], 
+    [tblPageSubMenu].[menu_id] AS [menu_id]
+    FROM [dbo].[tblPageSubMenu] AS [tblPageSubMenu]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tblTransactionLog" EntityType="Self.tblTransactionLog" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tblTransactionLog].[id] AS [id], 
+    [tblTransactionLog].[log_type_id] AS [log_type_id], 
+    [tblTransactionLog].[log_type] AS [log_type], 
+    [tblTransactionLog].[previous_value] AS [previous_value], 
+    [tblTransactionLog].[updated_value] AS [updated_value], 
+    [tblTransactionLog].[userId] AS [userId], 
+    [tblTransactionLog].[insDt] AS [insDt], 
+    [tblTransactionLog].[updDt] AS [updDt]
+    FROM [dbo].[tblTransactionLog] AS [tblTransactionLog]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tblWebpage" EntityType="Self.tblWebpage" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tblWebpage].[page_id] AS [page_id], 
+    [tblWebpage].[page_url] AS [page_url], 
+    [tblWebpage].[Description] AS [Description], 
+    [tblWebpage].[rank] AS [rank], 
+    [tblWebpage].[pageheading] AS [pageheading], 
+    [tblWebpage].[action] AS [action], 
+    [tblWebpage].[active] AS [active], 
+    [tblWebpage].[pmenu] AS [pmenu], 
+    [tblWebpage].[actionNm] AS [actionNm], 
+    [tblWebpage].[ParentNm] AS [ParentNm], 
+    [tblWebpage].[created] AS [created], 
+    [tblWebpage].[modified] AS [modified], 
+    [tblWebpage].[userId] AS [userId]
+    FROM [dbo].[tblWebpage] AS [tblWebpage]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

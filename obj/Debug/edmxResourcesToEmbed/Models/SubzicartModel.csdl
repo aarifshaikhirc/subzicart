@@ -1,0 +1,507 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="subzicartModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tblBrandPrefix">
+    <Key>
+      <PropertyRef Name="brand_id" />
+    </Key>
+    <Property Name="brand_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="brand_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="brand_prefix" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="sku_start_range" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="sku_end_range" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="insdt" Type="DateTime" Precision="3" />
+    <Property Name="active" Type="Int32" />
+    <Property Name="updDt" Type="DateTime" Precision="3" />
+    <Property Name="userId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tblCategory">
+    <Key>
+      <PropertyRef Name="catId" />
+    </Key>
+    <Property Name="catId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="catName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="description" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+    <Property Name="isActive" Type="Int32" />
+    <Property Name="userId" Type="Int32" />
+    <Property Name="insDt" Type="DateTime" Precision="3" />
+    <Property Name="updDt" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tblCompetitorMaster">
+    <Key>
+      <PropertyRef Name="cmid" />
+    </Key>
+    <Property Name="cmid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="company_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="logo_url" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="website_url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="product_id" Type="Int32" />
+    <Property Name="price" Type="Double" />
+    <Property Name="price_currency" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="insDt" Type="DateTime" Precision="3" />
+    <Property Name="active" Type="Int32" />
+    <Property Name="updDt" Type="DateTime" Precision="3" />
+    <Property Name="userId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tblCurrencyMaster">
+    <Key>
+      <PropertyRef Name="cid" />
+    </Key>
+    <Property Name="cid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="currency" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="rateInUSD" Type="Double" />
+    <Property Name="insDt" Type="DateTime" Precision="3" />
+    <Property Name="updDt" Type="DateTime" Precision="3" />
+    <Property Name="active" Type="Int32" />
+    <Property Name="userId" Type="Int32" />
+    <Property Name="value" Type="Double" />
+  </EntityType>
+  <EntityType Name="tblFullfillmentDetail">
+    <Key>
+      <PropertyRef Name="fid" />
+    </Key>
+    <Property Name="fid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="product_id" Type="Int32" />
+    <Property Name="product_wt" Type="Double" />
+    <Property Name="product_wt_unit" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="product_price" Type="Double" />
+    <Property Name="product_price_cr" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="sku_number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="vendor_id" Type="Int32" />
+    <Property Name="vendor_product_code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="insDt" Type="DateTime" Precision="3" />
+    <Property Name="active" Type="Int32" />
+    <Property Name="updDt" Type="DateTime" Precision="3" />
+    <Property Name="userId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tblImageLog">
+    <Key>
+      <PropertyRef Name="image_id" />
+    </Key>
+    <Property Name="image_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="product_id" Type="Int32" />
+    <Property Name="image_name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="image_desc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="image_url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="image_binary" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="isthumb" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+    <Property Name="sort_id" Type="Int32" />
+    <Property Name="insdt" Type="DateTime" Precision="3" />
+    <Property Name="active" Type="Int32" />
+    <Property Name="updDt" Type="DateTime" Precision="3" />
+    <Property Name="userId" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tblMeasurementMaster">
+    <Key>
+      <PropertyRef Name="m_id" />
+    </Key>
+    <Property Name="m_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="unit_type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="unit_value" Type="Double" />
+    <Property Name="eq_unit_type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="eq_unit_value" Type="Double" />
+    <Property Name="insDt" Type="DateTime" Precision="3" />
+    <Property Name="active" Type="Int32" />
+    <Property Name="updDt" Type="DateTime" Precision="3" />
+    <Property Name="userId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tblProductAvail">
+    <Key>
+      <PropertyRef Name="pa_id" />
+    </Key>
+    <Property Name="pa_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="product_id" Type="Int32" />
+    <Property Name="allow_purchase" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="is_visible" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="is_available" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="track_inventory" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="current_stock_level" Type="Int32" />
+    <Property Name="low_stock_level" Type="Int32" />
+    <Property Name="insdt" Type="DateTime" Precision="3" />
+    <Property Name="active" Type="Int32" />
+    <Property Name="updDt" Type="DateTime" Precision="3" />
+    <Property Name="userId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tblProductGP">
+    <Key>
+      <PropertyRef Name="gps_id" />
+    </Key>
+    <Property Name="gps_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="product_id" Type="Int32" />
+    <Property Name="product_url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="redirect_old_url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="global_trade_item" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="manufacture_part_no" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="gps_gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="gps_age_group" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="gps_color" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="gps_size" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="gps_material" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="gps_pattern" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="gps_item_group_id" Type="Int32" />
+    <Property Name="gps_category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="isActive" Type="Int32" />
+    <Property Name="userId" Type="Int32" />
+    <Property Name="insDt" Type="DateTime" Precision="3" />
+    <Property Name="updDt" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tblProductMaster">
+    <Key>
+      <PropertyRef Name="productId" />
+    </Key>
+    <Property Name="productId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="catId" Type="Int32" />
+    <Property Name="subCatId" Type="Int32" />
+    <Property Name="brandId" Type="Int32" />
+    <Property Name="productName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="SKU" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="aboutProduct" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+    <Property Name="description" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+    <Property Name="price" Type="Int32" />
+    <Property Name="costPrice" Type="Int32" />
+    <Property Name="retailPrice" Type="Int32" />
+    <Property Name="salePrice" Type="Int32" />
+    <Property Name="fixedShippingCost" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="freeShipping" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="pWeight" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="pWidth" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="pHeight" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="pDepth" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="searchKeywords" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+    <Property Name="pageTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="metaKeyword" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="metaDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="sortOrder" Type="Int32" />
+    <Property Name="isActive" Type="Int32" />
+    <Property Name="userId" Type="Int32" />
+    <Property Name="insDt" Type="DateTime" Precision="3" />
+    <Property Name="updDt" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tblSubCategory">
+    <Key>
+      <PropertyRef Name="subCatId" />
+    </Key>
+    <Property Name="subCatId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="catId" Type="Int32" Nullable="false" />
+    <Property Name="subCatName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="description" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+    <Property Name="isActive" Type="Int32" />
+    <Property Name="userId" Type="Int32" />
+    <Property Name="insDt" Type="DateTime" Precision="3" />
+    <Property Name="updDt" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tblLogin">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="uname" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="uname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="pswd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="company_id" Type="Int32" />
+    <Property Name="userType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="empId" Type="Int32" />
+    <Property Name="lastlogin" Type="DateTime" Precision="3" />
+    <Property Name="ispwdchanged" Type="Boolean" />
+    <Property Name="ispwdchanged_dt" Type="DateTime" Precision="3" />
+    <Property Name="pageAccessRight" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="subMenuAccessRight" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="actionRight" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tblPageMenu">
+    <Key>
+      <PropertyRef Name="menu_id" />
+    </Key>
+    <Property Name="menu_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="page_url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="rank" Type="Int32" />
+    <Property Name="pageheading" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="action" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="active" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="pmenu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="type" Type="Int32" />
+    <Property Name="fa_icon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tblPageSubMenu">
+    <Key>
+      <PropertyRef Name="submenu_id" />
+      <PropertyRef Name="menu_id" />
+    </Key>
+    <Property Name="submenu_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="page_url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="submenurank" Type="Int32" />
+    <Property Name="submenuheading" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="active" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="pmenu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="type" Type="Int32" />
+    <Property Name="menu_id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblTransactionLog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="log_type_id" Type="Int32" />
+    <Property Name="log_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="previous_value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="updated_value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="userId" Type="Int32" />
+    <Property Name="insDt" Type="DateTime" Precision="3" />
+    <Property Name="updDt" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tblWebpage">
+    <Key>
+      <PropertyRef Name="page_id" />
+    </Key>
+    <Property Name="page_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="page_url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="rank" Type="Int32" />
+    <Property Name="pageheading" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="action" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="active" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="pmenu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="actionNm" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="ParentNm" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="created" Type="DateTime" Precision="3" />
+    <Property Name="modified" Type="DateTime" Precision="3" />
+    <Property Name="userId" Type="Int32" />
+  </EntityType>
+  <EntityContainer Name="subzicartEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tblBrandPrefixes" EntityType="Self.tblBrandPrefix" />
+    <EntitySet Name="tblCategories" EntityType="Self.tblCategory" />
+    <EntitySet Name="tblCompetitorMasters" EntityType="Self.tblCompetitorMaster" />
+    <EntitySet Name="tblCurrencyMasters" EntityType="Self.tblCurrencyMaster" />
+    <EntitySet Name="tblFullfillmentDetails" EntityType="Self.tblFullfillmentDetail" />
+    <EntitySet Name="tblImageLogs" EntityType="Self.tblImageLog" />
+    <EntitySet Name="tblMeasurementMasters" EntityType="Self.tblMeasurementMaster" />
+    <EntitySet Name="tblProductAvails" EntityType="Self.tblProductAvail" />
+    <EntitySet Name="tblProductGPS" EntityType="Self.tblProductGP" />
+    <EntitySet Name="tblProductMasters" EntityType="Self.tblProductMaster" />
+    <EntitySet Name="tblSubCategories" EntityType="Self.tblSubCategory" />
+    <EntitySet Name="tblLogins" EntityType="Self.tblLogin" />
+    <EntitySet Name="tblPageMenus" EntityType="Self.tblPageMenu" />
+    <EntitySet Name="tblPageSubMenus" EntityType="Self.tblPageSubMenu" />
+    <EntitySet Name="tblTransactionLogs" EntityType="Self.tblTransactionLog" />
+    <EntitySet Name="tblWebpages" EntityType="Self.tblWebpage" />
+    <FunctionImport Name="sp_login" ReturnType="Collection(subzicartModel.sp_login_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="pswd" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_tblBrandPrefixes_Operations" ReturnType="Collection(subzicartModel.sp_tblBrandPrefixes_Operations_Result)">
+      <Parameter Name="brand_id" Mode="In" Type="Int64" />
+      <Parameter Name="brand_name" Mode="In" Type="String" />
+      <Parameter Name="brand_prefix" Mode="In" Type="String" />
+      <Parameter Name="sku_start_range" Mode="In" Type="String" />
+      <Parameter Name="sku_end_range" Mode="In" Type="String" />
+      <Parameter Name="active" Mode="In" Type="Int32" />
+      <Parameter Name="updDt" Mode="In" Type="DateTime" />
+      <Parameter Name="action" Mode="In" Type="Int32" />
+      <Parameter Name="userID" Mode="In" Type="Int32" />
+      <Parameter Name="remark" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_tblBrandPrefixes" ReturnType="Collection(subzicartModel.sp_tblBrandPrefixes_Result)">
+      <Parameter Name="brand_id" Mode="In" Type="Int64" />
+      <Parameter Name="brand_name" Mode="In" Type="String" />
+      <Parameter Name="brand_prefix" Mode="In" Type="String" />
+      <Parameter Name="sku_start_range" Mode="In" Type="String" />
+      <Parameter Name="sku_end_range" Mode="In" Type="String" />
+      <Parameter Name="active" Mode="In" Type="Int32" />
+      <Parameter Name="updDt" Mode="In" Type="DateTime" />
+      <Parameter Name="action" Mode="In" Type="Int32" />
+      <Parameter Name="userID" Mode="In" Type="Int32" />
+      <Parameter Name="remark" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_tblCategory" ReturnType="Collection(subzicartModel.sp_tblCategory_Result)">
+      <Parameter Name="catId" Mode="In" Type="Int32" />
+      <Parameter Name="catName" Mode="In" Type="String" />
+      <Parameter Name="description" Mode="In" Type="String" />
+      <Parameter Name="isActive" Mode="In" Type="Int32" />
+      <Parameter Name="userId" Mode="In" Type="Int32" />
+      <Parameter Name="insDt" Mode="In" Type="DateTime" />
+      <Parameter Name="updDt" Mode="In" Type="DateTime" />
+      <Parameter Name="action" Mode="In" Type="Int32" />
+      <Parameter Name="remark" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_tblCurrencymaster" ReturnType="Collection(subzicartModel.sp_tblCurrencymaster_Result)">
+      <Parameter Name="cid" Mode="In" Type="Int64" />
+      <Parameter Name="currency" Mode="In" Type="String" />
+      <Parameter Name="value" Mode="In" Type="Double" />
+      <Parameter Name="rateInUSD" Mode="In" Type="Double" />
+      <Parameter Name="insDt" Mode="In" Type="DateTime" />
+      <Parameter Name="updDt" Mode="In" Type="DateTime" />
+      <Parameter Name="active" Mode="In" Type="Int32" />
+      <Parameter Name="userId" Mode="In" Type="Int32" />
+      <Parameter Name="action" Mode="In" Type="Int32" />
+      <Parameter Name="remark" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_tblSubSubCategory">
+      <Parameter Name="subCatId" Mode="In" Type="Int32" />
+      <Parameter Name="CatId" Mode="In" Type="Int32" />
+      <Parameter Name="subcatName" Mode="In" Type="String" />
+      <Parameter Name="description" Mode="In" Type="String" />
+      <Parameter Name="isActive" Mode="In" Type="Int32" />
+      <Parameter Name="userId" Mode="In" Type="Int32" />
+      <Parameter Name="insDt" Mode="In" Type="DateTime" />
+      <Parameter Name="updDt" Mode="In" Type="DateTime" />
+      <Parameter Name="action" Mode="In" Type="Int32" />
+      <Parameter Name="remark" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_tblMeasurementMaster" ReturnType="Collection(subzicartModel.sp_tblMeasurementMaster_Result)">
+      <Parameter Name="m_id" Mode="In" Type="Int32" />
+      <Parameter Name="unit_type" Mode="In" Type="String" />
+      <Parameter Name="unit_value" Mode="In" Type="Double" />
+      <Parameter Name="eq_unit_type" Mode="In" Type="String" />
+      <Parameter Name="eq_unit_value" Mode="In" Type="Double" />
+      <Parameter Name="active" Mode="In" Type="Int32" />
+      <Parameter Name="updDt" Mode="In" Type="DateTime" />
+      <Parameter Name="action" Mode="In" Type="Int32" />
+      <Parameter Name="userID" Mode="In" Type="Int32" />
+      <Parameter Name="remark" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_tblProductMaster" ReturnType="Collection(subzicartModel.sp_tblProductMaster_Result)">
+      <Parameter Name="productId" Mode="In" Type="Int32" />
+      <Parameter Name="catId" Mode="In" Type="Int32" />
+      <Parameter Name="subCatId" Mode="In" Type="Int32" />
+      <Parameter Name="brandId" Mode="In" Type="Int32" />
+      <Parameter Name="productName" Mode="In" Type="String" />
+      <Parameter Name="SKU" Mode="In" Type="String" />
+      <Parameter Name="aboutProduct" Mode="In" Type="String" />
+      <Parameter Name="description" Mode="In" Type="String" />
+      <Parameter Name="price" Mode="In" Type="Int32" />
+      <Parameter Name="costPrice" Mode="In" Type="Int32" />
+      <Parameter Name="retailPrice" Mode="In" Type="Int32" />
+      <Parameter Name="salePrice" Mode="In" Type="Int32" />
+      <Parameter Name="action" Mode="In" Type="Int32" />
+      <Parameter Name="userId" Mode="In" Type="Int32" />
+      <Parameter Name="remark" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_tblSubCategory" ReturnType="Collection(subzicartModel.sp_tblSubCategory_Result)">
+      <Parameter Name="subCatId" Mode="In" Type="Int32" />
+      <Parameter Name="CatId" Mode="In" Type="Int32" />
+      <Parameter Name="subcatName" Mode="In" Type="String" />
+      <Parameter Name="description" Mode="In" Type="String" />
+      <Parameter Name="isActive" Mode="In" Type="Int32" />
+      <Parameter Name="userId" Mode="In" Type="Int32" />
+      <Parameter Name="insDt" Mode="In" Type="DateTime" />
+      <Parameter Name="updDt" Mode="In" Type="DateTime" />
+      <Parameter Name="action" Mode="In" Type="Int32" />
+      <Parameter Name="remark" Mode="InOut" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="sp_login_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="uname" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="pswd" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="company_id" Nullable="true" />
+    <Property Type="String" Name="userType" Nullable="true" MaxLength="20" />
+    <Property Type="Int32" Name="empId" Nullable="true" />
+    <Property Type="DateTime" Name="lastlogin" Nullable="true" Precision="23" />
+    <Property Type="Boolean" Name="ispwdchanged" Nullable="true" />
+    <Property Type="DateTime" Name="ispwdchanged_dt" Nullable="true" Precision="23" />
+    <Property Type="String" Name="pageAccessRight" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="subMenuAccessRight" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="actionRight" Nullable="true" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="sp_tblBrandPrefixes_Operations_Result">
+    <Property Type="Int64" Name="brand_id" Nullable="false" />
+    <Property Type="String" Name="brand_name" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="brand_prefix" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="sku_start_range" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="sku_end_range" Nullable="true" MaxLength="10" />
+    <Property Type="DateTime" Name="insdt" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="active" Nullable="true" />
+    <Property Type="DateTime" Name="updDt" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="userId" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_tblBrandPrefixes_Result">
+    <Property Type="Int64" Name="brand_id" Nullable="false" />
+    <Property Type="String" Name="brand_name" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="brand_prefix" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="sku_start_range" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="sku_end_range" Nullable="true" MaxLength="10" />
+    <Property Type="DateTime" Name="insdt" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="active" Nullable="true" />
+    <Property Type="DateTime" Name="updDt" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="userId" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_tblCategory_Result">
+    <Property Type="Int32" Name="catId" Nullable="false" />
+    <Property Type="String" Name="catName" Nullable="true" MaxLength="80" />
+    <Property Type="String" Name="description" Nullable="true" MaxLength="600" />
+    <Property Type="Int32" Name="isActive" Nullable="true" />
+    <Property Type="Int32" Name="userId" Nullable="true" />
+    <Property Type="DateTime" Name="insDt" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="updDt" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="sp_tblCurrencymaster_Result">
+    <Property Type="Int64" Name="cid" Nullable="false" />
+    <Property Type="String" Name="currency" Nullable="true" MaxLength="10" />
+    <Property Type="Double" Name="value" Nullable="true" />
+    <Property Type="Double" Name="rateInUSD" Nullable="true" />
+    <Property Type="DateTime" Name="insDt" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="updDt" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="active" Nullable="true" />
+    <Property Type="Int32" Name="userId" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_tblMeasurementMaster_Result">
+    <Property Type="Int32" Name="m_id" Nullable="false" />
+    <Property Type="String" Name="unit_type" Nullable="true" MaxLength="10" />
+    <Property Type="Double" Name="unit_value" Nullable="true" />
+    <Property Type="String" Name="eq_unit_type" Nullable="true" MaxLength="10" />
+    <Property Type="Double" Name="eq_unit_value" Nullable="true" />
+    <Property Type="DateTime" Name="insDt" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="active" Nullable="true" />
+    <Property Type="DateTime" Name="updDt" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="userId" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_tblProductMaster_Result">
+    <Property Type="Int32" Name="productId" Nullable="false" />
+    <Property Type="Int32" Name="catId" Nullable="true" />
+    <Property Type="Int32" Name="subCatId" Nullable="true" />
+    <Property Type="Int32" Name="brandId" Nullable="true" />
+    <Property Type="String" Name="productName" Nullable="true" MaxLength="80" />
+    <Property Type="String" Name="SKU" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="aboutProduct" Nullable="true" MaxLength="600" />
+    <Property Type="String" Name="description" Nullable="true" MaxLength="600" />
+    <Property Type="Int32" Name="price" Nullable="true" />
+    <Property Type="Int32" Name="costPrice" Nullable="true" />
+    <Property Type="Int32" Name="retailPrice" Nullable="true" />
+    <Property Type="Int32" Name="salePrice" Nullable="true" />
+    <Property Type="String" Name="fixedShippingCost" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="freeShipping" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="pWeight" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="pWidth" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="pHeight" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="pDepth" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="searchKeywords" Nullable="true" MaxLength="600" />
+    <Property Type="String" Name="pageTitle" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="metaKeyword" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="metaDescription" Nullable="true" />
+    <Property Type="Int32" Name="sortOrder" Nullable="true" />
+    <Property Type="Int32" Name="isActive" Nullable="true" />
+    <Property Type="Int32" Name="userId" Nullable="true" />
+    <Property Type="DateTime" Name="insDt" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="updDt" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="sp_tblSubCategory_Result">
+    <Property Type="Int32" Name="subCatId" Nullable="false" />
+    <Property Type="Int32" Name="catId" Nullable="false" />
+    <Property Type="String" Name="subCatName" Nullable="true" MaxLength="80" />
+    <Property Type="String" Name="description" Nullable="true" MaxLength="600" />
+    <Property Type="Int32" Name="isActive" Nullable="true" />
+    <Property Type="Int32" Name="userId" Nullable="true" />
+    <Property Type="DateTime" Name="insDt" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="updDt" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="catId1" Nullable="false" />
+    <Property Type="String" Name="catName" Nullable="true" MaxLength="80" />
+    <Property Type="String" Name="description1" Nullable="true" MaxLength="600" />
+    <Property Type="Int32" Name="isActive1" Nullable="true" />
+    <Property Type="Int32" Name="userId1" Nullable="true" />
+    <Property Type="DateTime" Name="insDt1" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="updDt1" Nullable="true" Precision="23" />
+  </ComplexType>
+</Schema>

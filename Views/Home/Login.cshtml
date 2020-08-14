@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+@using (Html.BeginForm("Login", "Home", FormMethod.Post))
+{
+    <input type="text" class="name" name="userName" Placeholder="Username" maxlength="20" required="" />
+    <input type="password" class="password" name="Password" Placeholder="Password" maxlength="20" required="" />
+    <input type="submit" value="Login">
+    <div style="margin-top:10px;color:red">
+        <span>@ViewBag.message</span>
+    </div>
+}
+
+
+

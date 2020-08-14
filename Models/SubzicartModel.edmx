@@ -1,0 +1,1414 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="subzicartModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblBrandPrefixes">
+          <Key>
+            <PropertyRef Name="brand_id" />
+          </Key>
+          <Property Name="brand_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="brand_name" Type="nvarchar" MaxLength="100" />
+          <Property Name="brand_prefix" Type="nvarchar" MaxLength="10" />
+          <Property Name="sku_start_range" Type="nvarchar" MaxLength="10" />
+          <Property Name="sku_end_range" Type="nvarchar" MaxLength="10" />
+          <Property Name="insdt" Type="datetime" />
+          <Property Name="active" Type="int" />
+          <Property Name="updDt" Type="datetime" />
+          <Property Name="userId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblCategory">
+          <Key>
+            <PropertyRef Name="catId" />
+          </Key>
+          <Property Name="catId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="catName" Type="nvarchar" MaxLength="80" />
+          <Property Name="description" Type="nvarchar" MaxLength="600" />
+          <Property Name="isActive" Type="int" />
+          <Property Name="userId" Type="int" />
+          <Property Name="insDt" Type="datetime" />
+          <Property Name="updDt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblCompetitorMaster">
+          <Key>
+            <PropertyRef Name="cmid" />
+          </Key>
+          <Property Name="cmid" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="company_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="logo_url" Type="nvarchar" MaxLength="255" />
+          <Property Name="website_url" Type="nvarchar" MaxLength="50" />
+          <Property Name="product_id" Type="int" />
+          <Property Name="price" Type="float" />
+          <Property Name="price_currency" Type="nvarchar" MaxLength="5" />
+          <Property Name="insDt" Type="datetime" />
+          <Property Name="active" Type="int" />
+          <Property Name="updDt" Type="datetime" />
+          <Property Name="userId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblCurrencyMaster">
+          <Key>
+            <PropertyRef Name="cid" />
+          </Key>
+          <Property Name="cid" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="currency" Type="nvarchar" MaxLength="10" />
+          <Property Name="value" Type="float" />
+          <Property Name="rateInUSD" Type="float" />
+          <Property Name="insDt" Type="datetime" />
+          <Property Name="updDt" Type="datetime" />
+          <Property Name="active" Type="int" />
+          <Property Name="userId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblFullfillmentDetail">
+          <Key>
+            <PropertyRef Name="fid" />
+          </Key>
+          <Property Name="fid" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="location" Type="nvarchar" MaxLength="50" />
+          <Property Name="product_id" Type="int" />
+          <Property Name="product_wt" Type="float" />
+          <Property Name="product_wt_unit" Type="nvarchar" MaxLength="5" />
+          <Property Name="product_price" Type="float" />
+          <Property Name="product_price_cr" Type="nvarchar" MaxLength="5" />
+          <Property Name="sku_number" Type="nvarchar" MaxLength="10" />
+          <Property Name="vendor_id" Type="int" />
+          <Property Name="vendor_product_code" Type="nvarchar" MaxLength="50" />
+          <Property Name="insDt" Type="datetime" />
+          <Property Name="active" Type="int" />
+          <Property Name="updDt" Type="datetime" />
+          <Property Name="userId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblImageLog">
+          <Key>
+            <PropertyRef Name="image_id" />
+          </Key>
+          <Property Name="image_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_id" Type="int" />
+          <Property Name="image_name" Type="nvarchar" MaxLength="30" />
+          <Property Name="image_desc" Type="nvarchar" MaxLength="50" />
+          <Property Name="image_url" Type="nvarchar" MaxLength="100" />
+          <Property Name="image_binary" Type="varbinary(max)" />
+          <Property Name="isthumb" Type="nvarchar" MaxLength="1" />
+          <Property Name="sort_id" Type="int" />
+          <Property Name="insdt" Type="datetime" />
+          <Property Name="active" Type="int" />
+          <Property Name="updDt" Type="datetime" />
+          <Property Name="userId" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'subzicart.dbo.tblLogin' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblLogin">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="uname" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="pswd" Type="nvarchar" MaxLength="50" />
+          <Property Name="company_id" Type="int" />
+          <Property Name="userType" Type="varchar" MaxLength="20" />
+          <Property Name="empId" Type="int" />
+          <Property Name="lastlogin" Type="datetime" />
+          <Property Name="ispwdchanged" Type="bit" />
+          <Property Name="ispwdchanged_dt" Type="datetime" />
+          <Property Name="pageAccessRight" Type="nvarchar" MaxLength="100" />
+          <Property Name="subMenuAccessRight" Type="nvarchar" MaxLength="200" />
+          <Property Name="actionRight" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="tblMeasurementMaster">
+          <Key>
+            <PropertyRef Name="m_id" />
+          </Key>
+          <Property Name="m_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="unit_type" Type="nvarchar" MaxLength="10" />
+          <Property Name="unit_value" Type="float" />
+          <Property Name="eq_unit_type" Type="nvarchar" MaxLength="10" />
+          <Property Name="eq_unit_value" Type="float" />
+          <Property Name="insDt" Type="datetime" />
+          <Property Name="active" Type="int" />
+          <Property Name="updDt" Type="datetime" />
+          <Property Name="userId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'subzicart.dbo.tblPageMenu' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblPageMenu">
+          <Key>
+            <PropertyRef Name="menu_id" />
+          </Key>
+          <Property Name="menu_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="page_url" Type="varchar" MaxLength="100" />
+          <Property Name="description" Type="varchar" MaxLength="100" />
+          <Property Name="rank" Type="int" />
+          <Property Name="pageheading" Type="varchar" MaxLength="50" />
+          <Property Name="action" Type="varchar" MaxLength="3" />
+          <Property Name="active" Type="varchar" MaxLength="3" />
+          <Property Name="pmenu" Type="varchar" MaxLength="50" />
+          <Property Name="type" Type="int" />
+          <Property Name="fa_icon" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'subzicart.dbo.tblPageSubMenu' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblPageSubMenu">
+          <Key>
+            <PropertyRef Name="submenu_id" />
+            <PropertyRef Name="menu_id" />
+          </Key>
+          <Property Name="submenu_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="page_url" Type="varchar" MaxLength="100" />
+          <Property Name="description" Type="varchar" MaxLength="100" />
+          <Property Name="submenurank" Type="int" />
+          <Property Name="submenuheading" Type="varchar" MaxLength="50" />
+          <Property Name="active" Type="varchar" MaxLength="3" />
+          <Property Name="pmenu" Type="varchar" MaxLength="50" />
+          <Property Name="type" Type="int" />
+          <Property Name="menu_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblProductAvail">
+          <Key>
+            <PropertyRef Name="pa_id" />
+          </Key>
+          <Property Name="pa_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_id" Type="int" />
+          <Property Name="allow_purchase" Type="varchar" MaxLength="1" />
+          <Property Name="is_visible" Type="varchar" MaxLength="1" />
+          <Property Name="is_available" Type="varchar" MaxLength="1" />
+          <Property Name="track_inventory" Type="varchar" MaxLength="4" />
+          <Property Name="current_stock_level" Type="int" />
+          <Property Name="low_stock_level" Type="int" />
+          <Property Name="insdt" Type="datetime" />
+          <Property Name="active" Type="int" />
+          <Property Name="updDt" Type="datetime" />
+          <Property Name="userId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblProductGPS">
+          <Key>
+            <PropertyRef Name="gps_id" />
+          </Key>
+          <Property Name="gps_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_id" Type="int" />
+          <Property Name="product_url" Type="nvarchar" MaxLength="100" />
+          <Property Name="redirect_old_url" Type="nvarchar" MaxLength="100" />
+          <Property Name="global_trade_item" Type="nvarchar" MaxLength="50" />
+          <Property Name="manufacture_part_no" Type="nvarchar" MaxLength="50" />
+          <Property Name="gps_gender" Type="nvarchar" MaxLength="50" />
+          <Property Name="gps_age_group" Type="nvarchar" MaxLength="30" />
+          <Property Name="gps_color" Type="nvarchar" MaxLength="50" />
+          <Property Name="gps_size" Type="nvarchar" MaxLength="50" />
+          <Property Name="gps_material" Type="nvarchar" MaxLength="50" />
+          <Property Name="gps_pattern" Type="nvarchar" MaxLength="50" />
+          <Property Name="gps_item_group_id" Type="int" />
+          <Property Name="gps_category" Type="nvarchar" MaxLength="50" />
+          <Property Name="isActive" Type="int" />
+          <Property Name="userId" Type="int" />
+          <Property Name="insDt" Type="datetime" />
+          <Property Name="updDt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblProductMaster">
+          <Key>
+            <PropertyRef Name="productId" />
+          </Key>
+          <Property Name="productId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="catId" Type="int" />
+          <Property Name="subCatId" Type="int" />
+          <Property Name="brandId" Type="int" />
+          <Property Name="productName" Type="nvarchar" MaxLength="80" />
+          <Property Name="SKU" Type="nvarchar" MaxLength="50" />
+          <Property Name="aboutProduct" Type="nvarchar" MaxLength="600" />
+          <Property Name="description" Type="nvarchar" MaxLength="600" />
+          <Property Name="price" Type="int" />
+          <Property Name="costPrice" Type="int" />
+          <Property Name="retailPrice" Type="int" />
+          <Property Name="salePrice" Type="int" />
+          <Property Name="fixedShippingCost" Type="nvarchar" MaxLength="10" />
+          <Property Name="freeShipping" Type="nvarchar" MaxLength="10" />
+          <Property Name="pWeight" Type="nvarchar" MaxLength="10" />
+          <Property Name="pWidth" Type="nvarchar" MaxLength="10" />
+          <Property Name="pHeight" Type="nvarchar" MaxLength="10" />
+          <Property Name="pDepth" Type="nvarchar" MaxLength="10" />
+          <Property Name="searchKeywords" Type="nvarchar" MaxLength="600" />
+          <Property Name="pageTitle" Type="nvarchar" MaxLength="100" />
+          <Property Name="metaKeyword" Type="nvarchar" MaxLength="200" />
+          <Property Name="metaDescription" Type="nvarchar(max)" />
+          <Property Name="sortOrder" Type="int" />
+          <Property Name="isActive" Type="int" />
+          <Property Name="userId" Type="int" />
+          <Property Name="insDt" Type="datetime" />
+          <Property Name="updDt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblSubCategory">
+          <Key>
+            <PropertyRef Name="subCatId" />
+          </Key>
+          <Property Name="subCatId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="catId" Type="int" Nullable="false" />
+          <Property Name="subCatName" Type="nvarchar" MaxLength="80" />
+          <Property Name="description" Type="nvarchar" MaxLength="600" />
+          <Property Name="isActive" Type="int" />
+          <Property Name="userId" Type="int" />
+          <Property Name="insDt" Type="datetime" />
+          <Property Name="updDt" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'subzicart.dbo.tblTransactionLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblTransactionLog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="log_type_id" Type="int" />
+          <Property Name="log_type" Type="nvarchar" MaxLength="50" />
+          <Property Name="previous_value" Type="xml" />
+          <Property Name="updated_value" Type="xml" />
+          <Property Name="userId" Type="int" />
+          <Property Name="insDt" Type="datetime" />
+          <Property Name="updDt" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'subzicart.dbo.tblVendorMaster' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="tblVendorMaster">
+          <Property Name="vendor_id" Type="int" />
+          <Property Name="vendor_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="vendor_mobile" Type="nvarchar" MaxLength="14" />
+          <Property Name="isActive" Type="int" />
+          <Property Name="userId" Type="int" />
+          <Property Name="insDt" Type="datetime" />
+          <Property Name="updDt" Type="datetime" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'subzicart.dbo.tblWebpage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblWebpage">
+          <Key>
+            <PropertyRef Name="page_id" />
+          </Key>
+          <Property Name="page_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="page_url" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="rank" Type="int" />
+          <Property Name="pageheading" Type="varchar" MaxLength="50" />
+          <Property Name="action" Type="varchar" MaxLength="5" />
+          <Property Name="active" Type="varchar" MaxLength="5" />
+          <Property Name="pmenu" Type="varchar" MaxLength="50" />
+          <Property Name="actionNm" Type="varchar" MaxLength="20" />
+          <Property Name="ParentNm" Type="nvarchar" MaxLength="50" />
+          <Property Name="created" Type="datetime" />
+          <Property Name="modified" Type="datetime" />
+          <Property Name="userId" Type="int" />
+        </EntityType>
+        <Function Name="sp_login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="nvarchar" Mode="In" />
+          <Parameter Name="pswd" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_tblBrandPrefixes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="brand_id" Type="bigint" Mode="In" />
+          <Parameter Name="brand_name" Type="nvarchar" Mode="In" />
+          <Parameter Name="brand_prefix" Type="nvarchar" Mode="In" />
+          <Parameter Name="sku_start_range" Type="nvarchar" Mode="In" />
+          <Parameter Name="sku_end_range" Type="nvarchar" Mode="In" />
+          <Parameter Name="active" Type="int" Mode="In" />
+          <Parameter Name="updDt" Type="datetime" Mode="In" />
+          <Parameter Name="action" Type="int" Mode="In" />
+          <Parameter Name="userID" Type="int" Mode="In" />
+          <Parameter Name="remark" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="sp_tblCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="catId" Type="int" Mode="In" />
+          <Parameter Name="catName" Type="nvarchar" Mode="In" />
+          <Parameter Name="description" Type="nvarchar" Mode="In" />
+          <Parameter Name="isActive" Type="int" Mode="In" />
+          <Parameter Name="userId" Type="int" Mode="In" />
+          <Parameter Name="insDt" Type="datetime" Mode="In" />
+          <Parameter Name="updDt" Type="datetime" Mode="In" />
+          <Parameter Name="action" Type="int" Mode="In" />
+          <Parameter Name="remark" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="sp_tblCurrencymaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cid" Type="bigint" Mode="In" />
+          <Parameter Name="currency" Type="nvarchar" Mode="In" />
+          <Parameter Name="value" Type="float" Mode="In" />
+          <Parameter Name="rateInUSD" Type="float" Mode="In" />
+          <Parameter Name="insDt" Type="datetime" Mode="In" />
+          <Parameter Name="updDt" Type="datetime" Mode="In" />
+          <Parameter Name="active" Type="int" Mode="In" />
+          <Parameter Name="userId" Type="int" Mode="In" />
+          <Parameter Name="action" Type="int" Mode="In" />
+          <Parameter Name="remark" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="sp_tblMeasurementMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="m_id" Type="int" Mode="In" />
+          <Parameter Name="unit_type" Type="nvarchar" Mode="In" />
+          <Parameter Name="unit_value" Type="float" Mode="In" />
+          <Parameter Name="eq_unit_type" Type="nvarchar" Mode="In" />
+          <Parameter Name="eq_unit_value" Type="float" Mode="In" />
+          <Parameter Name="active" Type="int" Mode="In" />
+          <Parameter Name="updDt" Type="datetime" Mode="In" />
+          <Parameter Name="action" Type="int" Mode="In" />
+          <Parameter Name="userID" Type="int" Mode="In" />
+          <Parameter Name="remark" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="sp_tblProductMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="productId" Type="int" Mode="In" />
+          <Parameter Name="catId" Type="int" Mode="In" />
+          <Parameter Name="subCatId" Type="int" Mode="In" />
+          <Parameter Name="brandId" Type="int" Mode="In" />
+          <Parameter Name="productName" Type="nvarchar" Mode="In" />
+          <Parameter Name="SKU" Type="nvarchar" Mode="In" />
+          <Parameter Name="aboutProduct" Type="nvarchar" Mode="In" />
+          <Parameter Name="description" Type="nvarchar" Mode="In" />
+          <Parameter Name="price" Type="int" Mode="In" />
+          <Parameter Name="costPrice" Type="int" Mode="In" />
+          <Parameter Name="retailPrice" Type="int" Mode="In" />
+          <Parameter Name="salePrice" Type="int" Mode="In" />
+          <Parameter Name="action" Type="int" Mode="In" />
+          <Parameter Name="userId" Type="int" Mode="In" />
+          <Parameter Name="remark" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="sp_tblSubCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="subCatId" Type="int" Mode="In" />
+          <Parameter Name="CatId" Type="int" Mode="In" />
+          <Parameter Name="subcatName" Type="nvarchar" Mode="In" />
+          <Parameter Name="description" Type="nvarchar" Mode="In" />
+          <Parameter Name="isActive" Type="int" Mode="In" />
+          <Parameter Name="userId" Type="int" Mode="In" />
+          <Parameter Name="insDt" Type="datetime" Mode="In" />
+          <Parameter Name="updDt" Type="datetime" Mode="In" />
+          <Parameter Name="action" Type="int" Mode="In" />
+          <Parameter Name="remark" Type="varchar" Mode="InOut" />
+        </Function>
+        <EntityContainer Name="subzicartModelStoreContainer">
+          <EntitySet Name="tblBrandPrefixes" EntityType="Self.tblBrandPrefixes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCategory" EntityType="Self.tblCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCompetitorMaster" EntityType="Self.tblCompetitorMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCurrencyMaster" EntityType="Self.tblCurrencyMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblFullfillmentDetail" EntityType="Self.tblFullfillmentDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblImageLog" EntityType="Self.tblImageLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblMeasurementMaster" EntityType="Self.tblMeasurementMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProductAvail" EntityType="Self.tblProductAvail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProductGPS" EntityType="Self.tblProductGPS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProductMaster" EntityType="Self.tblProductMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSubCategory" EntityType="Self.tblSubCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblLogin" EntityType="Self.tblLogin" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblLogin].[id] AS [id], 
+    [tblLogin].[uname] AS [uname], 
+    [tblLogin].[pswd] AS [pswd], 
+    [tblLogin].[company_id] AS [company_id], 
+    [tblLogin].[userType] AS [userType], 
+    [tblLogin].[empId] AS [empId], 
+    [tblLogin].[lastlogin] AS [lastlogin], 
+    [tblLogin].[ispwdchanged] AS [ispwdchanged], 
+    [tblLogin].[ispwdchanged_dt] AS [ispwdchanged_dt], 
+    [tblLogin].[pageAccessRight] AS [pageAccessRight], 
+    [tblLogin].[subMenuAccessRight] AS [subMenuAccessRight], 
+    [tblLogin].[actionRight] AS [actionRight]
+    FROM [dbo].[tblLogin] AS [tblLogin]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblPageMenu" EntityType="Self.tblPageMenu" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblPageMenu].[menu_id] AS [menu_id], 
+    [tblPageMenu].[page_url] AS [page_url], 
+    [tblPageMenu].[description] AS [description], 
+    [tblPageMenu].[rank] AS [rank], 
+    [tblPageMenu].[pageheading] AS [pageheading], 
+    [tblPageMenu].[action] AS [action], 
+    [tblPageMenu].[active] AS [active], 
+    [tblPageMenu].[pmenu] AS [pmenu], 
+    [tblPageMenu].[type] AS [type], 
+    [tblPageMenu].[fa_icon] AS [fa_icon]
+    FROM [dbo].[tblPageMenu] AS [tblPageMenu]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblPageSubMenu" EntityType="Self.tblPageSubMenu" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblPageSubMenu].[submenu_id] AS [submenu_id], 
+    [tblPageSubMenu].[page_url] AS [page_url], 
+    [tblPageSubMenu].[description] AS [description], 
+    [tblPageSubMenu].[submenurank] AS [submenurank], 
+    [tblPageSubMenu].[submenuheading] AS [submenuheading], 
+    [tblPageSubMenu].[active] AS [active], 
+    [tblPageSubMenu].[pmenu] AS [pmenu], 
+    [tblPageSubMenu].[type] AS [type], 
+    [tblPageSubMenu].[menu_id] AS [menu_id]
+    FROM [dbo].[tblPageSubMenu] AS [tblPageSubMenu]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblTransactionLog" EntityType="Self.tblTransactionLog" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblTransactionLog].[id] AS [id], 
+    [tblTransactionLog].[log_type_id] AS [log_type_id], 
+    [tblTransactionLog].[log_type] AS [log_type], 
+    [tblTransactionLog].[previous_value] AS [previous_value], 
+    [tblTransactionLog].[updated_value] AS [updated_value], 
+    [tblTransactionLog].[userId] AS [userId], 
+    [tblTransactionLog].[insDt] AS [insDt], 
+    [tblTransactionLog].[updDt] AS [updDt]
+    FROM [dbo].[tblTransactionLog] AS [tblTransactionLog]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblWebpage" EntityType="Self.tblWebpage" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblWebpage].[page_id] AS [page_id], 
+    [tblWebpage].[page_url] AS [page_url], 
+    [tblWebpage].[Description] AS [Description], 
+    [tblWebpage].[rank] AS [rank], 
+    [tblWebpage].[pageheading] AS [pageheading], 
+    [tblWebpage].[action] AS [action], 
+    [tblWebpage].[active] AS [active], 
+    [tblWebpage].[pmenu] AS [pmenu], 
+    [tblWebpage].[actionNm] AS [actionNm], 
+    [tblWebpage].[ParentNm] AS [ParentNm], 
+    [tblWebpage].[created] AS [created], 
+    [tblWebpage].[modified] AS [modified], 
+    [tblWebpage].[userId] AS [userId]
+    FROM [dbo].[tblWebpage] AS [tblWebpage]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="subzicartModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblBrandPrefix">
+          <Key>
+            <PropertyRef Name="brand_id" />
+          </Key>
+          <Property Name="brand_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="brand_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="brand_prefix" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="sku_start_range" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="sku_end_range" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="insdt" Type="DateTime" Precision="3" />
+          <Property Name="active" Type="Int32" />
+          <Property Name="updDt" Type="DateTime" Precision="3" />
+          <Property Name="userId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblCategory">
+          <Key>
+            <PropertyRef Name="catId" />
+          </Key>
+          <Property Name="catId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="catName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="isActive" Type="Int32" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="insDt" Type="DateTime" Precision="3" />
+          <Property Name="updDt" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblCompetitorMaster">
+          <Key>
+            <PropertyRef Name="cmid" />
+          </Key>
+          <Property Name="cmid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="company_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="logo_url" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="website_url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="product_id" Type="Int32" />
+          <Property Name="price" Type="Double" />
+          <Property Name="price_currency" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="insDt" Type="DateTime" Precision="3" />
+          <Property Name="active" Type="Int32" />
+          <Property Name="updDt" Type="DateTime" Precision="3" />
+          <Property Name="userId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblCurrencyMaster">
+          <Key>
+            <PropertyRef Name="cid" />
+          </Key>
+          <Property Name="cid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="currency" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="rateInUSD" Type="Double" />
+          <Property Name="insDt" Type="DateTime" Precision="3" />
+          <Property Name="updDt" Type="DateTime" Precision="3" />
+          <Property Name="active" Type="Int32" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="value" Type="Double" />
+        </EntityType>
+        <EntityType Name="tblFullfillmentDetail">
+          <Key>
+            <PropertyRef Name="fid" />
+          </Key>
+          <Property Name="fid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="product_id" Type="Int32" />
+          <Property Name="product_wt" Type="Double" />
+          <Property Name="product_wt_unit" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="product_price" Type="Double" />
+          <Property Name="product_price_cr" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="sku_number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="vendor_id" Type="Int32" />
+          <Property Name="vendor_product_code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="insDt" Type="DateTime" Precision="3" />
+          <Property Name="active" Type="Int32" />
+          <Property Name="updDt" Type="DateTime" Precision="3" />
+          <Property Name="userId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblImageLog">
+          <Key>
+            <PropertyRef Name="image_id" />
+          </Key>
+          <Property Name="image_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_id" Type="Int32" />
+          <Property Name="image_name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="image_desc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="image_url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="image_binary" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="isthumb" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="sort_id" Type="Int32" />
+          <Property Name="insdt" Type="DateTime" Precision="3" />
+          <Property Name="active" Type="Int32" />
+          <Property Name="updDt" Type="DateTime" Precision="3" />
+          <Property Name="userId" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblMeasurementMaster">
+          <Key>
+            <PropertyRef Name="m_id" />
+          </Key>
+          <Property Name="m_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="unit_type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="unit_value" Type="Double" />
+          <Property Name="eq_unit_type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="eq_unit_value" Type="Double" />
+          <Property Name="insDt" Type="DateTime" Precision="3" />
+          <Property Name="active" Type="Int32" />
+          <Property Name="updDt" Type="DateTime" Precision="3" />
+          <Property Name="userId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblProductAvail">
+          <Key>
+            <PropertyRef Name="pa_id" />
+          </Key>
+          <Property Name="pa_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_id" Type="Int32" />
+          <Property Name="allow_purchase" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="is_visible" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="is_available" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="track_inventory" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="current_stock_level" Type="Int32" />
+          <Property Name="low_stock_level" Type="Int32" />
+          <Property Name="insdt" Type="DateTime" Precision="3" />
+          <Property Name="active" Type="Int32" />
+          <Property Name="updDt" Type="DateTime" Precision="3" />
+          <Property Name="userId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblProductGP">
+          <Key>
+            <PropertyRef Name="gps_id" />
+          </Key>
+          <Property Name="gps_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_id" Type="Int32" />
+          <Property Name="product_url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="redirect_old_url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="global_trade_item" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="manufacture_part_no" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="gps_gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="gps_age_group" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="gps_color" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="gps_size" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="gps_material" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="gps_pattern" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="gps_item_group_id" Type="Int32" />
+          <Property Name="gps_category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isActive" Type="Int32" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="insDt" Type="DateTime" Precision="3" />
+          <Property Name="updDt" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblProductMaster">
+          <Key>
+            <PropertyRef Name="productId" />
+          </Key>
+          <Property Name="productId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="catId" Type="Int32" />
+          <Property Name="subCatId" Type="Int32" />
+          <Property Name="brandId" Type="Int32" />
+          <Property Name="productName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="SKU" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="aboutProduct" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Int32" />
+          <Property Name="costPrice" Type="Int32" />
+          <Property Name="retailPrice" Type="Int32" />
+          <Property Name="salePrice" Type="Int32" />
+          <Property Name="fixedShippingCost" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="freeShipping" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="pWeight" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="pWidth" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="pHeight" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="pDepth" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="searchKeywords" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="pageTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="metaKeyword" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="metaDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="sortOrder" Type="Int32" />
+          <Property Name="isActive" Type="Int32" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="insDt" Type="DateTime" Precision="3" />
+          <Property Name="updDt" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblSubCategory">
+          <Key>
+            <PropertyRef Name="subCatId" />
+          </Key>
+          <Property Name="subCatId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="catId" Type="Int32" Nullable="false" />
+          <Property Name="subCatName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="isActive" Type="Int32" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="insDt" Type="DateTime" Precision="3" />
+          <Property Name="updDt" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblLogin">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="uname" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="pswd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="company_id" Type="Int32" />
+          <Property Name="userType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="empId" Type="Int32" />
+          <Property Name="lastlogin" Type="DateTime" Precision="3" />
+          <Property Name="ispwdchanged" Type="Boolean" />
+          <Property Name="ispwdchanged_dt" Type="DateTime" Precision="3" />
+          <Property Name="pageAccessRight" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="subMenuAccessRight" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="actionRight" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblPageMenu">
+          <Key>
+            <PropertyRef Name="menu_id" />
+          </Key>
+          <Property Name="menu_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="page_url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="rank" Type="Int32" />
+          <Property Name="pageheading" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="action" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="active" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="pmenu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="Int32" />
+          <Property Name="fa_icon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblPageSubMenu">
+          <Key>
+            <PropertyRef Name="submenu_id" />
+            <PropertyRef Name="menu_id" />
+          </Key>
+          <Property Name="submenu_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="page_url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="submenurank" Type="Int32" />
+          <Property Name="submenuheading" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="active" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="pmenu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="Int32" />
+          <Property Name="menu_id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblTransactionLog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="log_type_id" Type="Int32" />
+          <Property Name="log_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="previous_value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="updated_value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="insDt" Type="DateTime" Precision="3" />
+          <Property Name="updDt" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblWebpage">
+          <Key>
+            <PropertyRef Name="page_id" />
+          </Key>
+          <Property Name="page_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="page_url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="rank" Type="Int32" />
+          <Property Name="pageheading" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="action" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="active" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="pmenu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="actionNm" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ParentNm" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="created" Type="DateTime" Precision="3" />
+          <Property Name="modified" Type="DateTime" Precision="3" />
+          <Property Name="userId" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="subzicartEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblBrandPrefixes" EntityType="Self.tblBrandPrefix" />
+          <EntitySet Name="tblCategories" EntityType="Self.tblCategory" />
+          <EntitySet Name="tblCompetitorMasters" EntityType="Self.tblCompetitorMaster" />
+          <EntitySet Name="tblCurrencyMasters" EntityType="Self.tblCurrencyMaster" />
+          <EntitySet Name="tblFullfillmentDetails" EntityType="Self.tblFullfillmentDetail" />
+          <EntitySet Name="tblImageLogs" EntityType="Self.tblImageLog" />
+          <EntitySet Name="tblMeasurementMasters" EntityType="Self.tblMeasurementMaster" />
+          <EntitySet Name="tblProductAvails" EntityType="Self.tblProductAvail" />
+          <EntitySet Name="tblProductGPS" EntityType="Self.tblProductGP" />
+          <EntitySet Name="tblProductMasters" EntityType="Self.tblProductMaster" />
+          <EntitySet Name="tblSubCategories" EntityType="Self.tblSubCategory" />
+          <EntitySet Name="tblLogins" EntityType="Self.tblLogin" />
+          <EntitySet Name="tblPageMenus" EntityType="Self.tblPageMenu" />
+          <EntitySet Name="tblPageSubMenus" EntityType="Self.tblPageSubMenu" />
+          <EntitySet Name="tblTransactionLogs" EntityType="Self.tblTransactionLog" />
+          <EntitySet Name="tblWebpages" EntityType="Self.tblWebpage" />
+          <FunctionImport Name="sp_login" ReturnType="Collection(subzicartModel.sp_login_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="pswd" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_tblBrandPrefixes_Operations" ReturnType="Collection(subzicartModel.sp_tblBrandPrefixes_Operations_Result)">
+            <Parameter Name="brand_id" Mode="In" Type="Int64" />
+            <Parameter Name="brand_name" Mode="In" Type="String" />
+            <Parameter Name="brand_prefix" Mode="In" Type="String" />
+            <Parameter Name="sku_start_range" Mode="In" Type="String" />
+            <Parameter Name="sku_end_range" Mode="In" Type="String" />
+            <Parameter Name="active" Mode="In" Type="Int32" />
+            <Parameter Name="updDt" Mode="In" Type="DateTime" />
+            <Parameter Name="action" Mode="In" Type="Int32" />
+            <Parameter Name="userID" Mode="In" Type="Int32" />
+            <Parameter Name="remark" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_tblBrandPrefixes" ReturnType="Collection(subzicartModel.sp_tblBrandPrefixes_Result)">
+            <Parameter Name="brand_id" Mode="In" Type="Int64" />
+            <Parameter Name="brand_name" Mode="In" Type="String" />
+            <Parameter Name="brand_prefix" Mode="In" Type="String" />
+            <Parameter Name="sku_start_range" Mode="In" Type="String" />
+            <Parameter Name="sku_end_range" Mode="In" Type="String" />
+            <Parameter Name="active" Mode="In" Type="Int32" />
+            <Parameter Name="updDt" Mode="In" Type="DateTime" />
+            <Parameter Name="action" Mode="In" Type="Int32" />
+            <Parameter Name="userID" Mode="In" Type="Int32" />
+            <Parameter Name="remark" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_tblCategory" ReturnType="Collection(subzicartModel.sp_tblCategory_Result)">
+            <Parameter Name="catId" Mode="In" Type="Int32" />
+            <Parameter Name="catName" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="isActive" Mode="In" Type="Int32" />
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+            <Parameter Name="insDt" Mode="In" Type="DateTime" />
+            <Parameter Name="updDt" Mode="In" Type="DateTime" />
+            <Parameter Name="action" Mode="In" Type="Int32" />
+            <Parameter Name="remark" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_tblCurrencymaster" ReturnType="Collection(subzicartModel.sp_tblCurrencymaster_Result)">
+            <Parameter Name="cid" Mode="In" Type="Int64" />
+            <Parameter Name="currency" Mode="In" Type="String" />
+            <Parameter Name="value" Mode="In" Type="Double" />
+            <Parameter Name="rateInUSD" Mode="In" Type="Double" />
+            <Parameter Name="insDt" Mode="In" Type="DateTime" />
+            <Parameter Name="updDt" Mode="In" Type="DateTime" />
+            <Parameter Name="active" Mode="In" Type="Int32" />
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+            <Parameter Name="action" Mode="In" Type="Int32" />
+            <Parameter Name="remark" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_tblSubSubCategory">
+            <Parameter Name="subCatId" Mode="In" Type="Int32" />
+            <Parameter Name="CatId" Mode="In" Type="Int32" />
+            <Parameter Name="subcatName" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="isActive" Mode="In" Type="Int32" />
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+            <Parameter Name="insDt" Mode="In" Type="DateTime" />
+            <Parameter Name="updDt" Mode="In" Type="DateTime" />
+            <Parameter Name="action" Mode="In" Type="Int32" />
+            <Parameter Name="remark" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_tblMeasurementMaster" ReturnType="Collection(subzicartModel.sp_tblMeasurementMaster_Result)">
+            <Parameter Name="m_id" Mode="In" Type="Int32" />
+            <Parameter Name="unit_type" Mode="In" Type="String" />
+            <Parameter Name="unit_value" Mode="In" Type="Double" />
+            <Parameter Name="eq_unit_type" Mode="In" Type="String" />
+            <Parameter Name="eq_unit_value" Mode="In" Type="Double" />
+            <Parameter Name="active" Mode="In" Type="Int32" />
+            <Parameter Name="updDt" Mode="In" Type="DateTime" />
+            <Parameter Name="action" Mode="In" Type="Int32" />
+            <Parameter Name="userID" Mode="In" Type="Int32" />
+            <Parameter Name="remark" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_tblProductMaster" ReturnType="Collection(subzicartModel.sp_tblProductMaster_Result)">
+            <Parameter Name="productId" Mode="In" Type="Int32" />
+            <Parameter Name="catId" Mode="In" Type="Int32" />
+            <Parameter Name="subCatId" Mode="In" Type="Int32" />
+            <Parameter Name="brandId" Mode="In" Type="Int32" />
+            <Parameter Name="productName" Mode="In" Type="String" />
+            <Parameter Name="SKU" Mode="In" Type="String" />
+            <Parameter Name="aboutProduct" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="price" Mode="In" Type="Int32" />
+            <Parameter Name="costPrice" Mode="In" Type="Int32" />
+            <Parameter Name="retailPrice" Mode="In" Type="Int32" />
+            <Parameter Name="salePrice" Mode="In" Type="Int32" />
+            <Parameter Name="action" Mode="In" Type="Int32" />
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+            <Parameter Name="remark" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_tblSubCategory" ReturnType="Collection(subzicartModel.sp_tblSubCategory_Result)">
+            <Parameter Name="subCatId" Mode="In" Type="Int32" />
+            <Parameter Name="CatId" Mode="In" Type="Int32" />
+            <Parameter Name="subcatName" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="isActive" Mode="In" Type="Int32" />
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+            <Parameter Name="insDt" Mode="In" Type="DateTime" />
+            <Parameter Name="updDt" Mode="In" Type="DateTime" />
+            <Parameter Name="action" Mode="In" Type="Int32" />
+            <Parameter Name="remark" Mode="InOut" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_login_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="uname" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="pswd" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="company_id" Nullable="true" />
+          <Property Type="String" Name="userType" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="empId" Nullable="true" />
+          <Property Type="DateTime" Name="lastlogin" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="ispwdchanged" Nullable="true" />
+          <Property Type="DateTime" Name="ispwdchanged_dt" Nullable="true" Precision="23" />
+          <Property Type="String" Name="pageAccessRight" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="subMenuAccessRight" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="actionRight" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="sp_tblBrandPrefixes_Operations_Result">
+          <Property Type="Int64" Name="brand_id" Nullable="false" />
+          <Property Type="String" Name="brand_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="brand_prefix" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="sku_start_range" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="sku_end_range" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="insdt" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="active" Nullable="true" />
+          <Property Type="DateTime" Name="updDt" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="userId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_tblBrandPrefixes_Result">
+          <Property Type="Int64" Name="brand_id" Nullable="false" />
+          <Property Type="String" Name="brand_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="brand_prefix" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="sku_start_range" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="sku_end_range" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="insdt" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="active" Nullable="true" />
+          <Property Type="DateTime" Name="updDt" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="userId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_tblCategory_Result">
+          <Property Type="Int32" Name="catId" Nullable="false" />
+          <Property Type="String" Name="catName" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="description" Nullable="true" MaxLength="600" />
+          <Property Type="Int32" Name="isActive" Nullable="true" />
+          <Property Type="Int32" Name="userId" Nullable="true" />
+          <Property Type="DateTime" Name="insDt" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="updDt" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_tblCurrencymaster_Result">
+          <Property Type="Int64" Name="cid" Nullable="false" />
+          <Property Type="String" Name="currency" Nullable="true" MaxLength="10" />
+          <Property Type="Double" Name="value" Nullable="true" />
+          <Property Type="Double" Name="rateInUSD" Nullable="true" />
+          <Property Type="DateTime" Name="insDt" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="updDt" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="active" Nullable="true" />
+          <Property Type="Int32" Name="userId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_tblMeasurementMaster_Result">
+          <Property Type="Int32" Name="m_id" Nullable="false" />
+          <Property Type="String" Name="unit_type" Nullable="true" MaxLength="10" />
+          <Property Type="Double" Name="unit_value" Nullable="true" />
+          <Property Type="String" Name="eq_unit_type" Nullable="true" MaxLength="10" />
+          <Property Type="Double" Name="eq_unit_value" Nullable="true" />
+          <Property Type="DateTime" Name="insDt" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="active" Nullable="true" />
+          <Property Type="DateTime" Name="updDt" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="userId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_tblProductMaster_Result">
+          <Property Type="Int32" Name="productId" Nullable="false" />
+          <Property Type="Int32" Name="catId" Nullable="true" />
+          <Property Type="Int32" Name="subCatId" Nullable="true" />
+          <Property Type="Int32" Name="brandId" Nullable="true" />
+          <Property Type="String" Name="productName" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="SKU" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="aboutProduct" Nullable="true" MaxLength="600" />
+          <Property Type="String" Name="description" Nullable="true" MaxLength="600" />
+          <Property Type="Int32" Name="price" Nullable="true" />
+          <Property Type="Int32" Name="costPrice" Nullable="true" />
+          <Property Type="Int32" Name="retailPrice" Nullable="true" />
+          <Property Type="Int32" Name="salePrice" Nullable="true" />
+          <Property Type="String" Name="fixedShippingCost" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="freeShipping" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="pWeight" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="pWidth" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="pHeight" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="pDepth" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="searchKeywords" Nullable="true" MaxLength="600" />
+          <Property Type="String" Name="pageTitle" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="metaKeyword" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="metaDescription" Nullable="true" />
+          <Property Type="Int32" Name="sortOrder" Nullable="true" />
+          <Property Type="Int32" Name="isActive" Nullable="true" />
+          <Property Type="Int32" Name="userId" Nullable="true" />
+          <Property Type="DateTime" Name="insDt" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="updDt" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_tblSubCategory_Result">
+          <Property Type="Int32" Name="subCatId" Nullable="false" />
+          <Property Type="Int32" Name="catId" Nullable="false" />
+          <Property Type="String" Name="subCatName" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="description" Nullable="true" MaxLength="600" />
+          <Property Type="Int32" Name="isActive" Nullable="true" />
+          <Property Type="Int32" Name="userId" Nullable="true" />
+          <Property Type="DateTime" Name="insDt" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="updDt" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="catId1" Nullable="false" />
+          <Property Type="String" Name="catName" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="description1" Nullable="true" MaxLength="600" />
+          <Property Type="Int32" Name="isActive1" Nullable="true" />
+          <Property Type="Int32" Name="userId1" Nullable="true" />
+          <Property Type="DateTime" Name="insDt1" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="updDt1" Nullable="true" Precision="23" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="subzicartModelStoreContainer" CdmEntityContainer="subzicartEntities">
+          <EntitySetMapping Name="tblBrandPrefixes">
+            <EntityTypeMapping TypeName="subzicartModel.tblBrandPrefix">
+              <MappingFragment StoreEntitySet="tblBrandPrefixes">
+                <ScalarProperty Name="brand_id" ColumnName="brand_id" />
+                <ScalarProperty Name="brand_name" ColumnName="brand_name" />
+                <ScalarProperty Name="brand_prefix" ColumnName="brand_prefix" />
+                <ScalarProperty Name="sku_start_range" ColumnName="sku_start_range" />
+                <ScalarProperty Name="sku_end_range" ColumnName="sku_end_range" />
+                <ScalarProperty Name="insdt" ColumnName="insdt" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCategories">
+            <EntityTypeMapping TypeName="subzicartModel.tblCategory">
+              <MappingFragment StoreEntitySet="tblCategory">
+                <ScalarProperty Name="catId" ColumnName="catId" />
+                <ScalarProperty Name="catName" ColumnName="catName" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCompetitorMasters">
+            <EntityTypeMapping TypeName="subzicartModel.tblCompetitorMaster">
+              <MappingFragment StoreEntitySet="tblCompetitorMaster">
+                <ScalarProperty Name="cmid" ColumnName="cmid" />
+                <ScalarProperty Name="company_name" ColumnName="company_name" />
+                <ScalarProperty Name="logo_url" ColumnName="logo_url" />
+                <ScalarProperty Name="website_url" ColumnName="website_url" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="price_currency" ColumnName="price_currency" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCurrencyMasters">
+            <EntityTypeMapping TypeName="subzicartModel.tblCurrencyMaster">
+              <MappingFragment StoreEntitySet="tblCurrencyMaster">
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="cid" ColumnName="cid" />
+                <ScalarProperty Name="currency" ColumnName="currency" />
+                <ScalarProperty Name="rateInUSD" ColumnName="rateInUSD" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblFullfillmentDetails">
+            <EntityTypeMapping TypeName="subzicartModel.tblFullfillmentDetail">
+              <MappingFragment StoreEntitySet="tblFullfillmentDetail">
+                <ScalarProperty Name="fid" ColumnName="fid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="product_wt" ColumnName="product_wt" />
+                <ScalarProperty Name="product_wt_unit" ColumnName="product_wt_unit" />
+                <ScalarProperty Name="product_price" ColumnName="product_price" />
+                <ScalarProperty Name="product_price_cr" ColumnName="product_price_cr" />
+                <ScalarProperty Name="sku_number" ColumnName="sku_number" />
+                <ScalarProperty Name="vendor_id" ColumnName="vendor_id" />
+                <ScalarProperty Name="vendor_product_code" ColumnName="vendor_product_code" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblImageLogs">
+            <EntityTypeMapping TypeName="subzicartModel.tblImageLog">
+              <MappingFragment StoreEntitySet="tblImageLog">
+                <ScalarProperty Name="image_id" ColumnName="image_id" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="image_name" ColumnName="image_name" />
+                <ScalarProperty Name="image_desc" ColumnName="image_desc" />
+                <ScalarProperty Name="image_url" ColumnName="image_url" />
+                <ScalarProperty Name="image_binary" ColumnName="image_binary" />
+                <ScalarProperty Name="isthumb" ColumnName="isthumb" />
+                <ScalarProperty Name="sort_id" ColumnName="sort_id" />
+                <ScalarProperty Name="insdt" ColumnName="insdt" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblMeasurementMasters">
+            <EntityTypeMapping TypeName="subzicartModel.tblMeasurementMaster">
+              <MappingFragment StoreEntitySet="tblMeasurementMaster">
+                <ScalarProperty Name="m_id" ColumnName="m_id" />
+                <ScalarProperty Name="unit_type" ColumnName="unit_type" />
+                <ScalarProperty Name="unit_value" ColumnName="unit_value" />
+                <ScalarProperty Name="eq_unit_type" ColumnName="eq_unit_type" />
+                <ScalarProperty Name="eq_unit_value" ColumnName="eq_unit_value" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProductAvails">
+            <EntityTypeMapping TypeName="subzicartModel.tblProductAvail">
+              <MappingFragment StoreEntitySet="tblProductAvail">
+                <ScalarProperty Name="pa_id" ColumnName="pa_id" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="allow_purchase" ColumnName="allow_purchase" />
+                <ScalarProperty Name="is_visible" ColumnName="is_visible" />
+                <ScalarProperty Name="is_available" ColumnName="is_available" />
+                <ScalarProperty Name="track_inventory" ColumnName="track_inventory" />
+                <ScalarProperty Name="current_stock_level" ColumnName="current_stock_level" />
+                <ScalarProperty Name="low_stock_level" ColumnName="low_stock_level" />
+                <ScalarProperty Name="insdt" ColumnName="insdt" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProductGPS">
+            <EntityTypeMapping TypeName="subzicartModel.tblProductGP">
+              <MappingFragment StoreEntitySet="tblProductGPS">
+                <ScalarProperty Name="gps_id" ColumnName="gps_id" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="product_url" ColumnName="product_url" />
+                <ScalarProperty Name="redirect_old_url" ColumnName="redirect_old_url" />
+                <ScalarProperty Name="global_trade_item" ColumnName="global_trade_item" />
+                <ScalarProperty Name="manufacture_part_no" ColumnName="manufacture_part_no" />
+                <ScalarProperty Name="gps_gender" ColumnName="gps_gender" />
+                <ScalarProperty Name="gps_age_group" ColumnName="gps_age_group" />
+                <ScalarProperty Name="gps_color" ColumnName="gps_color" />
+                <ScalarProperty Name="gps_size" ColumnName="gps_size" />
+                <ScalarProperty Name="gps_material" ColumnName="gps_material" />
+                <ScalarProperty Name="gps_pattern" ColumnName="gps_pattern" />
+                <ScalarProperty Name="gps_item_group_id" ColumnName="gps_item_group_id" />
+                <ScalarProperty Name="gps_category" ColumnName="gps_category" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProductMasters">
+            <EntityTypeMapping TypeName="subzicartModel.tblProductMaster">
+              <MappingFragment StoreEntitySet="tblProductMaster">
+                <ScalarProperty Name="productId" ColumnName="productId" />
+                <ScalarProperty Name="catId" ColumnName="catId" />
+                <ScalarProperty Name="subCatId" ColumnName="subCatId" />
+                <ScalarProperty Name="brandId" ColumnName="brandId" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="SKU" ColumnName="SKU" />
+                <ScalarProperty Name="aboutProduct" ColumnName="aboutProduct" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="costPrice" ColumnName="costPrice" />
+                <ScalarProperty Name="retailPrice" ColumnName="retailPrice" />
+                <ScalarProperty Name="salePrice" ColumnName="salePrice" />
+                <ScalarProperty Name="fixedShippingCost" ColumnName="fixedShippingCost" />
+                <ScalarProperty Name="freeShipping" ColumnName="freeShipping" />
+                <ScalarProperty Name="pWeight" ColumnName="pWeight" />
+                <ScalarProperty Name="pWidth" ColumnName="pWidth" />
+                <ScalarProperty Name="pHeight" ColumnName="pHeight" />
+                <ScalarProperty Name="pDepth" ColumnName="pDepth" />
+                <ScalarProperty Name="searchKeywords" ColumnName="searchKeywords" />
+                <ScalarProperty Name="pageTitle" ColumnName="pageTitle" />
+                <ScalarProperty Name="metaKeyword" ColumnName="metaKeyword" />
+                <ScalarProperty Name="metaDescription" ColumnName="metaDescription" />
+                <ScalarProperty Name="sortOrder" ColumnName="sortOrder" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSubCategories">
+            <EntityTypeMapping TypeName="subzicartModel.tblSubCategory">
+              <MappingFragment StoreEntitySet="tblSubCategory">
+                <ScalarProperty Name="subCatId" ColumnName="subCatId" />
+                <ScalarProperty Name="catId" ColumnName="catId" />
+                <ScalarProperty Name="subCatName" ColumnName="subCatName" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblLogins">
+            <EntityTypeMapping TypeName="subzicartModel.tblLogin">
+              <MappingFragment StoreEntitySet="tblLogin">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="uname" ColumnName="uname" />
+                <ScalarProperty Name="pswd" ColumnName="pswd" />
+                <ScalarProperty Name="company_id" ColumnName="company_id" />
+                <ScalarProperty Name="userType" ColumnName="userType" />
+                <ScalarProperty Name="empId" ColumnName="empId" />
+                <ScalarProperty Name="lastlogin" ColumnName="lastlogin" />
+                <ScalarProperty Name="ispwdchanged" ColumnName="ispwdchanged" />
+                <ScalarProperty Name="ispwdchanged_dt" ColumnName="ispwdchanged_dt" />
+                <ScalarProperty Name="pageAccessRight" ColumnName="pageAccessRight" />
+                <ScalarProperty Name="subMenuAccessRight" ColumnName="subMenuAccessRight" />
+                <ScalarProperty Name="actionRight" ColumnName="actionRight" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPageMenus">
+            <EntityTypeMapping TypeName="subzicartModel.tblPageMenu">
+              <MappingFragment StoreEntitySet="tblPageMenu">
+                <ScalarProperty Name="menu_id" ColumnName="menu_id" />
+                <ScalarProperty Name="page_url" ColumnName="page_url" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="rank" ColumnName="rank" />
+                <ScalarProperty Name="pageheading" ColumnName="pageheading" />
+                <ScalarProperty Name="action" ColumnName="action" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="pmenu" ColumnName="pmenu" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="fa_icon" ColumnName="fa_icon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPageSubMenus">
+            <EntityTypeMapping TypeName="subzicartModel.tblPageSubMenu">
+              <MappingFragment StoreEntitySet="tblPageSubMenu">
+                <ScalarProperty Name="submenu_id" ColumnName="submenu_id" />
+                <ScalarProperty Name="page_url" ColumnName="page_url" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="submenurank" ColumnName="submenurank" />
+                <ScalarProperty Name="submenuheading" ColumnName="submenuheading" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="pmenu" ColumnName="pmenu" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="menu_id" ColumnName="menu_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTransactionLogs">
+            <EntityTypeMapping TypeName="subzicartModel.tblTransactionLog">
+              <MappingFragment StoreEntitySet="tblTransactionLog">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="log_type_id" ColumnName="log_type_id" />
+                <ScalarProperty Name="log_type" ColumnName="log_type" />
+                <ScalarProperty Name="previous_value" ColumnName="previous_value" />
+                <ScalarProperty Name="updated_value" ColumnName="updated_value" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblWebpages">
+            <EntityTypeMapping TypeName="subzicartModel.tblWebpage">
+              <MappingFragment StoreEntitySet="tblWebpage">
+                <ScalarProperty Name="page_id" ColumnName="page_id" />
+                <ScalarProperty Name="page_url" ColumnName="page_url" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="rank" ColumnName="rank" />
+                <ScalarProperty Name="pageheading" ColumnName="pageheading" />
+                <ScalarProperty Name="action" ColumnName="action" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="pmenu" ColumnName="pmenu" />
+                <ScalarProperty Name="actionNm" ColumnName="actionNm" />
+                <ScalarProperty Name="ParentNm" ColumnName="ParentNm" />
+                <ScalarProperty Name="created" ColumnName="created" />
+                <ScalarProperty Name="modified" ColumnName="modified" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_login" FunctionName="subzicartModel.Store.sp_login">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="subzicartModel.sp_login_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="uname" ColumnName="uname" />
+                <ScalarProperty Name="pswd" ColumnName="pswd" />
+                <ScalarProperty Name="company_id" ColumnName="company_id" />
+                <ScalarProperty Name="userType" ColumnName="userType" />
+                <ScalarProperty Name="empId" ColumnName="empId" />
+                <ScalarProperty Name="lastlogin" ColumnName="lastlogin" />
+                <ScalarProperty Name="ispwdchanged" ColumnName="ispwdchanged" />
+                <ScalarProperty Name="ispwdchanged_dt" ColumnName="ispwdchanged_dt" />
+                <ScalarProperty Name="pageAccessRight" ColumnName="pageAccessRight" />
+                <ScalarProperty Name="subMenuAccessRight" ColumnName="subMenuAccessRight" />
+                <ScalarProperty Name="actionRight" ColumnName="actionRight" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_tblBrandPrefixes" FunctionName="subzicartModel.Store.sp_tblBrandPrefixes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="subzicartModel.sp_tblBrandPrefixes_Result">
+                <ScalarProperty Name="brand_id" ColumnName="brand_id" />
+                <ScalarProperty Name="brand_name" ColumnName="brand_name" />
+                <ScalarProperty Name="brand_prefix" ColumnName="brand_prefix" />
+                <ScalarProperty Name="sku_start_range" ColumnName="sku_start_range" />
+                <ScalarProperty Name="sku_end_range" ColumnName="sku_end_range" />
+                <ScalarProperty Name="insdt" ColumnName="insdt" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_tblCategory" FunctionName="subzicartModel.Store.sp_tblCategory">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="subzicartModel.sp_tblCategory_Result">
+                <ScalarProperty Name="catId" ColumnName="catId" />
+                <ScalarProperty Name="catName" ColumnName="catName" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_tblCurrencymaster" FunctionName="subzicartModel.Store.sp_tblCurrencymaster">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="subzicartModel.sp_tblCurrencymaster_Result">
+                <ScalarProperty Name="cid" ColumnName="cid" />
+                <ScalarProperty Name="currency" ColumnName="currency" />
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="rateInUSD" ColumnName="rateInUSD" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_tblMeasurementMaster" FunctionName="subzicartModel.Store.sp_tblMeasurementMaster">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="subzicartModel.sp_tblMeasurementMaster_Result">
+                <ScalarProperty Name="m_id" ColumnName="m_id" />
+                <ScalarProperty Name="unit_type" ColumnName="unit_type" />
+                <ScalarProperty Name="unit_value" ColumnName="unit_value" />
+                <ScalarProperty Name="eq_unit_type" ColumnName="eq_unit_type" />
+                <ScalarProperty Name="eq_unit_value" ColumnName="eq_unit_value" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_tblProductMaster" FunctionName="subzicartModel.Store.sp_tblProductMaster">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="subzicartModel.sp_tblProductMaster_Result">
+                <ScalarProperty Name="productId" ColumnName="productId" />
+                <ScalarProperty Name="catId" ColumnName="catId" />
+                <ScalarProperty Name="subCatId" ColumnName="subCatId" />
+                <ScalarProperty Name="brandId" ColumnName="brandId" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="SKU" ColumnName="SKU" />
+                <ScalarProperty Name="aboutProduct" ColumnName="aboutProduct" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="costPrice" ColumnName="costPrice" />
+                <ScalarProperty Name="retailPrice" ColumnName="retailPrice" />
+                <ScalarProperty Name="salePrice" ColumnName="salePrice" />
+                <ScalarProperty Name="fixedShippingCost" ColumnName="fixedShippingCost" />
+                <ScalarProperty Name="freeShipping" ColumnName="freeShipping" />
+                <ScalarProperty Name="pWeight" ColumnName="pWeight" />
+                <ScalarProperty Name="pWidth" ColumnName="pWidth" />
+                <ScalarProperty Name="pHeight" ColumnName="pHeight" />
+                <ScalarProperty Name="pDepth" ColumnName="pDepth" />
+                <ScalarProperty Name="searchKeywords" ColumnName="searchKeywords" />
+                <ScalarProperty Name="pageTitle" ColumnName="pageTitle" />
+                <ScalarProperty Name="metaKeyword" ColumnName="metaKeyword" />
+                <ScalarProperty Name="metaDescription" ColumnName="metaDescription" />
+                <ScalarProperty Name="sortOrder" ColumnName="sortOrder" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_tblSubCategory" FunctionName="subzicartModel.Store.sp_tblSubCategory">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="subzicartModel.sp_tblSubCategory_Result">
+                <ScalarProperty Name="subCatId" ColumnName="subCatId" />
+                <ScalarProperty Name="catId" ColumnName="catId" />
+                <ScalarProperty Name="subCatName" ColumnName="subCatName" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+                <ScalarProperty Name="catId1" ColumnName="catId1" />
+                <ScalarProperty Name="catName" ColumnName="catName" />
+                <ScalarProperty Name="description1" ColumnName="description1" />
+                <ScalarProperty Name="isActive1" ColumnName="isActive1" />
+                <ScalarProperty Name="userId1" ColumnName="userId1" />
+                <ScalarProperty Name="insDt1" ColumnName="insDt1" />
+                <ScalarProperty Name="updDt1" ColumnName="updDt1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

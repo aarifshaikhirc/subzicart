@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>SubziCart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- Custom Theme files -->
+    <link href="~/css/login-style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/css/font-awesome.css" rel="stylesheet"> <!-- Font-Awesome-Icons-CSS -->
+    <!-- //Custom Theme files -->
+</head>
+<body>
+    <div class="main">
+        <img src="~/images/logo.png" />
+        <div class="main-w3lsrow">
+            <!-- login form -->
+            <div class="login-form login-form-left">
+                <div class="agile-row">
+                    
+                    <h2>Administrator Login</h2>
+                    <span class="fa fa-lock"></span>
+                    <div class="clear"></div>
+                    <div class="login-agileits-top">
+                        @RenderBody()
+                        
+                    </div>
+                    <div class="login-agileits-bottom" style="display:none">
+                        <h6><a href="#">Forgot password?</a></h6>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="login-agileits-bottom1" style="display:none">
+            <h3>or login with</h3>
+        </div>
+        <div class="social_icons agileinfo" style="display:none">
+            <ul class="top-links">
+                <li><a href="#" class="facebook"><i class="fa fa-facebook"></i>facebook</a></li>
+                <li><a href="#" class="twitter"><i class="fa fa-twitter"></i>twitter</a></li>
+                <li><a href="#" class="linkedin"><i class="fa fa-linkedin"></i>linkedin</a></li>
+            </ul>
+        </div>
+
+        <!-- copyright -->
+        <div class="copyright" style="display:none">
+            <p> © 2020 SubziCart Login Form. All rights reserved </p>
+        </div>
+        <!-- //copyright -->
+    </div>
+    <!-- //main -->
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
