@@ -31,6 +31,19 @@
           <Property Name="insDt" Type="datetime" />
           <Property Name="updDt" Type="datetime" />
         </EntityType>
+        <EntityType Name="tblCategoryMaster">
+          <Key>
+            <PropertyRef Name="cat_id" />
+          </Key>
+          <Property Name="cat_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cat_name" Type="nvarchar" MaxLength="80" />
+          <Property Name="description" Type="nvarchar" MaxLength="600" />
+          <Property Name="p_cat_id" Type="int" />
+          <Property Name="isActive" Type="int" />
+          <Property Name="userid" Type="int" />
+          <Property Name="insDt" Type="datetime" />
+          <Property Name="updDt" Type="datetime" />
+        </EntityType>
         <EntityType Name="tblCompetitorMaster">
           <Key>
             <PropertyRef Name="cmid" />
@@ -211,6 +224,41 @@ warning 6002: The table/view 'subzicart.dbo.tblPageSubMenu' does not have a prim
           </Key>
           <Property Name="productId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="catId" Type="int" />
+          <Property Name="subCatId" Type="nvarchar" MaxLength="80" />
+          <Property Name="subCatName" Type="nvarchar" MaxLength="180" />
+          <Property Name="brandId" Type="int" />
+          <Property Name="productName" Type="nvarchar" MaxLength="80" />
+          <Property Name="SKU" Type="nvarchar" MaxLength="50" />
+          <Property Name="aboutProduct" Type="nvarchar" MaxLength="600" />
+          <Property Name="description" Type="nvarchar" MaxLength="600" />
+          <Property Name="price" Type="int" />
+          <Property Name="costPrice" Type="int" />
+          <Property Name="retailPrice" Type="int" />
+          <Property Name="salePrice" Type="int" />
+          <Property Name="fixedShippingCost" Type="nvarchar" MaxLength="10" />
+          <Property Name="freeShipping" Type="nvarchar" MaxLength="10" />
+          <Property Name="pWeight" Type="nvarchar" MaxLength="10" />
+          <Property Name="pWidth" Type="nvarchar" MaxLength="10" />
+          <Property Name="pHeight" Type="nvarchar" MaxLength="10" />
+          <Property Name="pDepth" Type="nvarchar" MaxLength="10" />
+          <Property Name="searchKeywords" Type="nvarchar" MaxLength="600" />
+          <Property Name="pageTitle" Type="nvarchar" MaxLength="100" />
+          <Property Name="metaKeyword" Type="nvarchar" MaxLength="200" />
+          <Property Name="metaDescription" Type="nvarchar(max)" />
+          <Property Name="sortOrder" Type="int" />
+          <Property Name="isActive" Type="int" />
+          <Property Name="userId" Type="int" />
+          <Property Name="insDt" Type="datetime" />
+          <Property Name="updDt" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'subzicart.dbo.tblProductMaster_13082020' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblProductMaster_13082020">
+          <Key>
+            <PropertyRef Name="productId" />
+          </Key>
+          <Property Name="productId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="catId" Type="int" />
           <Property Name="subCatId" Type="int" />
           <Property Name="brandId" Type="int" />
           <Property Name="productName" Type="nvarchar" MaxLength="80" />
@@ -300,6 +348,22 @@ warning 6002: The table/view 'subzicart.dbo.tblWebpage' does not have a primary 
           <Parameter Name="username" Type="nvarchar" Mode="In" />
           <Parameter Name="pswd" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="sp_operations" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="productId" Type="int" Mode="In" />
+          <Parameter Name="catId" Type="int" Mode="In" />
+          <Parameter Name="subCatId" Type="int" Mode="In" />
+          <Parameter Name="brandId" Type="int" Mode="In" />
+          <Parameter Name="productName" Type="nvarchar" Mode="In" />
+          <Parameter Name="SKU" Type="nvarchar" Mode="In" />
+          <Parameter Name="aboutProduct" Type="nvarchar" Mode="In" />
+          <Parameter Name="description" Type="nvarchar" Mode="In" />
+          <Parameter Name="price" Type="int" Mode="In" />
+          <Parameter Name="costPrice" Type="int" Mode="In" />
+          <Parameter Name="retailPrice" Type="int" Mode="In" />
+          <Parameter Name="salePrice" Type="int" Mode="In" />
+          <Parameter Name="action" Type="int" Mode="In" />
+          <Parameter Name="userId" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_tblBrandPrefixes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="brand_id" Type="bigint" Mode="In" />
           <Parameter Name="brand_name" Type="nvarchar" Mode="In" />
@@ -310,7 +374,7 @@ warning 6002: The table/view 'subzicart.dbo.tblWebpage' does not have a primary 
           <Parameter Name="updDt" Type="datetime" Mode="In" />
           <Parameter Name="action" Type="int" Mode="In" />
           <Parameter Name="userID" Type="int" Mode="In" />
-          <Parameter Name="remark" Type="varchar" Mode="InOut" />
+          <Parameter Name="remark" Type="nvarchar" Mode="InOut" />
         </Function>
         <Function Name="sp_tblCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="catId" Type="int" Mode="In" />
@@ -321,7 +385,19 @@ warning 6002: The table/view 'subzicart.dbo.tblWebpage' does not have a primary 
           <Parameter Name="insDt" Type="datetime" Mode="In" />
           <Parameter Name="updDt" Type="datetime" Mode="In" />
           <Parameter Name="action" Type="int" Mode="In" />
-          <Parameter Name="remark" Type="varchar" Mode="InOut" />
+          <Parameter Name="remark" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="sp_tblCategoryMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cat_id" Type="int" Mode="In" />
+          <Parameter Name="cat_name" Type="nvarchar" Mode="In" />
+          <Parameter Name="description" Type="nvarchar" Mode="In" />
+          <Parameter Name="p_cat_id" Type="int" Mode="In" />
+          <Parameter Name="isActive" Type="int" Mode="In" />
+          <Parameter Name="userid" Type="int" Mode="In" />
+          <Parameter Name="insDt" Type="datetime" Mode="In" />
+          <Parameter Name="updDt" Type="datetime" Mode="In" />
+          <Parameter Name="action" Type="int" Mode="In" />
+          <Parameter Name="remark" Type="nvarchar" Mode="InOut" />
         </Function>
         <Function Name="sp_tblCurrencymaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="cid" Type="bigint" Mode="In" />
@@ -333,7 +409,7 @@ warning 6002: The table/view 'subzicart.dbo.tblWebpage' does not have a primary 
           <Parameter Name="active" Type="int" Mode="In" />
           <Parameter Name="userId" Type="int" Mode="In" />
           <Parameter Name="action" Type="int" Mode="In" />
-          <Parameter Name="remark" Type="varchar" Mode="InOut" />
+          <Parameter Name="remark" Type="nvarchar" Mode="InOut" />
         </Function>
         <Function Name="sp_tblMeasurementMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="m_id" Type="int" Mode="In" />
@@ -345,12 +421,13 @@ warning 6002: The table/view 'subzicart.dbo.tblWebpage' does not have a primary 
           <Parameter Name="updDt" Type="datetime" Mode="In" />
           <Parameter Name="action" Type="int" Mode="In" />
           <Parameter Name="userID" Type="int" Mode="In" />
-          <Parameter Name="remark" Type="varchar" Mode="InOut" />
+          <Parameter Name="remark" Type="nvarchar" Mode="InOut" />
         </Function>
         <Function Name="sp_tblProductMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="productId" Type="int" Mode="In" />
           <Parameter Name="catId" Type="int" Mode="In" />
-          <Parameter Name="subCatId" Type="int" Mode="In" />
+          <Parameter Name="subCatId" Type="nvarchar" Mode="In" />
+          <Parameter Name="subCatName" Type="nvarchar" Mode="In" />
           <Parameter Name="brandId" Type="int" Mode="In" />
           <Parameter Name="productName" Type="nvarchar" Mode="In" />
           <Parameter Name="SKU" Type="nvarchar" Mode="In" />
@@ -374,11 +451,12 @@ warning 6002: The table/view 'subzicart.dbo.tblWebpage' does not have a primary 
           <Parameter Name="insDt" Type="datetime" Mode="In" />
           <Parameter Name="updDt" Type="datetime" Mode="In" />
           <Parameter Name="action" Type="int" Mode="In" />
-          <Parameter Name="remark" Type="varchar" Mode="InOut" />
+          <Parameter Name="remark" Type="nvarchar" Mode="InOut" />
         </Function>
         <EntityContainer Name="subzicartModelStoreContainer">
           <EntitySet Name="tblBrandPrefixes" EntityType="Self.tblBrandPrefixes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCategory" EntityType="Self.tblCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCategoryMaster" EntityType="Self.tblCategoryMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCompetitorMaster" EntityType="Self.tblCompetitorMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCurrencyMaster" EntityType="Self.tblCurrencyMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFullfillmentDetail" EntityType="Self.tblFullfillmentDetail" Schema="dbo" store:Type="Tables" />
@@ -430,6 +508,37 @@ warning 6002: The table/view 'subzicart.dbo.tblWebpage' does not have a primary 
     [tblPageSubMenu].[type] AS [type], 
     [tblPageSubMenu].[menu_id] AS [menu_id]
     FROM [dbo].[tblPageSubMenu] AS [tblPageSubMenu]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblProductMaster_13082020" EntityType="Self.tblProductMaster_13082020" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblProductMaster_13082020].[productId] AS [productId], 
+    [tblProductMaster_13082020].[catId] AS [catId], 
+    [tblProductMaster_13082020].[subCatId] AS [subCatId], 
+    [tblProductMaster_13082020].[brandId] AS [brandId], 
+    [tblProductMaster_13082020].[productName] AS [productName], 
+    [tblProductMaster_13082020].[SKU] AS [SKU], 
+    [tblProductMaster_13082020].[aboutProduct] AS [aboutProduct], 
+    [tblProductMaster_13082020].[description] AS [description], 
+    [tblProductMaster_13082020].[price] AS [price], 
+    [tblProductMaster_13082020].[costPrice] AS [costPrice], 
+    [tblProductMaster_13082020].[retailPrice] AS [retailPrice], 
+    [tblProductMaster_13082020].[salePrice] AS [salePrice], 
+    [tblProductMaster_13082020].[fixedShippingCost] AS [fixedShippingCost], 
+    [tblProductMaster_13082020].[freeShipping] AS [freeShipping], 
+    [tblProductMaster_13082020].[pWeight] AS [pWeight], 
+    [tblProductMaster_13082020].[pWidth] AS [pWidth], 
+    [tblProductMaster_13082020].[pHeight] AS [pHeight], 
+    [tblProductMaster_13082020].[pDepth] AS [pDepth], 
+    [tblProductMaster_13082020].[searchKeywords] AS [searchKeywords], 
+    [tblProductMaster_13082020].[pageTitle] AS [pageTitle], 
+    [tblProductMaster_13082020].[metaKeyword] AS [metaKeyword], 
+    [tblProductMaster_13082020].[metaDescription] AS [metaDescription], 
+    [tblProductMaster_13082020].[sortOrder] AS [sortOrder], 
+    [tblProductMaster_13082020].[isActive] AS [isActive], 
+    [tblProductMaster_13082020].[userId] AS [userId], 
+    [tblProductMaster_13082020].[insDt] AS [insDt], 
+    [tblProductMaster_13082020].[updDt] AS [updDt]
+    FROM [dbo].[tblProductMaster_13082020] AS [tblProductMaster_13082020]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="tblTransactionLog" EntityType="Self.tblTransactionLog" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -642,6 +751,7 @@ warning 6002: The table/view 'subzicart.dbo.tblWebpage' does not have a primary 
           <Property Name="userId" Type="Int32" />
           <Property Name="insDt" Type="DateTime" Precision="3" />
           <Property Name="updDt" Type="DateTime" Precision="3" />
+          <Property Name="subCatName" Type="String" MaxLength="180" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tblSubCategory">
           <Key>
@@ -830,7 +940,8 @@ warning 6002: The table/view 'subzicart.dbo.tblWebpage' does not have a primary 
           <FunctionImport Name="sp_tblProductMaster" ReturnType="Collection(subzicartModel.sp_tblProductMaster_Result)">
             <Parameter Name="productId" Mode="In" Type="Int32" />
             <Parameter Name="catId" Mode="In" Type="Int32" />
-            <Parameter Name="subCatId" Mode="In" Type="Int32" />
+            <Parameter Name="subCatId" Mode="In" Type="String" />
+            <Parameter Name="subCatName" Mode="In" Type="String" />
             <Parameter Name="brandId" Mode="In" Type="Int32" />
             <Parameter Name="productName" Mode="In" Type="String" />
             <Parameter Name="SKU" Mode="In" Type="String" />
@@ -851,6 +962,36 @@ warning 6002: The table/view 'subzicart.dbo.tblWebpage' does not have a primary 
             <Parameter Name="description" Mode="In" Type="String" />
             <Parameter Name="isActive" Mode="In" Type="Int32" />
             <Parameter Name="userId" Mode="In" Type="Int32" />
+            <Parameter Name="insDt" Mode="In" Type="DateTime" />
+            <Parameter Name="updDt" Mode="In" Type="DateTime" />
+            <Parameter Name="action" Mode="In" Type="Int32" />
+            <Parameter Name="remark" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="tblCategoryMasters" EntityType="subzicartModel.tblCategoryMaster" />
+          <EntitySet Name="tblProductMaster_13082020" EntityType="subzicartModel.tblProductMaster_13082020" />
+          <FunctionImport Name="sp_operations" ReturnType="Collection(String)">
+            <Parameter Name="productId" Mode="In" Type="Int32" />
+            <Parameter Name="catId" Mode="In" Type="Int32" />
+            <Parameter Name="subCatId" Mode="In" Type="Int32" />
+            <Parameter Name="brandId" Mode="In" Type="Int32" />
+            <Parameter Name="productName" Mode="In" Type="String" />
+            <Parameter Name="SKU" Mode="In" Type="String" />
+            <Parameter Name="aboutProduct" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="price" Mode="In" Type="Int32" />
+            <Parameter Name="costPrice" Mode="In" Type="Int32" />
+            <Parameter Name="retailPrice" Mode="In" Type="Int32" />
+            <Parameter Name="salePrice" Mode="In" Type="Int32" />
+            <Parameter Name="action" Mode="In" Type="Int32" />
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_tblCategoryMaster" ReturnType="Collection(subzicartModel.sp_tblCategoryMaster_Result)">
+            <Parameter Name="cat_id" Mode="In" Type="Int32" />
+            <Parameter Name="cat_name" Mode="In" Type="String" />
+            <Parameter Name="description" Mode="In" Type="String" />
+            <Parameter Name="p_cat_id" Mode="In" Type="Int32" />
+            <Parameter Name="isActive" Mode="In" Type="Int32" />
+            <Parameter Name="userid" Mode="In" Type="Int32" />
             <Parameter Name="insDt" Mode="In" Type="DateTime" />
             <Parameter Name="updDt" Mode="In" Type="DateTime" />
             <Parameter Name="action" Mode="In" Type="Int32" />
@@ -968,6 +1109,61 @@ warning 6002: The table/view 'subzicart.dbo.tblWebpage' does not have a primary 
           <Property Type="Int32" Name="userId1" Nullable="true" />
           <Property Type="DateTime" Name="insDt1" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="updDt1" Nullable="true" Precision="23" />
+        </ComplexType>
+        <EntityType Name="tblCategoryMaster">
+          <Key>
+            <PropertyRef Name="cat_id" />
+          </Key>
+          <Property Name="cat_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cat_name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="p_cat_id" Type="Int32" />
+          <Property Name="isActive" Type="Int32" />
+          <Property Name="userid" Type="Int32" />
+          <Property Name="insDt" Type="DateTime" Precision="3" />
+          <Property Name="updDt" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblProductMaster_13082020">
+          <Key>
+            <PropertyRef Name="productId" />
+          </Key>
+          <Property Name="productId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="catId" Type="Int32" />
+          <Property Name="subCatId" Type="Int32" />
+          <Property Name="brandId" Type="Int32" />
+          <Property Name="productName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="SKU" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="aboutProduct" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Int32" />
+          <Property Name="costPrice" Type="Int32" />
+          <Property Name="retailPrice" Type="Int32" />
+          <Property Name="salePrice" Type="Int32" />
+          <Property Name="fixedShippingCost" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="freeShipping" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="pWeight" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="pWidth" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="pHeight" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="pDepth" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="searchKeywords" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
+          <Property Name="pageTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="metaKeyword" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="metaDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="sortOrder" Type="Int32" />
+          <Property Name="isActive" Type="Int32" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="insDt" Type="DateTime" Precision="3" />
+          <Property Name="updDt" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="sp_tblCategoryMaster_Result">
+          <Property Type="Int32" Name="cat_id" Nullable="false" />
+          <Property Type="String" Name="cat_name" Nullable="true" MaxLength="80" />
+          <Property Type="String" Name="description" Nullable="true" MaxLength="600" />
+          <Property Type="Int32" Name="p_cat_id" Nullable="true" />
+          <Property Type="Int32" Name="isActive" Nullable="true" />
+          <Property Type="Int32" Name="userid" Nullable="true" />
+          <Property Type="DateTime" Name="insDt" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="updDt" Nullable="true" Precision="23" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1133,6 +1329,7 @@ warning 6002: The table/view 'subzicart.dbo.tblWebpage' does not have a primary 
           <EntitySetMapping Name="tblProductMasters">
             <EntityTypeMapping TypeName="subzicartModel.tblProductMaster">
               <MappingFragment StoreEntitySet="tblProductMaster">
+                <ScalarProperty Name="subCatName" ColumnName="subCatName" />
                 <ScalarProperty Name="productId" ColumnName="productId" />
                 <ScalarProperty Name="catId" ColumnName="catId" />
                 <ScalarProperty Name="subCatId" ColumnName="subCatId" />
@@ -1385,6 +1582,68 @@ warning 6002: The table/view 'subzicart.dbo.tblWebpage' does not have a primary 
                 <ScalarProperty Name="userId1" ColumnName="userId1" />
                 <ScalarProperty Name="insDt1" ColumnName="insDt1" />
                 <ScalarProperty Name="updDt1" ColumnName="updDt1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblCategoryMasters">
+            <EntityTypeMapping TypeName="subzicartModel.tblCategoryMaster">
+              <MappingFragment StoreEntitySet="tblCategoryMaster">
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="p_cat_id" ColumnName="p_cat_id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="cat_name" ColumnName="cat_name" />
+                <ScalarProperty Name="cat_id" ColumnName="cat_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProductMaster_13082020">
+            <EntityTypeMapping TypeName="subzicartModel.tblProductMaster_13082020">
+              <MappingFragment StoreEntitySet="tblProductMaster_13082020">
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="sortOrder" ColumnName="sortOrder" />
+                <ScalarProperty Name="metaDescription" ColumnName="metaDescription" />
+                <ScalarProperty Name="metaKeyword" ColumnName="metaKeyword" />
+                <ScalarProperty Name="pageTitle" ColumnName="pageTitle" />
+                <ScalarProperty Name="searchKeywords" ColumnName="searchKeywords" />
+                <ScalarProperty Name="pDepth" ColumnName="pDepth" />
+                <ScalarProperty Name="pHeight" ColumnName="pHeight" />
+                <ScalarProperty Name="pWidth" ColumnName="pWidth" />
+                <ScalarProperty Name="pWeight" ColumnName="pWeight" />
+                <ScalarProperty Name="freeShipping" ColumnName="freeShipping" />
+                <ScalarProperty Name="fixedShippingCost" ColumnName="fixedShippingCost" />
+                <ScalarProperty Name="salePrice" ColumnName="salePrice" />
+                <ScalarProperty Name="retailPrice" ColumnName="retailPrice" />
+                <ScalarProperty Name="costPrice" ColumnName="costPrice" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="aboutProduct" ColumnName="aboutProduct" />
+                <ScalarProperty Name="SKU" ColumnName="SKU" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="brandId" ColumnName="brandId" />
+                <ScalarProperty Name="subCatId" ColumnName="subCatId" />
+                <ScalarProperty Name="catId" ColumnName="catId" />
+                <ScalarProperty Name="productId" ColumnName="productId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_operations" FunctionName="subzicartModel.Store.sp_operations" />
+          <FunctionImportMapping FunctionImportName="sp_tblCategoryMaster" FunctionName="subzicartModel.Store.sp_tblCategoryMaster">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="subzicartModel.sp_tblCategoryMaster_Result">
+                <ScalarProperty Name="cat_id" ColumnName="cat_id" />
+                <ScalarProperty Name="cat_name" ColumnName="cat_name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="p_cat_id" ColumnName="p_cat_id" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="insDt" ColumnName="insDt" />
+                <ScalarProperty Name="updDt" ColumnName="updDt" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

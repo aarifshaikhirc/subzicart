@@ -92,22 +92,27 @@ else
                     <div class="form-group">
                         <label>Status</label>   <div class="col-md-10">
 
-                            <select name="active" id="select_product" class="form-control">
-                                @if (ViewBag.isActive == 1)
-                                {
-                                    <option value="1">Active</option>
-                                    <option value="0">Deactive</option>
-                                }
-                                else
-                                {
+                                                    <select name="active" id="select_product" class="form-control">
+                                                        @if (ViewBag.isActive == 1)
+                                                        {
+                                                            <option value="1">Active</option>
+                                                            <option value="0">Deactive</option>
+                                                        }
+                                                        else if (ViewBag.isActive == 0)
+                                                        {
+                                                            <option value="0">Deactive</option>
+                                                            <option value="1">Active</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="1">Active</option>
+                                                            <option value="0">Deactive</option>
 
-                                    <option value="0">Deactive</option>
-                                    <option value="1">Active</option>
-                                }
+                                                        }
 
 
 
-                            </select>
+                                                    </select>
                             @Html.ValidationMessageFor(model => model.active, "", new { @class = "text-danger" })
                         </div>
                     </div>

@@ -43,6 +43,8 @@ namespace subzicart.Models
         public virtual DbSet<tblPageSubMenu> tblPageSubMenus { get; set; }
         public virtual DbSet<tblTransactionLog> tblTransactionLogs { get; set; }
         public virtual DbSet<tblWebpage> tblWebpages { get; set; }
+        public virtual DbSet<tblCategoryMaster> tblCategoryMasters { get; set; }
+        public virtual DbSet<tblProductMaster_13082020> tblProductMaster_13082020 { get; set; }
     
         public virtual ObjectResult<sp_login_Result> sp_login(string username, string pswd)
         {
@@ -299,7 +301,113 @@ namespace subzicart.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_tblMeasurementMaster_Result>("sp_tblMeasurementMaster", m_idParameter, unit_typeParameter, unit_valueParameter, eq_unit_typeParameter, eq_unit_valueParameter, activeParameter, updDtParameter, actionParameter, userIDParameter, remark);
         }
     
-        public virtual ObjectResult<sp_tblProductMaster_Result> sp_tblProductMaster(Nullable<int> productId, Nullable<int> catId, Nullable<int> subCatId, Nullable<int> brandId, string productName, string sKU, string aboutProduct, string description, Nullable<int> price, Nullable<int> costPrice, Nullable<int> retailPrice, Nullable<int> salePrice, Nullable<int> action, Nullable<int> userId, ObjectParameter remark)
+        public virtual ObjectResult<sp_tblProductMaster_Result> sp_tblProductMaster(Nullable<int> productId, Nullable<int> catId, string subCatId, string subCatName, Nullable<int> brandId, string productName, string sKU, string aboutProduct, string description, Nullable<int> price, Nullable<int> costPrice, Nullable<int> retailPrice, Nullable<int> salePrice, Nullable<int> action, Nullable<int> userId, ObjectParameter remark)
+        {
+            var productIdParameter = productId.HasValue ?
+                new ObjectParameter("productId", productId) :
+                new ObjectParameter("productId", typeof(int));
+    
+            var catIdParameter = catId.HasValue ?
+                new ObjectParameter("catId", catId) :
+                new ObjectParameter("catId", typeof(int));
+    
+            var subCatIdParameter = subCatId != null ?
+                new ObjectParameter("subCatId", subCatId) :
+                new ObjectParameter("subCatId", typeof(string));
+    
+            var subCatNameParameter = subCatName != null ?
+                new ObjectParameter("subCatName", subCatName) :
+                new ObjectParameter("subCatName", typeof(string));
+    
+            var brandIdParameter = brandId.HasValue ?
+                new ObjectParameter("brandId", brandId) :
+                new ObjectParameter("brandId", typeof(int));
+    
+            var productNameParameter = productName != null ?
+                new ObjectParameter("productName", productName) :
+                new ObjectParameter("productName", typeof(string));
+    
+            var sKUParameter = sKU != null ?
+                new ObjectParameter("SKU", sKU) :
+                new ObjectParameter("SKU", typeof(string));
+    
+            var aboutProductParameter = aboutProduct != null ?
+                new ObjectParameter("aboutProduct", aboutProduct) :
+                new ObjectParameter("aboutProduct", typeof(string));
+    
+            var descriptionParameter = description != null ?
+                new ObjectParameter("description", description) :
+                new ObjectParameter("description", typeof(string));
+    
+            var priceParameter = price.HasValue ?
+                new ObjectParameter("price", price) :
+                new ObjectParameter("price", typeof(int));
+    
+            var costPriceParameter = costPrice.HasValue ?
+                new ObjectParameter("costPrice", costPrice) :
+                new ObjectParameter("costPrice", typeof(int));
+    
+            var retailPriceParameter = retailPrice.HasValue ?
+                new ObjectParameter("retailPrice", retailPrice) :
+                new ObjectParameter("retailPrice", typeof(int));
+    
+            var salePriceParameter = salePrice.HasValue ?
+                new ObjectParameter("salePrice", salePrice) :
+                new ObjectParameter("salePrice", typeof(int));
+    
+            var actionParameter = action.HasValue ?
+                new ObjectParameter("action", action) :
+                new ObjectParameter("action", typeof(int));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_tblProductMaster_Result>("sp_tblProductMaster", productIdParameter, catIdParameter, subCatIdParameter, subCatNameParameter, brandIdParameter, productNameParameter, sKUParameter, aboutProductParameter, descriptionParameter, priceParameter, costPriceParameter, retailPriceParameter, salePriceParameter, actionParameter, userIdParameter, remark);
+        }
+    
+        public virtual ObjectResult<sp_tblSubCategory_Result> sp_tblSubCategory(Nullable<int> subCatId, Nullable<int> catId, string subcatName, string description, Nullable<int> isActive, Nullable<int> userId, Nullable<System.DateTime> insDt, Nullable<System.DateTime> updDt, Nullable<int> action, ObjectParameter remark)
+        {
+            var subCatIdParameter = subCatId.HasValue ?
+                new ObjectParameter("subCatId", subCatId) :
+                new ObjectParameter("subCatId", typeof(int));
+    
+            var catIdParameter = catId.HasValue ?
+                new ObjectParameter("CatId", catId) :
+                new ObjectParameter("CatId", typeof(int));
+    
+            var subcatNameParameter = subcatName != null ?
+                new ObjectParameter("subcatName", subcatName) :
+                new ObjectParameter("subcatName", typeof(string));
+    
+            var descriptionParameter = description != null ?
+                new ObjectParameter("description", description) :
+                new ObjectParameter("description", typeof(string));
+    
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("isActive", isActive) :
+                new ObjectParameter("isActive", typeof(int));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(int));
+    
+            var insDtParameter = insDt.HasValue ?
+                new ObjectParameter("insDt", insDt) :
+                new ObjectParameter("insDt", typeof(System.DateTime));
+    
+            var updDtParameter = updDt.HasValue ?
+                new ObjectParameter("updDt", updDt) :
+                new ObjectParameter("updDt", typeof(System.DateTime));
+    
+            var actionParameter = action.HasValue ?
+                new ObjectParameter("action", action) :
+                new ObjectParameter("action", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_tblSubCategory_Result>("sp_tblSubCategory", subCatIdParameter, catIdParameter, subcatNameParameter, descriptionParameter, isActiveParameter, userIdParameter, insDtParameter, updDtParameter, actionParameter, remark);
+        }
+    
+        public virtual ObjectResult<string> sp_operations(Nullable<int> productId, Nullable<int> catId, Nullable<int> subCatId, Nullable<int> brandId, string productName, string sKU, string aboutProduct, string description, Nullable<int> price, Nullable<int> costPrice, Nullable<int> retailPrice, Nullable<int> salePrice, Nullable<int> action, Nullable<int> userId)
         {
             var productIdParameter = productId.HasValue ?
                 new ObjectParameter("productId", productId) :
@@ -357,34 +465,34 @@ namespace subzicart.Models
                 new ObjectParameter("userId", userId) :
                 new ObjectParameter("userId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_tblProductMaster_Result>("sp_tblProductMaster", productIdParameter, catIdParameter, subCatIdParameter, brandIdParameter, productNameParameter, sKUParameter, aboutProductParameter, descriptionParameter, priceParameter, costPriceParameter, retailPriceParameter, salePriceParameter, actionParameter, userIdParameter, remark);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_operations", productIdParameter, catIdParameter, subCatIdParameter, brandIdParameter, productNameParameter, sKUParameter, aboutProductParameter, descriptionParameter, priceParameter, costPriceParameter, retailPriceParameter, salePriceParameter, actionParameter, userIdParameter);
         }
     
-        public virtual ObjectResult<sp_tblSubCategory_Result> sp_tblSubCategory(Nullable<int> subCatId, Nullable<int> catId, string subcatName, string description, Nullable<int> isActive, Nullable<int> userId, Nullable<System.DateTime> insDt, Nullable<System.DateTime> updDt, Nullable<int> action, ObjectParameter remark)
+        public virtual ObjectResult<sp_tblCategoryMaster_Result> sp_tblCategoryMaster(Nullable<int> cat_id, string cat_name, string description, Nullable<int> p_cat_id, Nullable<int> isActive, Nullable<int> userid, Nullable<System.DateTime> insDt, Nullable<System.DateTime> updDt, Nullable<int> action, ObjectParameter remark)
         {
-            var subCatIdParameter = subCatId.HasValue ?
-                new ObjectParameter("subCatId", subCatId) :
-                new ObjectParameter("subCatId", typeof(int));
+            var cat_idParameter = cat_id.HasValue ?
+                new ObjectParameter("cat_id", cat_id) :
+                new ObjectParameter("cat_id", typeof(int));
     
-            var catIdParameter = catId.HasValue ?
-                new ObjectParameter("CatId", catId) :
-                new ObjectParameter("CatId", typeof(int));
-    
-            var subcatNameParameter = subcatName != null ?
-                new ObjectParameter("subcatName", subcatName) :
-                new ObjectParameter("subcatName", typeof(string));
+            var cat_nameParameter = cat_name != null ?
+                new ObjectParameter("cat_name", cat_name) :
+                new ObjectParameter("cat_name", typeof(string));
     
             var descriptionParameter = description != null ?
                 new ObjectParameter("description", description) :
                 new ObjectParameter("description", typeof(string));
     
+            var p_cat_idParameter = p_cat_id.HasValue ?
+                new ObjectParameter("p_cat_id", p_cat_id) :
+                new ObjectParameter("p_cat_id", typeof(int));
+    
             var isActiveParameter = isActive.HasValue ?
                 new ObjectParameter("isActive", isActive) :
                 new ObjectParameter("isActive", typeof(int));
     
-            var userIdParameter = userId.HasValue ?
-                new ObjectParameter("userId", userId) :
-                new ObjectParameter("userId", typeof(int));
+            var useridParameter = userid.HasValue ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(int));
     
             var insDtParameter = insDt.HasValue ?
                 new ObjectParameter("insDt", insDt) :
@@ -398,7 +506,7 @@ namespace subzicart.Models
                 new ObjectParameter("action", action) :
                 new ObjectParameter("action", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_tblSubCategory_Result>("sp_tblSubCategory", subCatIdParameter, catIdParameter, subcatNameParameter, descriptionParameter, isActiveParameter, userIdParameter, insDtParameter, updDtParameter, actionParameter, remark);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_tblCategoryMaster_Result>("sp_tblCategoryMaster", cat_idParameter, cat_nameParameter, descriptionParameter, p_cat_idParameter, isActiveParameter, useridParameter, insDtParameter, updDtParameter, actionParameter, remark);
         }
     }
 }

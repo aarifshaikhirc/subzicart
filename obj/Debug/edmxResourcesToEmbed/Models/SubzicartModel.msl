@@ -159,6 +159,7 @@
     <EntitySetMapping Name="tblProductMasters">
       <EntityTypeMapping TypeName="subzicartModel.tblProductMaster">
         <MappingFragment StoreEntitySet="tblProductMaster">
+          <ScalarProperty Name="subCatName" ColumnName="subCatName" />
           <ScalarProperty Name="productId" ColumnName="productId" />
           <ScalarProperty Name="catId" ColumnName="catId" />
           <ScalarProperty Name="subCatId" ColumnName="subCatId" />
@@ -411,6 +412,68 @@
           <ScalarProperty Name="userId1" ColumnName="userId1" />
           <ScalarProperty Name="insDt1" ColumnName="insDt1" />
           <ScalarProperty Name="updDt1" ColumnName="updDt1" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="tblCategoryMasters">
+      <EntityTypeMapping TypeName="subzicartModel.tblCategoryMaster">
+        <MappingFragment StoreEntitySet="tblCategoryMaster">
+          <ScalarProperty Name="updDt" ColumnName="updDt" />
+          <ScalarProperty Name="insDt" ColumnName="insDt" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+          <ScalarProperty Name="p_cat_id" ColumnName="p_cat_id" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="cat_name" ColumnName="cat_name" />
+          <ScalarProperty Name="cat_id" ColumnName="cat_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblProductMaster_13082020">
+      <EntityTypeMapping TypeName="subzicartModel.tblProductMaster_13082020">
+        <MappingFragment StoreEntitySet="tblProductMaster_13082020">
+          <ScalarProperty Name="updDt" ColumnName="updDt" />
+          <ScalarProperty Name="insDt" ColumnName="insDt" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+          <ScalarProperty Name="sortOrder" ColumnName="sortOrder" />
+          <ScalarProperty Name="metaDescription" ColumnName="metaDescription" />
+          <ScalarProperty Name="metaKeyword" ColumnName="metaKeyword" />
+          <ScalarProperty Name="pageTitle" ColumnName="pageTitle" />
+          <ScalarProperty Name="searchKeywords" ColumnName="searchKeywords" />
+          <ScalarProperty Name="pDepth" ColumnName="pDepth" />
+          <ScalarProperty Name="pHeight" ColumnName="pHeight" />
+          <ScalarProperty Name="pWidth" ColumnName="pWidth" />
+          <ScalarProperty Name="pWeight" ColumnName="pWeight" />
+          <ScalarProperty Name="freeShipping" ColumnName="freeShipping" />
+          <ScalarProperty Name="fixedShippingCost" ColumnName="fixedShippingCost" />
+          <ScalarProperty Name="salePrice" ColumnName="salePrice" />
+          <ScalarProperty Name="retailPrice" ColumnName="retailPrice" />
+          <ScalarProperty Name="costPrice" ColumnName="costPrice" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="aboutProduct" ColumnName="aboutProduct" />
+          <ScalarProperty Name="SKU" ColumnName="SKU" />
+          <ScalarProperty Name="productName" ColumnName="productName" />
+          <ScalarProperty Name="brandId" ColumnName="brandId" />
+          <ScalarProperty Name="subCatId" ColumnName="subCatId" />
+          <ScalarProperty Name="catId" ColumnName="catId" />
+          <ScalarProperty Name="productId" ColumnName="productId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_operations" FunctionName="subzicartModel.Store.sp_operations" />
+    <FunctionImportMapping FunctionImportName="sp_tblCategoryMaster" FunctionName="subzicartModel.Store.sp_tblCategoryMaster">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="subzicartModel.sp_tblCategoryMaster_Result">
+          <ScalarProperty Name="cat_id" ColumnName="cat_id" />
+          <ScalarProperty Name="cat_name" ColumnName="cat_name" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="p_cat_id" ColumnName="p_cat_id" />
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="insDt" ColumnName="insDt" />
+          <ScalarProperty Name="updDt" ColumnName="updDt" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

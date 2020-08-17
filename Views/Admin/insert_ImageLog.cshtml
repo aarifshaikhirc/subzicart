@@ -1,0 +1,206 @@
+﻿@model subzicart.Models.tblImageLog
+
+@{
+    ViewBag.Title = "insert_ImageLog";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+
+@if (ViewBag.message == "" || ViewBag.message == null)
+{
+}
+else
+{
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+
+        @ViewBag.message
+    </div>
+}
+@using (Html.BeginForm("insert_ImageLog",
+                                      "admin",
+                                      FormMethod.Post,
+                                      new { enctype = "multipart/form-data", @data_ajax = "false" }))
+{
+    @Html.AntiForgeryToken()
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+    <div class="card card-default">
+        <div class="card-header">
+            <h3 class="card-title">Image Master</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div class="row">
+
+
+                <br />
+                <div class="form-group" style="display:none">
+                    @Html.LabelFor(model => model.image_id, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.image_id, new { htmlAttributes = new { @class = "form-control" } })
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Category</label>
+
+                        <div class="col-md-10">
+                            <select name="product_id" id="select_product" class="form-control">
+
+
+                                @foreach (var item in ViewBag.category.Rows)
+                                {
+
+                                <option value="@item["productid"]" data-id="@item["productid"]">
+                                    @item["productname"]
+                                </option>
+
+                                }
+                                @foreach (var item in ViewBag.category.Rows)
+                                {
+                            <option value="@item["productid"]" data-id="@item["productid"]">
+                                @item["productname"]
+                            </option>
+
+                                }
+
+                            </select>
+                            @Html.ValidationMessageFor(model => model.product_id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Image Title</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.image_name, new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                            @Html.ValidationMessageFor(model => model.image_name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Image URL</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.image_url, new { htmlAttributes = new { @class = "form-control", } })
+                            @Html.ValidationMessageFor(model => model.image_url, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Upload Image</label>
+                        <div class="col-md-10">
+                            <input type="file" id="File_Upload" name="postedFile" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Image URL</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.sort_id, new { htmlAttributes = new { @class = "form-control", @maxlength = "20" } })
+                            @Html.ValidationMessageFor(model => model.sort_id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Is Thumb</label>
+                        <div class="col-md-10">
+                            <input data-val="1" data-val-required="isthumb" id="isthumb" name="isthumb" type="checkbox" value="1" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Status</label>   <div class="col-md-10">
+
+                            <select name="active" id="select_product" class="form-control">
+                                @if (ViewBag.isActive == 1)
+                                {
+                                    <option value="1">Active</option>
+                                    <option value="0">Deactive</option>
+                                }
+                                else if (ViewBag.isActive == 0)
+                                {
+                                    <option value="0">Deactive</option>
+                                    <option value="1">Active</option>
+                                }
+                                else
+                                {
+                                    <option value="1">Active</option>
+                                    <option value="0">Deactive</option>
+
+                                }
+
+
+
+                            </select>
+                            @Html.ValidationMessageFor(model => model.active, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <!-- /.form-group -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-6">
+
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            @if (ViewBag.update == "0")
+                            {
+                                <input type="submit" name="command" value="Save" class="btn btn-default" />
+                                <input type="submit" name="command" value="Cancel" class="btn btn-default" />
+                            }
+                            else
+                            {
+                                <input type="submit" name="command" value="Update" class="btn btn-default" />
+                                <input type="submit" name="command" value="Cancel" class="btn btn-default" />
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+
+            </div>
+
+    </div>
+
+}
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function Submit() {
+        if (confirm("Are you sure you want to submit ?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+

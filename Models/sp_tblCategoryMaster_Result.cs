@@ -10,18 +10,16 @@
 namespace subzicart.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tblMeasurementMaster
+    public partial class sp_tblCategoryMaster_Result
     {
-        public int m_id { get; set; }
-        public string unit_type { get; set; }
-        public Nullable<double> unit_value { get; set; }
-        public string eq_unit_type { get; set; }
-        public Nullable<double> eq_unit_value { get; set; }
+        public int cat_id { get; set; }
+        public string cat_name { get; set; }
+        public string description { get; set; }
+        public Nullable<int> p_cat_id { get; set; }
+        public Nullable<int> isActive { get; set; }
+        public Nullable<int> userid { get; set; }
         public Nullable<System.DateTime> insDt { get; set; }
-        public Nullable<int> active { get; set; }
         public Nullable<System.DateTime> updDt { get; set; }
-        public Nullable<int> userId { get; set; }
     }
 }

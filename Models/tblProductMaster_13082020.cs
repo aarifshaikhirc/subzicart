@@ -12,7 +12,7 @@ namespace subzicart.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tblProductMaster
+    public partial class tblProductMaster_13082020
     {
         public int productId { get; set; }
         public Nullable<int> catId { get; set; }
@@ -41,6 +41,5 @@ namespace subzicart.Models
         public Nullable<int> userId { get; set; }
         public Nullable<System.DateTime> insDt { get; set; }
         public Nullable<System.DateTime> updDt { get; set; }
-        public string subCatName { get; set; }
     }
 }

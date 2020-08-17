@@ -11,17 +11,11 @@ namespace subzicart.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class tblCategory
     {
-        [Key]
         public int catId { get; set; }
-        [Required(ErrorMessage = "Category Name is Required")]
-       
         public string catName { get; set; }
-        [Required(ErrorMessage = "Description is Required")]
-        
         public string description { get; set; }
         public Nullable<int> isActive { get; set; }
         public Nullable<int> userId { get; set; }

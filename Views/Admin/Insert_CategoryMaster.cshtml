@@ -1,4 +1,4 @@
-﻿@model subzicart.Models.tblSubCategory
+﻿@model subzicart.Models.tblCategoryMaster
 
 @{
     ViewBag.Title = "Insert_SubCategory";
@@ -20,7 +20,7 @@ else
 
 
 
-@using (Html.BeginForm("Insert_subCategory",
+@using (Html.BeginForm("Insert_CategoryMaster",
                                       "admin",
                                       FormMethod.Post,
                                       new { enctype = "multipart/form-data", @data_ajax = "false" }))
@@ -34,7 +34,7 @@ else
 
     <div class="card card-default">
         <div class="card-header">
-            <h3 class="card-title">SubCategory Master</h3>
+            <h3 class="card-title">Category Master</h3>
 
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -48,10 +48,10 @@ else
 
                 <br />
                 <div class="form-group" style="display:none">
-                    @Html.LabelFor(model => model.subCatId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.cat_id, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.subCatId, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.subCatId, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.cat_id, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.cat_id, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -59,30 +59,45 @@ else
                         <label>Category</label>
 
                         <div class="col-md-10">
-                            <select name="catId" id="select_product" class="form-control">
+                            <select name="p_cat_id" id="select_product" class="form-control">
 
 
-                                @foreach (var item in ViewBag.category1.Rows)
+                                @foreach (var item in ViewBag.category1)
                                 {
-                                    if (ViewBag.categoryid == @item["catId"])
+                                    if (ViewBag.categoryid == item.cat_id)
                                     {
-                                        <option value="@item["catId"]" data-id="@item["catId"]">
-                                            @item["catname"]
-                                        </option>
+                                        if (item.cat_name == "</br>")
+                                        {
+                                <option disabled>
+                                    <br />
+                                </option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.cat_id" data-id="@item.cat_id">
+                                                @item.cat_name
+                                            </option>
+                                        }
                                     }
                                 }
-                                @foreach (var item in ViewBag.category1.Rows)
+                                @foreach (var item in ViewBag.category1)
                                 {
-                                    if (ViewBag.categoryid != @item["catId"])
+                                    if (item.cat_name == "</br>")
                                     {
-                                        <option value="@item["catId"]" data-id="@item["catId"]">
-                                            @item["catname"]
+                                        <option disabled>
+                                            <br />
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.cat_id" data-id="@item.cat_id">
+                                            @item.cat_name
                                         </option>
                                     }
                                 }
 
                             </select>
-                            @Html.ValidationMessageFor(model => model.catId, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.cat_id, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -106,10 +121,10 @@ else
                 <!-- /.col -->
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>SubCatergory Title</label>
+                        <label>Catergory Title</label>
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.subCatName, new { htmlAttributes = new { @class = "form-control", @maxlength = "20" } })
-                            @Html.ValidationMessageFor(model => model.subCatName, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.cat_name, new { htmlAttributes = new { @class = "form-control", @maxlength = "20" } })
+                            @Html.ValidationMessageFor(model => model.cat_name, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
@@ -168,26 +183,30 @@ else
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">View All SubCategory</h3>
+        <h3 class="card-title">View All Catgory Master</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
 
         <table id="example1" class="table table-bordered table-striped">
             <thead>
-               <tr>
+                <tr>
                     <th>
                         ID
                     </th>
                     <th>
-                        SubCategory Title
+                        Category Title
                     </th>
                     <th>
-                        Parent Category
+                        Sub Category Title1
                     </th>
                     <th>
-                        Description
+                        Sub Category Title2
                     </th>
+                    <th>
+                        Sub Category Title3
+                    </th>
+                 
                     <th>
                         Status
                     </th>
@@ -196,42 +215,45 @@ else
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in ViewBag.category.Rows)
+                @foreach (var item in ViewBag.category)
                 {
+                <tr>
+                    <td>
+                        @item.cat_id
+                    </td>
+                    <td>
+                        @item.cat_name
+                    </td>
+                    <td>
+                        @item.sub_Cat1
+                    </td>
+                    <td>
+                        @item.sub_Cat2
+                    </td>
 
-                    <tr>
-                        <td>
-                            @item["subcatid"]
-                        </td>
-                        <td>
-                            @item["subcatname"]
-                        </td>
-                        <td>
-                            @item["catname"]
-                        </td>
+                    <td>
+                        @item.sub_Cat3
+                    </td>
+                  
+                    <td>
 
-                        <td>
-                            @item["description"]
-                        </td>
-                        <td>
-
-                            @if (item["isactive"] == 1)
-                            {
-                                <span>Active</span>
-                            }
-                            else
-                            {
-                                <span>Not Active</span>
-                            }
-                        </td>
+                        @if (item.isactive == 1)
+                        {
+                            <span>Active</span>
+                        }
+                        else
+                        {
+                            <span>Not Active</span>
+                        }
+                    </td>
 
 
-                        <td>
-                            @Html.ActionLink("Update", "insert_SubCategory", new { mid = item["subcatid"] }, new { @class = "edit" })
-                            @Html.ActionLink("Delete", "DeleteSubCategory", new { mid = item["subcatid"] }, new { onclick = "return confirm('Do you really want to delete ?')", @class = "delete" })
+                    <td>
+                        @Html.ActionLink("Update", "Insert_CategoryMaster", new { mid = item.cat_id }, new { @class = "edit" })
+                        @Html.ActionLink("Delete", "DeleteCategoryMaster", new { mid = item.cat_id }, new { onclick = "return confirm('Do you really want to delete ?')", @class = "delete" })
 
-                        </td>
-                    </tr>
+                    </td>
+                </tr>
                 }
             </tbody>
 
