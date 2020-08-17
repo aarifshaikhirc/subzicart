@@ -56,5 +56,38 @@ namespace subzicart.Models
         [Display(Name = "Brand")]
         public string brandName { get; set; }
         public string subCatName { get; set; }
+        public string subCat1 { get; set; }
+        public string subCat2 { get; set; }
+        public string subCat3 { get; set; }
+        public string allow_purchase { get; set; }
+        public string is_available { get; set; }
+        public string is_visible { get; set; }
+        public int current_stock_level { get; set; }
+        public int low_stock_level { get; set; }
+
+        public string track_inventory { get; set; }
+        public string product_url { get; set; }
+        public string redirect_old_url { get; set; }
+        public string global_trade_item { get; set; }
+        public string manufacture_part_no { get; set; }
+        public string gps_gender { get; set; }
+        public string gps_age_group { get; set; }
+        public string gps_color { get; set; }
+        public string gps_size { get; set; }
+        public string gps_material { get; set; }
+        public string gps_pattern { get; set; }
+        public int gps_item_group_id { get; set; }
+        public string gps_category { get; set; }
+        public string Bin_Picking_Number { get; set; }
+        public string Option_Set { get; set; }
+        public string OptionSetAlign { get; set; }
+        public string Product_Condition { get; set; }
+        public string Show_Product_Condition { get; set; }
+        public string Stop_Processing_Rules { get; set; }
+        public string Product_UPC_EAN { get; set; }
+        public string Product_Tax_Class { get; set; }
+        public string Tax_Provider_Tax_Code { get; set; }
+
+
     }
 }

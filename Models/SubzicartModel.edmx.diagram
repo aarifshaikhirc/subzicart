@@ -21,8 +21,6 @@
         <EntityTypeShape EntityType="subzicartModel.tblPageSubMenu" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="subzicartModel.tblTransactionLog" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="subzicartModel.tblWebpage" Width="1.5" PointX="10.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="subzicartModel.tblCategoryMaster" Width="1.5" PointX="13.375" PointY="0.75" />
-        <EntityTypeShape EntityType="subzicartModel.tblProductMaster_13082020" Width="1.5" PointX="13.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -7,10 +7,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.IO;
-using System.Net;
-using System.Drawing;
-using System.Drawing.Imaging;
+using subzicart.Models;
+
 
 namespace subzicart.Controllers
 {
@@ -1068,777 +1066,308 @@ namespace subzicart.Controllers
 
 
 
-
-
-
             }
             return View();
 
         }
 
-        static string ss = "0";
-        public ActionResult Insert_CategoryMaster(string mid)
+
+        public ActionResult productlist()
         {
-            try
+            if (Request.Cookies["loginID"] == null)
             {
-                ViewBag.message = Session["Message1"];
-                Session.RemoveAll();
-                Session.Clear();
+                return RedirectToAction("Login", "Home");
             }
 
-            catch (Exception ee) { }
-            Models.MyViewModel catmaster = new Models.MyViewModel();
 
-            catmaster.category = new List<Models.CategoryClass>();
-            catmaster.category.Add(new Models.CategoryClass { cat_id = 1, cat_name = "Root", p_cat_id = 0 });
-            //List <Models.CategoryClass> catmaster = new List<Models.CategoryClass>();
-            //Models.CategoryClass catmaster = new Models.CategoryClass();
-            DataSet ds = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", "1"), new SqlParameter("@remark", SqlDbType.Char));
-            //ViewBag.category = ds.Tables[0];
+            DataSet ds = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblProductMaster", new SqlParameter("@action", 3));
+            //List<> lst = new List<productMaster>();
+
+            List<productMaster> lst = new List<productMaster>();
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                productMaster list = new productMaster();
+                list.productId = Convert.ToInt32(ds.Tables[0].Rows[i]["productId"]);
+                list.productName = Convert.ToString(ds.Tables[0].Rows[i]["productName"]);
+                list.categoryName = Convert.ToString(ds.Tables[0].Rows[i]["catName"]);
+                list.subCatName = Convert.ToString(ds.Tables[0].Rows[i]["subCatName"]);
+                list.brandName = Convert.ToString(ds.Tables[0].Rows[i]["brand_name"]);
+                list.SKU = Convert.ToString(ds.Tables[0].Rows[i]["SKU"]);
+                list.price = Convert.ToInt32(ds.Tables[0].Rows[i]["price"]);
+                list.costPrice = Convert.ToInt32(ds.Tables[0].Rows[i]["costPrice"]);
+                list.retailPrice = Convert.ToInt32(ds.Tables[0].Rows[i]["retailPrice"]);
+                list.salePrice = Convert.ToInt32(ds.Tables[0].Rows[i]["salePrice"]);
+                lst.Add(list);
+            }
+
+            return View(lst);
+
+        }
+
+
+
+        public ActionResult productEdit(int id)
+        {
+            if (Request.Cookies["loginID"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            commonFunctions obj = new commonFunctions();
+            ViewBag.category = obj.GetCategory();
+            ViewBag.Subcategory = obj.GetSubCategory();
+            ViewBag.Brand = obj.GetBrand();
+
+
+            productMaster list = new productMaster();
+            DataSet ds = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblProductMaster", new SqlParameter("@action", 5), new SqlParameter("@productId", id));
+            list.productId = Convert.ToInt32(ds.Tables[0].Rows[0]["productId"]);
+            list.productName = Convert.ToString(ds.Tables[0].Rows[0]["productName"]);
+            list.catId = Convert.ToString(ds.Tables[0].Rows[0]["catId"]);
+            list.subCatId = Convert.ToString(ds.Tables[0].Rows[0]["subCatId"]);
+            list.brandId = Convert.ToString(ds.Tables[0].Rows[0]["brandId"]);
+            list.SKU = Convert.ToString(ds.Tables[0].Rows[0]["SKU"]);
+            list.aboutProduct = Convert.ToString(ds.Tables[0].Rows[0]["aboutProduct"]);
+            list.description = Convert.ToString(ds.Tables[0].Rows[0]["description"]);
+            list.price = Convert.ToInt32(ds.Tables[0].Rows[0]["price"]);
+            list.costPrice = Convert.ToInt32(ds.Tables[0].Rows[0]["costPrice"]);
+            list.retailPrice = Convert.ToInt32(ds.Tables[0].Rows[0]["retailPrice"]);
+            list.salePrice = Convert.ToInt32(ds.Tables[0].Rows[0]["salePrice"]);
+            return View(list);
+
+        }
+        public ActionResult addproduct()
+        {
+            if (Request.Cookies["loginID"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+        }
+        [HttpPost]
+        public ActionResult addproduct(productMaster obj, string ddlCategory, string ddlSubCategory1, string ddlSubCategory2, string ddlSubCategory3, string ddlBrand)
+        {
+            string subcategory = "";
+            string subcategoryName = "";
+            //foreach (var item in ddlSubCategory)
+            //{
+            //    subcategory += item.Split('-')[0] + ",";
+            //    subcategoryName += item.Split('-')[1] + ",";
+            //}
+
+            SqlParameter[] sparameter = new SqlParameter[17];
+            sparameter[0] = new SqlParameter("@catId", ddlCategory);
+            //sparameter[1] = new SqlParameter("@subCat1", subcategory.Substring(0, subcategory.Length - 1));
+            sparameter[2] = new SqlParameter("@brandId", ddlBrand);
+            sparameter[3] = new SqlParameter("@productName", obj.productName);
+            sparameter[4] = new SqlParameter("@SKU", obj.SKU);
+            sparameter[5] = new SqlParameter("@aboutProduct", obj.aboutProduct);
+            sparameter[6] = new SqlParameter("@description", obj.description);
+            sparameter[7] = new SqlParameter("@price", obj.price);
+            sparameter[8] = new SqlParameter("@costPrice", obj.costPrice);
+            sparameter[9] = new SqlParameter("@retailPrice", obj.retailPrice);
+            sparameter[10] = new SqlParameter("@salePrice", obj.salePrice);
+            sparameter[11] = new SqlParameter("@userId", Request.Cookies["loginID"].Value.ToString());
+            sparameter[12] = new SqlParameter("@action", 1);
+            sparameter[13] = new SqlParameter("@remark", SqlDbType.NVarChar, 100);
+            sparameter[13].Direction = ParameterDirection.Output;
+            sparameter[14] = new SqlParameter("@subCat1", ddlSubCategory1.Split('-')[1]);
+            sparameter[15] = new SqlParameter("@subCat2", ddlSubCategory2 == "0" || ddlSubCategory2 == "Select" ? "" : ddlSubCategory2.Split('-')[1]);
+            sparameter[16] = new SqlParameter("@subCat3", ddlSubCategory3 == "0" || ddlSubCategory3 == "Select" ? "" : ddlSubCategory3.Split('-')[1]);
+            //sparameter.Parameters["@remark"].Direction = ParameterDirection.Output;
+            SqlHelper.ExecuteNonQuery(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblProductMaster", sparameter);
+            string msg= Convert.ToString(sparameter[13].Value);
+            ViewBag.msg = msg.Split('-')[0];
+            Session["productID"]= msg.Split('-')[1];
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult addseo(productMaster obj)
+        {
+            SqlParameter[] sparameter = new SqlParameter[17];
+            sparameter[0] = new SqlParameter("@searchKeywords", obj.searchKeywords);
+            sparameter[1] = new SqlParameter("@pageTitle", obj.pageTitle);
+            sparameter[2] = new SqlParameter("@metaKeyword", obj.metaKeyword);
+            sparameter[3] = new SqlParameter("@metaDescription", obj.metaDescription);
+            sparameter[4] = new SqlParameter("@productId", Session["productID"].ToString());
+            sparameter[5] = new SqlParameter("@allow_purchase", obj.allow_purchase);
+            sparameter[6] = new SqlParameter("@is_visible", obj.is_visible);
+            sparameter[7] = new SqlParameter("@is_available", obj.is_available);
+            sparameter[8] = new SqlParameter("@track_inventory", obj.track_inventory);
+            sparameter[9] = new SqlParameter("@current_stock_level", obj.current_stock_level);
+            sparameter[10] = new SqlParameter("@low_stock_level", obj.low_stock_level);
+            sparameter[11] = new SqlParameter("@userId", Request.Cookies["loginID"].Value.ToString());
+            sparameter[12] = new SqlParameter("@action", 8);
+            sparameter[13] = new SqlParameter("@remark", SqlDbType.NVarChar, 100);
+            sparameter[13].Direction = ParameterDirection.Output;
+            //sparameter.Parameters["@remark"].Direction = ParameterDirection.Output;
+            SqlHelper.ExecuteNonQuery(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblProductMaster", sparameter);
+            ViewBag.msg = Convert.ToString(sparameter[13].Value);
+            return View("addProduct");
+        }
+
+        [HttpPost]
+        public ActionResult addgps(productMaster obj)
+        {
+            SqlParameter[] sparameter = new SqlParameter[17];
+            sparameter[0] = new SqlParameter("@productId", Session["productID"].ToString());
+            sparameter[1] = new SqlParameter("@product_url", obj.product_url);
+            sparameter[2] = new SqlParameter("@redirect_old_url", obj.redirect_old_url);
+            sparameter[3] = new SqlParameter("@global_trade_item", obj.global_trade_item);
+            sparameter[4] = new SqlParameter("@manufacture_part_no", obj.manufacture_part_no);
+            sparameter[5] = new SqlParameter("@gps_gender", obj.gps_gender);
+            sparameter[6] = new SqlParameter("@gps_age_group", obj.gps_age_group);
+            sparameter[7] = new SqlParameter("@gps_color", obj.gps_color);
+            sparameter[8] = new SqlParameter("@gps_size", obj.gps_size);
+            sparameter[9] = new SqlParameter("@gps_material", obj.gps_material);
+            sparameter[10] = new SqlParameter("@gps_pattern", obj.gps_pattern);
+            sparameter[11] = new SqlParameter("@userId", Request.Cookies["loginID"].Value.ToString());
+            sparameter[12] = new SqlParameter("@gps_item_group_id", obj.gps_item_group_id);
+            sparameter[14] = new SqlParameter("@gps_category", obj.gps_category);
+            sparameter[15] = new SqlParameter("@action", 9);
+            sparameter[13] = new SqlParameter("@remark", SqlDbType.NVarChar, 100);
+            sparameter[13].Direction = ParameterDirection.Output;
+            //sparameter.Parameters["@remark"].Direction = ParameterDirection.Output;
+            SqlHelper.ExecuteNonQuery(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblProductMaster", sparameter);
+            ViewBag.msg = Convert.ToString(sparameter[13].Value);
+            return View("addProduct");
+        }
+        [HttpPost]
+        public ActionResult addGenDetail(productMaster obj)
+        {
+            SqlParameter[] sparameter = new SqlParameter[17];
+            sparameter[0] = new SqlParameter("@productId", Session["productID"].ToString());
+            sparameter[1] = new SqlParameter("@Bin_Picking_Number", obj.Bin_Picking_Number);
+            sparameter[2] = new SqlParameter("@Option_Set", obj.Option_Set);
+            sparameter[3] = new SqlParameter("@OptionSetAlign", obj.OptionSetAlign);
+            sparameter[4] = new SqlParameter("@Product_Condition", obj.Product_Condition);
+            sparameter[5] = new SqlParameter("@Show_Product_Condition", obj.Show_Product_Condition);
+            sparameter[6] = new SqlParameter("@Stop_Processing_Rules", obj.Stop_Processing_Rules);
+            sparameter[7] = new SqlParameter("@Product_UPC_EAN", obj.Product_UPC_EAN);
+            sparameter[8] = new SqlParameter("@Product_Tax_Class", obj.Product_Tax_Class);
+            sparameter[9] = new SqlParameter("@Tax_Provider_Tax_Code", obj.Tax_Provider_Tax_Code);
+            sparameter[10] = new SqlParameter("@sortOrder", obj.sortOrder);
+            sparameter[11] = new SqlParameter("@userId", Request.Cookies["loginID"].Value.ToString());
+            sparameter[15] = new SqlParameter("@action", 10);
+            sparameter[13] = new SqlParameter("@remark", SqlDbType.NVarChar, 100);
+            sparameter[13].Direction = ParameterDirection.Output;
+            //sparameter.Parameters["@remark"].Direction = ParameterDirection.Output;
+            SqlHelper.ExecuteNonQuery(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblProductMaster", sparameter);
+            ViewBag.msg = Convert.ToString(sparameter[13].Value);
+            return View("addProduct");
+        }
+        
+        public JsonResult loadCategory(int sID)
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            DataSet ds = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.Text, "select cat_id, cat_Name from tblCategoryMaster where p_cat_id=1 order by cat_Name");
             if (ds.Tables[0].Rows.Count > 0)
             {
-           
-                foreach (DataRow rw in ds.Tables[0].Rows)
+                foreach (DataRow sdr in ds.Tables[0].Rows)
                 {
-                    int cat_id = Convert.ToInt32(rw["cat_id"]);
-                    string cat_name ="-" + rw["cat_name"].ToString();
-                    int p_cat_id = Convert.ToInt32(rw["p_cat_id"]);
-                  
-
-                    //catmaster.cat_id = cat_id;
-                    //catmaster.cat_name = cat_name;
-                    //catmaster.p_cat_id = p_cat_id;
-                    catmaster.category.Add(new Models.CategoryClass { cat_id = cat_id, cat_name = cat_name, p_cat_id = p_cat_id });
-
-                    DataSet ds1 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", cat_id), new SqlParameter("@remark", SqlDbType.Char));
-                    if (ds1.Tables[0].Rows.Count > 0)
+                    items.Add(new SelectListItem
                     {
-                        foreach (DataRow rw1 in ds1.Tables[0].Rows)
-                        {
-                            int cat_id1 = Convert.ToInt32(rw1["cat_id"]);
-                            string cat_name1 = "---" + rw1["cat_name"].ToString();
-                            int p_cat_id1 = Convert.ToInt32(rw1["p_cat_id"]);
-                            catmaster.category.Add(new Models.CategoryClass { cat_id = cat_id1, cat_name = cat_name1, p_cat_id = p_cat_id1 });
-                            DataSet ds11 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", cat_id1), new SqlParameter("@remark", SqlDbType.Char));
-                            if (ds11.Tables[0].Rows.Count > 0)
-                            {
-                                foreach (DataRow rw11 in ds11.Tables[0].Rows)
-                                {
-                                    int cat_id12 = Convert.ToInt32(rw11["cat_id"]);
-                                    string cat_name12 = "-----" + rw11["cat_name"].ToString();
-                                    int p_cat_id12 = Convert.ToInt32(rw11["p_cat_id"]);
-                                    catmaster.category.Add(new Models.CategoryClass { cat_id = cat_id12, cat_name = cat_name12, p_cat_id = p_cat_id12 });
-
-                                    DataSet ds12 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", cat_id12), new SqlParameter("@remark", SqlDbType.Char));
-                                    if (ds12.Tables[0].Rows.Count > 0)
-                                    {
-                                        foreach (DataRow rw12 in ds12.Tables[0].Rows)
-                                        {
-                                            int cat_id122 = Convert.ToInt32(rw12["cat_id"]);
-                                            string cat_name122 = "-------" + rw12["cat_name"].ToString();
-                                            int p_cat_id122 = Convert.ToInt32(rw12["p_cat_id"]);
-                                            catmaster.category.Add(new Models.CategoryClass { cat_id = cat_id122, cat_name = cat_name122, p_cat_id = p_cat_id122 });
-
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    catmaster.category.Add(new Models.CategoryClass { cat_id = 0, cat_name = "</br>", p_cat_id = 0 });
-
+                        Text = sdr["cat_Name"].ToString(),
+                        Value = sdr["cat_id"].ToString()
+                    });
                 }
-
-
-
-
             }
-            ViewBag.category1 = catmaster.category;
+            return Json(items, JsonRequestBehavior.AllowGet);
+        }
 
+        public JsonResult LoadSKU(int sID)
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            DataSet ds = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.Text, "select top 1 SKU from tblProductMaster where brandId=" + sID + " order by SKU desc");
+            //DataSet ds = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblProductMaster", new SqlParameter("@brand_id", sID), new SqlParameter("@action", 6));
+            //string skuRange = Convert.ToString(SqlHelper.ExecuteScalar(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblBrandPrefixes", new SqlParameter("@brand_id", sID), new SqlParameter("@action", 7)));
+            string skuRange = Convert.ToString(SqlHelper.ExecuteScalar(Connection.ConnectionString, CommandType.Text, "select brand_prefix + '-' + sku_start_range + '-' +  sku_end_range as prefix from tblBrandPrefixes where brand_id=" + sID + ""));
 
-
-
-
-            Models.MyViewModel1 catmastergrid = new Models.MyViewModel1();
-
-            catmastergrid.category = new List<Models.CategoryGrid>();
-            //catmastergrid.category.Add(new Models.CategoryGrid { cat_id=0,cat_name="",sub_Cat1="",sub_Cat2=""});
-            //List <Models.CategoryClass> catmaster = new List<Models.CategoryClass>();
-            //Models.CategoryClass catmaster = new Models.CategoryClass();
-            DataSet ds113 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", "1"), new SqlParameter("@remark", SqlDbType.Char));
-            //ViewBag.category = ds.Tables[0];
-            if (ds113.Tables[0].Rows.Count > 0)
+            if (ds.Tables[0].Rows.Count > 0)
             {
-                int count_3 = 0;
-                int count_a = 0;
-                foreach (DataRow rw in ds113.Tables[0].Rows)
+                int sku = Convert.ToInt32(ds.Tables[0].Rows[0]["SKU"].ToString().Replace(skuRange.Split('-')[0], ""));
+                sku++;
+
+                string final = sku.ToString();
+
+                if (final.Length == 1)
+                    final = "00000" + final;
+                if (final.Length == 2)
+                    final = "0000" + final;
+                if (final.Length == 3)
+                    final = "000" + final;
+                else if (final.Length == 4)
+                    final = "00" + final;
+                else if (final.Length == 5)
+                    final = "0" + final;
+
+                if (sku > Convert.ToInt32(skuRange.Split('-')[2]))
                 {
-                    count_3 = count_3 + 1;
-                    int cat_id = Convert.ToInt32(rw["cat_id"]);
-                    string cat_name = rw["cat_name"].ToString();
-                    string description = rw["description"].ToString();
-                    int p_cat_id = Convert.ToInt32(rw["p_cat_id"]);
-                    string bb = "";
-                    if (ss == "0")
+                    items.Add(new SelectListItem
                     {
-                        ss = cat_name;
-                        
-                    }
-                    if(ss==cat_name)
-                    {
-                        count_a = count_a + 1;
-                    }
-                    else
-                    {
-                        ss = cat_name;
-                        count_a = 0;
-
-                    }
-                    //catmaster.cat_id = cat_id;
-                    //catmaster.cat_name = cat_name;
-                    //catmaster.p_cat_id = p_cat_id;
-                    //catmaster.category.Add(new Models.CategoryClass { cat_id = cat_id, cat_name = cat_name, p_cat_id = p_cat_id });
-
-                    DataSet ds1 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", cat_id), new SqlParameter("@remark", SqlDbType.Char));
-                    if (ds1.Tables[0].Rows.Count > 0)
-                    {
-                        int count_2 = 0;
-                        foreach (DataRow rw1 in ds1.Tables[0].Rows)
-                        {
-                            count_2 = count_2 + 1;
-                           
-                            int cat_id1 = Convert.ToInt32(rw1["cat_id"]);
-                            string cat_name1 =  rw1["cat_name"].ToString();
-                            string description1 = rw1["description"].ToString();
-                            int p_cat_id1 = Convert.ToInt32(rw1["p_cat_id"]);
-                            //catmaster.category.Add(new Models.CategoryClass { cat_id = cat_id1, cat_name = cat_name1, p_cat_id = p_cat_id1 });
-                            DataSet ds11 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", cat_id1), new SqlParameter("@remark", SqlDbType.Char));
-                            if (ds11.Tables[0].Rows.Count > 0)
-                            {
-                                int count_1 = 0;
-                                foreach (DataRow rw11 in ds11.Tables[0].Rows)
-                                {
-                                    count_1 = count_1 + 1;
-                                    int cat_id12 = Convert.ToInt32(rw11["cat_id"]);
-                                    string cat_name12 =  rw11["cat_name"].ToString();
-                                    string description12 = rw11["description"].ToString();
-                                    int p_cat_id12 = Convert.ToInt32(rw11["p_cat_id"]);
-                                    
-                                       // catmastergrid.category.Add(new Models.CategoryGrid { cat_id = Convert.ToInt32(rw["cat_id"]), cat_name = cat_name, sub_Cat1 = cat_name1, sub_Cat2 = cat_name12,description=description12 });
-
-
-                                    DataSet ds12 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", cat_id12), new SqlParameter("@remark", SqlDbType.Char));
-                                    if (ds12.Tables[0].Rows.Count > 0)
-                                    {
-                                        int count = 0;
-                                        foreach (DataRow rw12 in ds12.Tables[0].Rows)
-                                        {
-                                            count = count + 1;
-                                            int cat_id122 = Convert.ToInt32(rw12["cat_id"]);
-                                            string cat_name122 = rw12["cat_name"].ToString();
-                                            int p_cat_id122 = Convert.ToInt32(rw12["p_cat_id"]);
-                                            //catmaster.category.Add(new Models.CategoryClass { cat_id = cat_id122, cat_name = cat_name122, p_cat_id = p_cat_id122 });
-                                            if(count==1)
-                                            {
-                                                catmastergrid.category.Add(new Models.CategoryGrid { cat_id = Convert.ToInt32(rw["cat_id"]), cat_name = cat_name, sub_Cat1 ="", sub_Cat2 = cat_name12, description = description12, sub_Cat3 = cat_name122 });
-                                            }
-                                            else
-                                            {
-                                                if (count_a == 1)
-                                                {
-                                                    catmastergrid.category.Add(new Models.CategoryGrid { cat_id = Convert.ToInt32(rw["cat_id"]), cat_name = cat_name, sub_Cat1 = "", sub_Cat2 = "", description = description12, sub_Cat3 = cat_name122 });
-                                                }
-                                                else
-                                                {
-                                                    catmastergrid.category.Add(new Models.CategoryGrid { cat_id = Convert.ToInt32(rw["cat_id"]), cat_name = cat_name, sub_Cat1 = "", sub_Cat2 = "", description = description12, sub_Cat3 = cat_name122 });
-                                                }
-                                            }
-                                            
-
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (count_1 == 1)
-                                        {
-                                            if (count_a == 1)
-                                            {
-                                                catmastergrid.category.Add(new Models.CategoryGrid { cat_id = Convert.ToInt32(rw["cat_id"]), cat_name = cat_name, sub_Cat1 = cat_name1, sub_Cat2 = cat_name12, description = description1, sub_Cat3 = "" });
-                                            }
-                                            else
-                                            {
-                                                catmastergrid.category.Add(new Models.CategoryGrid { cat_id = Convert.ToInt32(rw["cat_id"]), cat_name = cat_name, sub_Cat1 = cat_name1, sub_Cat2 = cat_name12, description = description1, sub_Cat3 = "" });
-                                            }
-
-                                        }
-                                        else
-                                        {
-
-
-                                            catmastergrid.category.Add(new Models.CategoryGrid { cat_id = Convert.ToInt32(rw["cat_id"]), cat_name = cat_name, sub_Cat1 = "", sub_Cat2 = cat_name12, description = description1, sub_Cat3 = "" });
-
-                                        }
-
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (count_2 == 1)
-                                {
-                                    catmastergrid.category.Add(new Models.CategoryGrid { cat_id = Convert.ToInt32(rw["cat_id"]), cat_name = cat_name, sub_Cat1 = cat_name1, sub_Cat2 = "", description = description1, sub_Cat3 = "" });
-                                }
-                                else
-                                {
-                                   
-                                        catmastergrid.category.Add(new Models.CategoryGrid { cat_id = Convert.ToInt32(rw["cat_id"]), cat_name = cat_name, sub_Cat1 = cat_name1, sub_Cat2 = "", description = description1, sub_Cat3 = "" });
-                                    
-
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (count_a==1)
-                        {
-                            catmastergrid.category.Add(new Models.CategoryGrid { cat_id = Convert.ToInt32(rw["cat_id"]), cat_name = cat_name, sub_Cat1 = "", sub_Cat2 = "", description = description, sub_Cat3 = "" });
-                        }
-                        else
-                        {
-                            catmastergrid.category.Add(new Models.CategoryGrid { cat_id = Convert.ToInt32(rw["cat_id"]), cat_name = cat_name, sub_Cat1 = "", sub_Cat2 = "", description = description, sub_Cat3 = "" });
-                        }
-                    }
-                    
-
+                        Text = "SKU Range Exceed",
+                        Value = "SKU Range Exceed",
+                    });
                 }
-
-
-
-
-            }
-            
-            ViewBag.category = catmastergrid.category;
-
-
-
-
-
-
-
-
-
-
-            //DataSet ds3 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@remark", SqlDbType.Char));
-            // ViewBag.category1 = ds3.Tables[0];
-
-            if (!string.IsNullOrEmpty(mid))
-            {
-                ViewBag.update = "1";
-                using (var db = new Models.subzicartEntities())
+                else
                 {
-                    //var response = db.Database.SqlQuery<Models.tblCategory>(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategory", new SqlParameter("@action", "5"), new SqlParameter("@catId", mid), new SqlParameter("@remark", SqlDbType.Char)).FirstOrDefault();
-
-                    DataSet ds1 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "6"), new SqlParameter("@cat_id", mid), new SqlParameter("@remark", SqlDbType.Char));
-
-                    if (ds.Tables[0].Rows.Count > 0)
+                    items.Add(new SelectListItem
                     {
-                        Models.tblSubCategory md = new Models.tblSubCategory();
-                        md.catId = Convert.ToInt32(ds1.Tables[0].Rows[0]["catId"]);
-                        md.subCatId = Convert.ToInt32(ds1.Tables[0].Rows[0]["subCatId"]);
-                        md.subCatName = ds1.Tables[0].Rows[0]["subCatName"].ToString();
-
-                        md.description = ds1.Tables[0].Rows[0]["description"].ToString();
-                        md.isActive = Convert.ToInt32(ds1.Tables[0].Rows[0]["isActive"]);
-                        ViewBag.isActive = Convert.ToInt32(ds1.Tables[0].Rows[0]["isActive"]);
-                        ViewBag.categoryid = Convert.ToInt32(ds1.Tables[0].Rows[0]["catId"]);
-
-
-                        ViewBag.data = md;
-
-                        return View(md);
-                    }
-                    else
-                    {
-                        ViewBag.message = "Record has an error";
-                        //return RedirectToAction("Insert_Category", "Admin");
-                    }
+                        Text = skuRange.Split('-')[0] + final,
+                        Value = skuRange.Split('-')[0] + final
+                    });
                 }
             }
             else
             {
-                ViewBag.update = "0";
+                items.Add(new SelectListItem
+                {
+                    Text = skuRange.Split('-')[0] + skuRange.Split('-')[1],
+                    Value = skuRange.Split('-')[0] + skuRange.Split('-')[1]
+                });
             }
-
-            return View();
+            return Json(items, JsonRequestBehavior.AllowGet);
         }
-        [HttpPost]
-        public ActionResult Insert_CategoryMaster(Models.tblCategoryMaster modeldata, string command)
+        public JsonResult LoadSubcategorybyCategory(int sID)
         {
-            if (!string.IsNullOrEmpty(command) && command == "Save")
-            {
-                if (ModelState.ContainsKey("cat_id"))
-                    ModelState["cat_id"].Errors.Clear();
-                if (ModelState.IsValid)
-                {
-                    SqlParameter[] sp = new SqlParameter[7];
-                  
-                    sp[0] = new SqlParameter("@cat_name", modeldata.cat_name);
-                    sp[1] = new SqlParameter("@description", modeldata.description);
-                    sp[2] = new SqlParameter("@p_cat_id", modeldata.p_cat_id);
-                    sp[3] = new SqlParameter("@isactive", modeldata.isActive);
-                    sp[4] = new SqlParameter("@userid", Session["loginID"]);
-                    sp[5] = new SqlParameter("@action", "1");
-                    sp[6] = new SqlParameter("@remark", SqlDbType.NVarChar, 500);
-                    sp[6].Direction = ParameterDirection.Output;
-                    int k = SqlHelper.ExecuteNonQuery(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", sp);
-                    if (k > 0)
-                    {
-
-                        ViewBag.message = sp[6].Value;
-                        ModelState.Clear();
-                        //return RedirectToAction("Insert_Category", "Admin");
-                        ViewBag.update = "0";
-                    }
-                    else
-                    {
-                        ViewBag.message = sp[6].Value;
-                        ModelState.Clear();
-                        //return RedirectToAction("Insert_Category", "Admin");
-                        ViewBag.update = "0";
-                    }
-                }
-                else
-                {
-                    // ModelState.Clear();
-                    //return RedirectToAction("Insert_Category", "Admin");
-                    ViewBag.update = "0";
-                }
-
-            }
-            else if (!string.IsNullOrEmpty(command) && command == "Update")
-            {
-                if (ModelState.IsValid)
-                {
-                    SqlParameter[] sp = new SqlParameter[8];
-                    sp[0] = new SqlParameter("@cat_id", modeldata.cat_id);
-                    sp[1] = new SqlParameter("@cat_name", modeldata.cat_name);
-                    sp[2] = new SqlParameter("@description", modeldata.description);
-                    sp[3] = new SqlParameter("@p_cat_id", modeldata.p_cat_id);
-                    sp[4] = new SqlParameter("@isactive", modeldata.isActive);
-                    sp[5] = new SqlParameter("@userid", Session["loginID"]);
-                    sp[6] = new SqlParameter("@action", "1");
-                    sp[7] = new SqlParameter("@remark", SqlDbType.NVarChar, 500);
-                    sp[7].Direction = ParameterDirection.Output;
-                    int k = SqlHelper.ExecuteNonQuery(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", sp);
-                    if (k > 0)
-                    {
-
-                        ViewBag.message = sp[7].Value;
-                        ModelState.Clear();
-                        //return RedirectToAction("Insert_Category", "Admin");
-                        ViewBag.update = "0";
-                    }
-                    else
-                    {
-                        ViewBag.message = sp[7].Value;
-                        ModelState.Clear();
-                        //return RedirectToAction("Insert_Category", "Admin");
-                        ViewBag.update = "0";
-                    }
-                }
-                else
-                {
-                    //ModelState.Clear();
-                    //return RedirectToAction("Insert_Category", "Admin");
-                    ViewBag.update = "0";
-                }
-            }
-            if (!string.IsNullOrEmpty(command) && command == "Cancel")
-            {
-
-                return RedirectToAction("Insert_CategoryMaster", "Admin");
-            }
-
-            Models.MyViewModel catmaster = new Models.MyViewModel();
-
-            catmaster.category = new List<Models.CategoryClass>();
-
-            //List <Models.CategoryClass> catmaster = new List<Models.CategoryClass>();
-            //Models.CategoryClass catmaster = new Models.CategoryClass();
-            DataSet ds = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", "1"), new SqlParameter("@remark", SqlDbType.Char));
-            //ViewBag.category = ds.Tables[0];
+            List<SelectListItem> items = new List<SelectListItem>();
+            DataSet ds = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.Text, "select cat_id, cat_Name from tblCategoryMaster where  p_cat_id=" + sID +" order by cat_Name");
             if (ds.Tables[0].Rows.Count > 0)
             {
-                catmaster.category.Add(new Models.CategoryClass { cat_id = 1, cat_name = "Root", p_cat_id = 0 });
-                foreach (DataRow rw in ds.Tables[0].Rows)
+                foreach (DataRow sdr in ds.Tables[0].Rows)
                 {
-                    int cat_id = Convert.ToInt32(rw["cat_id"]);
-                    string cat_name = "-" + rw["cat_name"].ToString();
-                    int p_cat_id = Convert.ToInt32(rw["p_cat_id"]);
-                    //catmaster.cat_id = cat_id;
-                    //catmaster.cat_name = cat_name;
-                    //catmaster.p_cat_id = p_cat_id;
-                    catmaster.category.Add(new Models.CategoryClass { cat_id = cat_id, cat_name = cat_name, p_cat_id = p_cat_id });
-
-                    DataSet ds1 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", cat_id), new SqlParameter("@remark", SqlDbType.Char));
-                    if (ds1.Tables[0].Rows.Count > 0)
+                    items.Add(new SelectListItem
                     {
-                        foreach (DataRow rw1 in ds1.Tables[0].Rows)
-                        {
-                            int cat_id1 = Convert.ToInt32(rw1["cat_id"]);
-                            string cat_name1 = "---" + rw1["cat_name"].ToString();
-                            int p_cat_id1 = Convert.ToInt32(rw1["p_cat_id"]);
-                            catmaster.category.Add(new Models.CategoryClass { cat_id = cat_id1, cat_name = cat_name1, p_cat_id = p_cat_id1 });
-                            DataSet ds11 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", cat_id1), new SqlParameter("@remark", SqlDbType.Char));
-                            if (ds11.Tables[0].Rows.Count > 0)
-                            {
-                                foreach (DataRow rw11 in ds11.Tables[0].Rows)
-                                {
-                                    int cat_id12 = Convert.ToInt32(rw11["cat_id"]);
-                                    string cat_name12 = "-----" + rw11["cat_name"].ToString();
-                                    int p_cat_id12 = Convert.ToInt32(rw11["p_cat_id"]);
-                                    catmaster.category.Add(new Models.CategoryClass { cat_id = cat_id12, cat_name = cat_name12, p_cat_id = p_cat_id12 });
-
-                                    DataSet ds12 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", cat_id12), new SqlParameter("@remark", SqlDbType.Char));
-                                    if (ds12.Tables[0].Rows.Count > 0)
-                                    {
-                                        foreach (DataRow rw12 in ds12.Tables[0].Rows)
-                                        {
-                                            int cat_id122 = Convert.ToInt32(rw12["cat_id"]);
-                                            string cat_name122 = "-----" + rw12["cat_name"].ToString();
-                                            int p_cat_id122 = Convert.ToInt32(rw12["p_cat_id"]);
-                                            catmaster.category.Add(new Models.CategoryClass { cat_id = cat_id122, cat_name = cat_name122, p_cat_id = p_cat_id122 });
-
-                                        }
-                                    }
-
-                                }
-                            }
-                        }
-                    }
-                    catmaster.category.Add(new Models.CategoryClass { cat_id = 0, cat_name = "</br>", p_cat_id = 0 });
-
+                        Text = sdr["cat_Name"].ToString(),
+                        Value = sdr["cat_id"].ToString()
+                    });
                 }
-
-
-
-
             }
-            ViewBag.category1 = catmaster.category;
-
-            Models.MyViewModel1 catmastergrid = new Models.MyViewModel1();
-
-            catmastergrid.category = new List<Models.CategoryGrid>();
-            //catmastergrid.category.Add(new Models.CategoryGrid { cat_id = 0, cat_name = "", sub_Cat1 = "", sub_Cat2 = "" });
-            //List <Models.CategoryClass> catmaster = new List<Models.CategoryClass>();
-            //Models.CategoryClass catmaster = new Models.CategoryClass();
-            DataSet ds113 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", "1"), new SqlParameter("@remark", SqlDbType.Char));
-            //ViewBag.category = ds.Tables[0];
-            if (ds113.Tables[0].Rows.Count > 0)
-            {
-
-                foreach (DataRow rw in ds113.Tables[0].Rows)
-                {
-                    int cat_id = Convert.ToInt32(rw["cat_id"]);
-                    string cat_name = rw["cat_name"].ToString();
-                    string description = rw["description"].ToString();
-                    int p_cat_id = Convert.ToInt32(rw["p_cat_id"]);
-                    //catmaster.cat_id = cat_id;
-                    //catmaster.cat_name = cat_name;
-                    //catmaster.p_cat_id = p_cat_id;
-                    //catmaster.category.Add(new Models.CategoryClass { cat_id = cat_id, cat_name = cat_name, p_cat_id = p_cat_id });
-
-                    DataSet ds1 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", cat_id), new SqlParameter("@remark", SqlDbType.Char));
-                    if (ds1.Tables[0].Rows.Count > 0)
-                    {
-                        foreach (DataRow rw1 in ds1.Tables[0].Rows)
-                        {
-                            int cat_id1 = Convert.ToInt32(rw1["cat_id"]);
-                            string cat_name1 = rw1["cat_name"].ToString();
-                            string description1 = rw1["description"].ToString();
-                            int p_cat_id1 = Convert.ToInt32(rw1["p_cat_id"]);
-                            //catmaster.category.Add(new Models.CategoryClass { cat_id = cat_id1, cat_name = cat_name1, p_cat_id = p_cat_id1 });
-                            DataSet ds11 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", cat_id1), new SqlParameter("@remark", SqlDbType.Char));
-                            if (ds11.Tables[0].Rows.Count > 0)
-                            {
-                                foreach (DataRow rw11 in ds11.Tables[0].Rows)
-                                {
-                                    int cat_id12 = Convert.ToInt32(rw11["cat_id"]);
-                                    string cat_name12 = rw11["cat_name"].ToString();
-                                    string description12 = rw11["description"].ToString();
-                                    int p_cat_id12 = Convert.ToInt32(rw11["p_cat_id"]);
-
-                                    //catmastergrid.category.Add(new Models.CategoryGrid { cat_id = Convert.ToInt32(rw["cat_id"]), cat_name = cat_name, sub_Cat1 = cat_name1, sub_Cat2 = cat_name12, description = description12 });
-
-
-                                    DataSet ds12 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategoryMaster", new SqlParameter("@action", "5"), new SqlParameter("@p_cat_id", cat_id12), new SqlParameter("@remark", SqlDbType.Char));
-                                    if (ds12.Tables[0].Rows.Count > 0)
-                                    {
-                                        foreach (DataRow rw12 in ds12.Tables[0].Rows)
-                                        {
-                                            int cat_id122 = Convert.ToInt32(rw12["cat_id"]);
-                                            string cat_name122 =  rw12["cat_name"].ToString();
-                                            int p_cat_id122 = Convert.ToInt32(rw12["p_cat_id"]);
-                                            //catmaster.category.Add(new Models.CategoryClass { cat_id = cat_id122, cat_name = cat_name122, p_cat_id = p_cat_id122 });
-                                            catmastergrid.category.Add(new Models.CategoryGrid { cat_id = Convert.ToInt32(rw["cat_id"]), cat_name = cat_name, sub_Cat1 = cat_name1, sub_Cat2 = cat_name12, description = description12, sub_Cat3 = cat_name122 });
-
-                                        }
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                catmastergrid.category.Add(new Models.CategoryGrid { cat_id = Convert.ToInt32(rw["cat_id"]), cat_name = cat_name, sub_Cat1 = cat_name1, sub_Cat2 = "", description = description1, sub_Cat3 = "" });
-                            }
-                        }
-                    }
-                    else
-                    {
-                        catmastergrid.category.Add(new Models.CategoryGrid { cat_id = Convert.ToInt32(rw["cat_id"]), cat_name = cat_name, sub_Cat1 = "", sub_Cat2 = "", description = description, sub_Cat3 = "" });
-                    }
-
-
-                }
-
-
-
-
-            }
-
-            ViewBag.category = catmastergrid.category;
-
-
-
-
-
-            return View();
+            return Json(items, JsonRequestBehavior.AllowGet);
         }
-
-        public ActionResult insert_ImageLog (string mid)
+        public JsonResult loadBrand(int sID)
         {
-            try
+            List<SelectListItem> items = new List<SelectListItem>();
+            DataSet ds = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.Text, "select brand_id,brand_name from tblBrandPrefixes order by brand_name");
+            if (ds.Tables[0].Rows.Count > 0)
             {
-                ViewBag.message = Session["Message1"];
-                Session.RemoveAll();
-                Session.Clear();
-            }
-
-            catch (Exception ee) { }
-
-            DataSet ds = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblProductMaster", new SqlParameter("@action", "7"), new SqlParameter("@remark", SqlDbType.Char));
-            ViewBag.category = ds.Tables[0];
-
-            DataSet ds2 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblImage_log", new SqlParameter("@action", "2"), new SqlParameter("@remark", SqlDbType.Char));
-            ViewBag.category1 = ds2.Tables[0];
-            if (!string.IsNullOrEmpty(mid))
-            {
-                ViewBag.update = "1";
-                using (var db = new Models.subzicartEntities())
+                foreach (DataRow sdr in ds.Tables[0].Rows)
                 {
-                    //var response = db.Database.SqlQuery<Models.tblCategory>(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblCategory", new SqlParameter("@action", "5"), new SqlParameter("@catId", mid), new SqlParameter("@remark", SqlDbType.Char)).FirstOrDefault();
-
-                    DataSet ds1 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblImage_log", new SqlParameter("@action", "2"), new SqlParameter("@brand_id", mid), new SqlParameter("@remark", SqlDbType.Char));
-                    if (ds.Tables[0].Rows.Count > 0)
+                    items.Add(new SelectListItem
                     {
-                        Models.tblImageLog md = new Models.tblImageLog();
-                        md.product_id = Convert.ToInt32(ds1.Tables[0].Rows[0]["product_id"]);
-                        md.image_id = Convert.ToInt32(ds1.Tables[0].Rows[0]["image_id"]);
-                        md.image_name = ds1.Tables[0].Rows[0]["image_name"].ToString();
-                        md.image_url = ds1.Tables[0].Rows[0]["image_url"].ToString();
-                        md.image_desc = ds1.Tables[0].Rows[0]["image_desc"].ToString();
-                        //md.image_binary = "";
-                        
-                        md.isthumb = ds1.Tables[0].Rows[0]["isthumb"].ToString();
-                        md.sort_id = Convert.ToInt32(ds1.Tables[0].Rows[0]["sort_id"]);
-                        md.active = Convert.ToInt32(ds1.Tables[0].Rows[0]["active"]);
-                        ViewBag.isActive = Convert.ToInt32(ds1.Tables[0].Rows[0]["active"]);
-
-                        ViewBag.data = md;
-                        return View(md);
-                    }
-                    else
-                    {
-                        ViewBag.message = "Record has an error";
-                        //return RedirectToAction("Insert_Category", "Admin");
-                    }
+                        Text = sdr["brand_name"].ToString(),
+                        Value = sdr["brand_id"].ToString()
+                    });
                 }
             }
-            else
-            {
-                ViewBag.update = "0";
-            }
-
-            return View();
+            return Json(items, JsonRequestBehavior.AllowGet);
         }
-        static string filename = string.Empty;
-        [HttpPost]
-        public ActionResult insert_ImageLog(Models.imageModel imagemodel, HttpPostedFileBase postedFile, string command)
-        {
-            string filePath = string.Empty;
-            if (postedFile != null)
-            {
-                string path = Server.MapPath("~/product_image/");
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-
-                filename = path + Path.GetFileName(postedFile.FileName);
-                string extension = Path.GetExtension(postedFile.FileName);
-                postedFile.SaveAs(filename);
 
 
-
-
-            }
-            else if(imagemodel.image_url!="" || imagemodel.image_url != null )
-            {
-
-                System.Drawing.Image image = DownloadImageFromUrl(imagemodel.image_url.Trim());
-
-                string rootPath = Server.MapPath("~/product_image/");
-                filename = System.IO.Path.Combine(rootPath, imagemodel.image_name + ".jpg");
-                image.Save(filename);
-
-
-
-
-
-            }
-
-            try
-            {
-
-                Byte[] bytes = null;
-
-                if (filename!= null)
-
-                {
-                    if (postedFile != null)
-                    {
-                        Stream fs = postedFile.InputStream;
-
-                        BinaryReader br = new BinaryReader(fs);
-
-                        bytes = br.ReadBytes((Int32)fs.Length);
-                    }
-                    else
-                    {
-
-                        byte[] fileContents;
-                        using (MemoryStream memoryStream = new MemoryStream())
-                        {
-                            using (Bitmap image = new Bitmap(WebRequest.Create(filename).GetResponse().GetResponseStream()))
-                                image.Save(memoryStream, ImageFormat.Jpeg);
-                            bytes = memoryStream.ToArray();
-                        }
-
-
-
-                    }
-
-                    if (!string.IsNullOrEmpty(command) && command == "Save")
-                    {
-                        if (ModelState.ContainsKey("image_id"))
-                            ModelState["image_id"].Errors.Clear();
-                        if (ModelState.IsValid)
-                        {
-                            SqlParameter[] sp = new SqlParameter[11];
-
-                            sp[0] = new SqlParameter("@product_id", imagemodel.product_id);
-                            sp[1] = new SqlParameter("@image_name", imagemodel.image_name);
-                            sp[2] = new SqlParameter("@image_desc", imagemodel.image_desc);
-                            sp[3] = new SqlParameter("@image_url", "http://apps.indiaresults.com/subzicart/product_image/" + imagemodel.image_name + ".jpg");
-                            sp[4] = new SqlParameter("@image_binary", bytes);
-                            sp[5] = new SqlParameter("@isthumb", imagemodel.isthumb);
-                            sp[6] = new SqlParameter("@sort_id", imagemodel.sort_id);
-                            sp[7] = new SqlParameter("@insdt", imagemodel.insdt);
-                            sp[8] = new SqlParameter("@userId", imagemodel.userId);
-                            sp[9] = new SqlParameter("@action", "1");
-                            sp[10] = new SqlParameter("@remark", SqlDbType.NVarChar, 500);
-                            sp[10].Direction = ParameterDirection.Output;
-                            int k = SqlHelper.ExecuteNonQuery(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblImage_log", sp);
-                            if (k > 0)
-                            {
-
-                                ViewBag.message = sp[10].Value;
-                                ModelState.Clear();
-                                //return RedirectToAction("Insert_Category", "Admin");
-                                ViewBag.update = "0";
-                            }
-                            else
-                            {
-                                ViewBag.message = sp[10].Value;
-                                ModelState.Clear();
-                                //return RedirectToAction("Insert_Category", "Admin");
-                                ViewBag.update = "0";
-                            }
-                        }
-                        else
-                        {
-                            // ModelState.Clear();
-                            //return RedirectToAction("Insert_Category", "Admin");
-                            ViewBag.update = "0";
-                        }
-
-                    }
-
-                }
-
-            }
-
-            catch (Exception)
-            {
-
-                throw;
-
-            }
-
-
-            DataSet ds = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblProductMaster", new SqlParameter("@action", "7"), new SqlParameter("@remark", SqlDbType.Char));
-            ViewBag.category = ds.Tables[0];
-
-            DataSet ds2 = SqlHelper.ExecuteDataset(Connection.ConnectionString, CommandType.StoredProcedure, "sp_tblImage_log", new SqlParameter("@action", "2"), new SqlParameter("@remark", SqlDbType.Char));
-            ViewBag.category1 = ds2.Tables[0];
-
-
-            return View();
-
-        }
-        public System.Drawing.Image DownloadImageFromUrl(string imageUrl)
-        {
-            System.Drawing.Image image = null;
-
-            try
-            {
-                System.Net.HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(imageUrl);
-                webRequest.AllowWriteStreamBuffering = true;
-                webRequest.Timeout = 30000;
-
-                System.Net.WebResponse webResponse = webRequest.GetResponse();
-
-                System.IO.Stream stream = webResponse.GetResponseStream();
-
-                image = System.Drawing.Image.FromStream(stream);
-
-                webResponse.Close();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-
-            return image;
-        }
-        private string ViewImage(byte[] arrayImage)
-
-        {
-
-            string base64String = Convert.ToBase64String(arrayImage, 0, arrayImage.Length);
-
-            return "data:image/png;base64," + base64String;
-
-        }
     }
 }

@@ -11,16 +11,23 @@ namespace subzicart.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblCurrencyMaster
     {
         public long cid { get; set; }
+        [Required(ErrorMessage = "Currency is Required")]
+        [RegularExpression(@"^[a-zA-Z]+[ a-zA-Z-_]*$", ErrorMessage = "Use Characters only")]
         public string currency { get; set; }
+        [Required(ErrorMessage = "Rate In USD is Required")]
+        [DataType(DataType.Currency)]
         public Nullable<double> rateInUSD { get; set; }
         public Nullable<System.DateTime> insDt { get; set; }
         public Nullable<System.DateTime> updDt { get; set; }
         public Nullable<int> active { get; set; }
         public Nullable<int> userId { get; set; }
+        [Required(ErrorMessage = "Currency Value is Required")]
+        [DataType(DataType.Currency)]
         public Nullable<double> value { get; set; }
     }
 }

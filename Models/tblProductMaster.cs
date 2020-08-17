@@ -41,6 +41,5 @@ namespace subzicart.Models
         public Nullable<int> userId { get; set; }
         public Nullable<System.DateTime> insDt { get; set; }
         public Nullable<System.DateTime> updDt { get; set; }
-        public string subCatName { get; set; }
     }
 }

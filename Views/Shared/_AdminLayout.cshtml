@@ -33,8 +33,17 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link href="~/Content/build/scss/mixins/style.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/chosen.jquery.js" type="text/javascript"></script>
 </head>
 <body class="sidebar-mini" style="font-size:13px;line-height: 24px;">
+    
     <div class="wrapper">
 
         <!-- Navbar -->
@@ -185,17 +194,17 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="~/Admin/insert_categoryMaster" class="nav-link">
+                                    <a href="~/Admin/insert_category" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Category Master</p>
                                     </a>
                                 </li>
-                                @*<li class="nav-item">
+                                <li class="nav-item">
                                     <a href="~/Admin/Insert_SubCategory" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>SubCategory Master</p>
                                     </a>
-                                </li>*@
+                                </li>
                                 <li class="nav-item">
                                     <a href="~/Admin/Insert_brandprefix" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -212,6 +221,12 @@
                                     <a href="~/Admin/Insert_mesaurementmaster" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Measurement Master</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="~/Admin/productList" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Product List</p>
                                     </a>
                                 </li>
 

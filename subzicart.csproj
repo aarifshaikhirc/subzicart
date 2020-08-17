@@ -2195,6 +2195,7 @@
     <Content Include="Content\plugins\sweetalert2-theme-bootstrap-4\bootstrap-4.scss" />
     <Content Include="Content\plugins\toastr\toastr.js.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\chosen.jquery.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -2205,6 +2206,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="chosen.html" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
@@ -2216,11 +2218,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CategoryClass.cs" />
-    <Compile Include="Models\CategoryGrid.cs" />
     <Compile Include="Models\category_Subcategory_join_class.cs" />
+    <Compile Include="Models\commonFunctions.cs" />
     <Compile Include="Models\Connection.cs" />
-    <Compile Include="Models\imageModel.cs" />
+    <Compile Include="Models\productMaster.cs" />
     <Compile Include="Models\sp_login_Result.cs">
       <DependentUpon>SubzicartModel.tt</DependentUpon>
     </Compile>
@@ -2228,9 +2229,6 @@
       <DependentUpon>SubzicartModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_tblBrandPrefixes_Result.cs">
-      <DependentUpon>SubzicartModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_tblCategoryMaster_Result.cs">
       <DependentUpon>SubzicartModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_tblCategory_Result.cs">
@@ -2270,9 +2268,6 @@
     <Compile Include="Models\tblCategory.cs">
       <DependentUpon>SubzicartModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\tblCategoryMaster.cs">
-      <DependentUpon>SubzicartModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\tblCompetitorMaster.cs">
       <DependentUpon>SubzicartModel.tt</DependentUpon>
     </Compile>
@@ -2304,9 +2299,6 @@
       <DependentUpon>SubzicartModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblProductMaster.cs">
-      <DependentUpon>SubzicartModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\tblProductMaster_13082020.cs">
       <DependentUpon>SubzicartModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblSubCategory.cs">
@@ -2346,8 +2338,9 @@
     <Content Include="Views\Admin\Insert_Currency.cshtml" />
     <Content Include="Views\Admin\Insert_brandprefix.cshtml" />
     <Content Include="Views\Admin\Insert_mesaurementmaster.cshtml" />
-    <Content Include="Views\Admin\Insert_CategoryMaster.cshtml" />
-    <Content Include="Views\Admin\insert_ImageLog.cshtml" />
+    <Content Include="Views\Admin\addproduct.cshtml" />
+    <Content Include="Views\Admin\productEdit.cshtml" />
+    <Content Include="Views\Admin\productlist.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2357,7 +2350,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="product_image\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -2386,7 +2378,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>53373</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44390/</IISUrl>
+          <IISUrl>http://localhost:44390/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -4,32 +4,24 @@
     ViewBag.Title = "Add New Product";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-1.8.3.js"></script>
-<script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
+
 
 <script type="text/javascript">
-
+    //$('.chzn-select').chosen('destroy');
+    //$(".chzn-select").chosen();
+</script>
+<script type="text/javascript">
 
     $(document).ready(function () {
 
-        $.getJSON("loadCategory", { sID: 0 },
-            function (data) {
-                var select = $("#ddlCategory");
-                select.empty();
-                select.append($('<option/>', {
-                    value: 0,
-                    text: "Select"
-                }));
-                $.each(data, function (index, itemData) {
-                    select.append($('<option/>', {
-                        value: itemData.Value,
-                        text: itemData.Text
-                    }));
-                });
-            });
+
+        //var form = $(this).closest('form').get(0);
+        //$(form).find('select').each(function (i, v) {
+        //    alert("adfd");
+        //    $(v).trigger('chosen:updated');
+        //});
+
+
 
 
         $.getJSON("loadBrand", { sID: 0 },
@@ -50,30 +42,77 @@
 
 
 
-        //$("#ddlCategory").change(function () {
+        $("#ddlCategory").change(function () {
+            var sID = $(this).val();
 
-        //    var sID = $(this).val();
+            $.getJSON("LoadSubcategorybyCategory", { sID: sID },
+                function (data) {
+                    var select = $("#ddlSubCategory1");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "Select"
+                    }));
+                    $.each(data, function (index, itemData) {
+                        select.append($('<option/>', {
+                            value: itemData.Value + '-' + itemData.Text,
+                            text: itemData.Text
+                        }));
+                    });
+                });
+        });
 
-        //    $.getJSON("LoadSubcategorybyCategory", { sID: sID },
-        //        function (data) {
-        //            var select = $("#ddlSubCategory");
-        //            select.empty();
-        //            select.append($('<option/>', {
-        //                value: 0,
-        //                text: "Select"
-        //            }));
-        //            $.each(data, function (index, itemData) {
-        //                select.append($('<option/>', {
-        //                    value: itemData.Value,
-        //                    text: itemData.Text
-        //                }));
-        //            });
-        //        });
+        $("#ddlSubCategory1").change(function () {
+            var sID = $(this).val().split('-')[0];
 
-        //    $(function () {
-        //        $(".chzn-select").chosen();
-        //    });
-        //});
+            $.getJSON("LoadSubcategorybyCategory", { sID: sID },
+                function (data) {
+                    var select = $("#ddlSubCategory2");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "Select"
+                    }));
+                    if (data != "") {
+                        $("#DvSubCategory2").show();
+                    }
+                    else {
+                        $("#DvSubCategory2").hide();
+                    }
+                    $.each(data, function (index, itemData) {
+
+                        select.append($('<option/>', {
+                            value: itemData.Value + '-' + itemData.Text,
+                            text: itemData.Text
+                        }));
+                    });
+                });
+        });
+        $("#ddlSubCategory2").change(function () {
+            var sID = $(this).val().split('-')[0];
+
+            $.getJSON("LoadSubcategorybyCategory", { sID: sID },
+                function (data) {
+                    var select = $("#ddlSubCategory3");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "Select"
+                    }));
+                    if (data != "") {
+                        $("#DvSubCategory3").show();
+                    }
+                    else {
+                        $("#DvSubCategory3").hide();
+                    }
+                    $.each(data, function (index, itemData) {
+                        select.append($('<option/>', {
+                            value: itemData.Value + '-' + itemData.Text,
+                            text: itemData.Text
+                        }));
+                    });
+                });
+        });
 
 
         $("#ddlBrand").change(function () {
@@ -93,161 +132,757 @@
                 });
         });
 
+
+
+
     });
+
 
 </script>
 
+
 <h2>Add New Product</h2>
+
 
 @using (Html.BeginForm("addproduct", "Admin", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            <div class="col-md-10">
-                @if (ViewBag.msg == "Your Product is saved Successfully")
-                {
-                    <script>
-                        alert("Your Product is saved Successfully");
-                        window.location.href = "productlist";
-                    </script>
-                }
-                else
-                {
-                    <span style="color:red">   @ViewBag.msg</span>
-                }
-            </div>
+    <div class="card card-default" id="dvBasic">
+        <div class="card-header">
+            <h3 class="card-title">Basic Information</h3>
 
-        </div>
-        <div class="form-group">
-            @Html.Label("Category", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                <select id="ddlCategory" name="ddlCategory" class="form-control">
-                    <option>Select</option>
-                </select>
-            </div>
-            @Html.Label("Sub Category", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @*<input id="txtSearch" type="text" onkeyup="SearchEmployees(this,'#ddlSubCategory');" />
-                    <span id="spnCount"></span>*@
-                <select id="ddlSubCategory" name="ddlSubCategory" class="form-control chzn-select" multiple="true">
-                    <option>Select</option>
-
-                </select>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
             </div>
         </div>
-        <div class="form-group">
-            @Html.Label("Brand", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                <select id="ddlBrand" name="ddlBrand" class="form-control">
-                    <option>Select</option>
-                </select>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <div class="col-md-10">
+                            <select id="ddlBrand" name="ddlBrand" class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Main Category</label>
+                        <div class="col-md-10">
+                            <select id="ddlCategory" name="ddlCategory" class="form-control ">
+                                <option>Select</option>
+                            </select>
+
+
+                            <script type="text/javascript">
+
+
+                                var sID = 0;
+
+                                $.ajax
+                                    ({
+                                        url: '/Admin/loadCategory',
+                                        type: 'POST',
+                                        datatype: 'application/json',
+                                        contentType: 'application/json',
+
+
+                                        data: JSON.stringify({
+                                            sID: sID
+                                        }),
+                                        success: function (result) {
+
+                                            var select = $("#ddlCategory");
+                                            select.empty();
+                                            select.append($('<option/>', {
+                                                value: 0,
+                                                text: "Select"
+                                            }));
+                                            $.each(result, function (index, itemData) {
+                                                select.append($('<option/>', {
+                                                    value: itemData.Value,
+                                                    text: itemData.Text
+                                                }));
+                                                select.trigger("chosen:updated");
+                                            });
+
+                                            $(".chzn-select").val('').trigger("liszt:updated");
+
+                                        },
+                                        error: function () {
+                                            alert("Something went wrong..")
+                                        },
+                                    });
+
+
+                                //$('.chzn-select').chosen('destroy');
+
+                                //$(".chzn-select").trigger("chosen:updated");
+
+                            </script>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Sub Category1</label>
+                        <div class="col-md-10">
+                            <select id="ddlSubCategory1" name="ddlSubCategory1" class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="form-group" id="DvSubCategory2" style="display:none">
+                        <label>Sub Category2</label>
+                        <div class="col-md-10">
+                            <select id="ddlSubCategory2" name="ddlSubCategory2" class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group" id="DvSubCategory3" style="display:none">
+                        <label>Sub Category3</label>
+                        <div class="col-md-10">
+                            <select id="ddlSubCategory3" name="ddlSubCategory3" class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
 
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.productName, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
+                            @Html.ValidationMessageFor(model => model.productName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>SKU</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.SKU, new { htmlAttributes = new { @class = "form-control", @maxlength = "50", @readonly = true } })
+                            @Html.ValidationMessageFor(model => model.SKU, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Product Description</label>
+                        <div class="col-md-11">
+                            @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control", @maxlength = "600" } })
+                            @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>About Product</label>
+                        <div class="col-md-11">
+                            @Html.EditorFor(model => model.aboutProduct, new { htmlAttributes = new { @class = "form-control", @maxlength = "600" } })
+                            @Html.ValidationMessageFor(model => model.aboutProduct, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Price</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Cost Price</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.costPrice, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.costPrice, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Retail Price</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.retailPrice, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.retailPrice, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Sale Price</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.salePrice, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.salePrice, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                            @Html.ActionLink("Cancel", "productlist", null, new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-10">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.productName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.EditorFor(model => model.productName, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
-                @Html.ValidationMessageFor(model => model.productName, "", new { @class = "text-danger" })
-            </div>
-            @Html.LabelFor(model => model.SKU, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.EditorFor(model => model.SKU, new { htmlAttributes = new { @class = "form-control", @maxlength = "50", @readonly = true } })
-                @Html.ValidationMessageFor(model => model.SKU, "", new { @class = "text-danger" })
-            </div>
-
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.aboutProduct, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.aboutProduct, new { htmlAttributes = new { @class = "form-control", @maxlength = "600" } })
-                @Html.ValidationMessageFor(model => model.aboutProduct, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control", @maxlength = "600" } })
-                @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.price, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
-            </div>
-            @Html.LabelFor(model => model.costPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.EditorFor(model => model.costPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.costPrice, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.retailPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.EditorFor(model => model.retailPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.retailPrice, "", new { @class = "text-danger" })
-            </div>
-            @Html.LabelFor(model => model.salePrice, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.EditorFor(model => model.salePrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.salePrice, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-3">
-                <input type="submit" value="Save" class="btn btn-default" />
-                &nbsp; &nbsp;
-                @Html.ActionLink("Cancel", "productlist", new { @class = "btn btn-default" })
-            </div>
-        </div>
     </div>
-    <script>
-        $(document).ready(function () {
+}
 
-            var sID = 1;
+@using (Html.BeginForm("addseo", "Admin", FormMethod.Post))
+{
+    <div class="card card-default collapsed-card" id="dvSeo">
+        <div class="card-header">
+            <h3 class="card-title">Search Keywords &amp; Product Availability </h3>
 
-            $.getJSON("LoadSubcategorybyCategory", { sID: sID },
-                function (data) {
-                    var select = $("#ddlSubCategory");
-                    select.empty();
-                    select.append($('<option/>', {
-                        value: 0,
-                        text: "Select"
-                    }));
-                    $.each(data, function (index, itemData) {
-                        select.append($('<option/>', {
-                            value: itemData.Value + '-' + itemData.Text,
-                            text: itemData.Text
-                        }));
-                    });
-
-                    $(function () {
-                        $(".chzn-select").chosen();
-                    });
-
-                });
-        });
-
-    </script>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
 
 
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Search Keywords</label>
+                        <div class="col-md-11">
+                            @Html.EditorFor(model => model.searchKeywords, new { htmlAttributes = new { @class = "form-control", @maxlength = "600" } })
+                            @Html.ValidationMessageFor(model => model.searchKeywords, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Page Title</label>
+                        <div class="col-md-11">
+                            @Html.EditorFor(model => model.pageTitle, new { htmlAttributes = new { @class = "form-control", @maxlength = "600" } })
+                            @Html.ValidationMessageFor(model => model.pageTitle, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Meta Keywords</label>
+                        <div class="col-md-11">
+                            @Html.EditorFor(model => model.metaKeyword, new { htmlAttributes = new { @class = "form-control", @maxlength = "600" } })
+                            @Html.ValidationMessageFor(model => model.metaKeyword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Meta Description</label>
+                        <div class="col-md-11">
+                            @Html.EditorFor(model => model.metaDescription, new { htmlAttributes = new { @class = "form-control", @maxlength = "600" } })
+                            @Html.ValidationMessageFor(model => model.metaDescription, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Allow Purchases</label>
+                        <div class="col-md-10">
+                            <select id="allow_purchase" name="allow_purchase" class="form-control">
+                                <option>Select</option>
+                                <option value="Y">YES</option>
+                                <option value="N">NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Product Visible</label>
+                        <div class="col-md-10">
+                            <select id="is_visible" name="is_visible" class="form-control">
+                                <option>Select</option>
+                                <option value="Y">YES</option>
+                                <option value="N">NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Product Availability</label>
+                        <div class="col-md-10">
+                            <select id="is_available" name="is_available" class="form-control">
+                                <option>Select</option>
+                                <option value="Y">YES</option>
+                                <option value="N">NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Track Inventory</label>
+                        <div class="col-md-10">
+                            <select id="track_inventory" name="track_inventory" class="form-control">
+                                <option>Select</option>
+                                <option value="NONE">NONE</option>
+                                <option value="YES">YES</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Current Stock Level</label>
+                        <div class="col-md-10">
+                            <input type="number" id="current_stock_level" name="current_stock_level" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Low Stock Level</label>
+                        <div class="col-md-10">
+                            <input type="number" id="low_stock_level" name="low_stock_level" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                            @Html.ActionLink("Cancel", "productlist", null, new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-10">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+@using (Html.BeginForm("addgps", "Admin", FormMethod.Post))
+{
+
+    <div class="card card-default collapsed-card" id="dvGps">
+        <div class="card-header">
+            <h3 class="card-title">GPS Related </h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Product URL</label>
+                        <div class="col-md-10">
+                            <input type="text" id="product_url" name="product_url" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Redirect Old URL</label>
+                        <div class="col-md-10">
+                            <select id="redirect_old_url" name="redirect_old_url" class="form-control">
+                                <option>Select</option>
+                                <option value="Y">YES</option>
+                                <option value="N">NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>GPS Global Trade Item Number</label>
+                        <div class="col-md-10">
+                            <input type="text" id="global_trade_item" name="global_trade_item" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>GPS Manufacturer Part Number</label>
+                        <div class="col-md-10">
+                            <input type="text" id="manufacture_part_no" name="manufacture_part_no" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>GPS Gender</label>
+                        <div class="col-md-10">
+                            <input type="text" id="gps_gender" name="gps_gender" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>GPS Age Group</label>
+                        <div class="col-md-10">
+                            <input type="text" id="gps_age_group" name="gps_age_group" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>GPS Color</label>
+                        <div class="col-md-10">
+                            <input type="text" id="gps_color" name="gps_color" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>GPS Size</label>
+                        <div class="col-md-10">
+                            <input type="text" id="gps_size" name="gps_size" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>GPS Material</label>
+                        <div class="col-md-10">
+                            <input type="text" id="gps_material" name="gps_material" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>GPS Pattern</label>
+                        <div class="col-md-10">
+                            <input type="text" id="gps_pattern" name="gps_pattern" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>GPS Item Group ID</label>
+                        <div class="col-md-10">
+                            <input type="number" id="gps_item_group_id" name="gps_item_group_id" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>GPS Category</label>
+                        <div class="col-md-10">
+                            <input type="text" id="gps_category" name="gps_category" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                            @Html.ActionLink("Cancel", "productlist", null, new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-10">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+
+@using (Html.BeginForm("addGenDetail", "Admin", FormMethod.Post))
+{
+    <div class="card card-default collapsed-card" id="dvGenDetail">
+        <div class="card-header">
+            <h3 class="card-title">General Details &amp; Tax Related</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Bin Picking Number</label>
+                        <div class="col-md-10">
+                            <input type="text" id="Bin_Picking_Number" name="Bin_Picking_Number" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Option Set</label>
+                        <div class="col-md-10">
+                            <input type="text" id="Option_Set" name="Option_Set" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Option Set Align</label>
+                        <div class="col-md-10">
+                            <select id="track_inventory" name="track_inventory" class="form-control">
+                                <option>Select</option>
+                                <option value="RIGHT">RIGHT</option>
+                                <option value="LEFT">LEFT</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Product Condition</label>
+                        <div class="col-md-10">
+                            <input type="text" id="Product_Condition" name="Product_Condition" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Show Product Condition</label>
+                        <div class="col-md-10">
+                            <select id="Show_Product_Condition" name="Show_Product_Condition" class="form-control">
+                                <option>Select</option>
+                                <option value="Y">YES</option>
+                                <option value="N">NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Sort Order</label>
+                        <div class="col-md-10">
+                            <input type="number" id="Product_Condition" name="Product_Condition" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Product UPC/EAN</label>
+                        <div class="col-md-10">
+                            <select id="Product_UPC_EAN" name="Product_UPC_EAN" class="form-control">
+                                <option>Select</option>
+                                <option value="Y">YES</option>
+                                <option value="N">NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>
+                            Stop Processing Rules
+                        </label>
+                        <div class="col-md-10">
+                            <select id="Stop_Processing_Rules" name="Stop_Processing_Rules" class="form-control">
+                                <option>Select</option>
+                                <option value="Y">YES</option>
+                                <option value="N">NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Product Tax Class</label>
+                        <div class="col-md-10">
+                            <input type="text" id="Product_Tax_Class" name="Product_Tax_Class" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Tax Provider Tax Code  </label>
+                        <div class="col-md-10">
+                            <input type="text" id="Tax_Provider_Tax_Code" name="Tax_Provider_Tax_Code" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                            @Html.ActionLink("Cancel", "productlist", null, new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-10">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
 }
+
+<script type="text/javascript">
+
+    //$("#ddlCategory").addClass("chzn-select");
+
+    $(".chzn-select").chosen();
+
+
+    //$(".chosen-select").val('').trigger("chosen:updated");
+    //$('#ddlSubCategory').chosen('destroy');
+
+    //$('#ddlSubCategory').prop("selectedIndex", -1);
+    //$('#ddlSubCategory').chosen();
+
+
+</script>
+
+<div class="form-group">
+    <div class="col-md-10">
+        @if (ViewBag.msg == "Your Product is saved Successfully")
+        {
+            <script>
+                alert("Your Product is saved Successfully");
+                $("#dvBasic").addClass("collapsed-card");
+                $("#dvSeo").removeClass("collapsed-card");
+                //window.location.href = "Admin/productlist";
+            </script>
+        }
+        else if (ViewBag.msg == "Detail Saved Successfully")
+        {
+            <script>
+                alert("Detail Saved Successfully");
+                $("#dvBasic").addClass("collapsed-card");
+                $("#dvSeo").addClass("collapsed-card");
+                $("#dvGps").removeClass("collapsed-card");
+                //window.location.href = "Admin/productlist";
+            </script>
+        }
+        else if (ViewBag.msg == "GPS Detail Saved Successfully")
+        {
+            <script>
+                alert("GPS Detail Saved Successfully");
+                $("#dvBasic").addClass("collapsed-card");
+                $("#dvSeo").addClass("collapsed-card");
+                $("#dvGps").addClass("collapsed-card");
+                $("#dvGenDetail").removeClass("collapsed-card");
+            </script>
+        }
+        else
+        {
+            <span style="color:red">   @ViewBag.msg</span>
+        }
+    </div>
+
+</div>
+
 
 
